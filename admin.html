@@ -14,49 +14,49 @@
 </head>
 <body class="min-h-screen p-4 md:p-8 flex justify-center">
 
-    <!-- نافذة تسجيل الدخول -->
+    <!-- تسجيل الدخول -->
     <div id="loginModal" class="glass-card p-8 rounded-3xl w-full max-w-md shadow-2xl text-center self-center">
         <h2 class="text-2xl font-black text-amber-400 mb-2">تسجيل دخول الأدمن 🔐</h2>
-        <p class="text-neutral-400 text-sm mb-6">أدخل كلمة المرور (الافتراضية: 1234)</p>
+        <p class="text-neutral-400 text-sm mb-6">كلمة المرور الافتراضية: 1234</p>
         <input type="password" id="adminPass" placeholder="كلمة المرور" class="w-full bg-neutral-950 border border-amber-900/40 rounded-xl px-4 py-3 text-white mb-4 text-center text-lg tracking-widest focus:outline-none focus:border-amber-500">
         <button onclick="checkLogin()" class="w-full amber-gradient text-black font-extrabold py-3 rounded-xl transition shadow-xl hover:opacity-90">دخول لوحة التحكم</button>
-        <div class="mt-4"><a href="index.html" class="text-sm text-neutral-500 hover:text-amber-400 transition">← العودة للموقع</a></div>
+        <div class="mt-4"><a href="index.html" class="text-sm text-neutral-500 hover:text-amber-400">← العودة للموقع</a></div>
     </div>
 
-    <!-- لوحة التحكم الرئيسية -->
+    <!-- لوحة التحكم الكاملة -->
     <div id="adminPanel" class="hidden w-full max-w-5xl glass-card p-6 md:p-8 rounded-3xl shadow-2xl space-y-8">
         
         <div class="flex justify-between items-center pb-4 border-b border-amber-900/30">
-            <h1 class="text-2xl font-black text-amber-400">⚡ لوحة التحكم المتكاملة للمتجر الرجالي</h1>
+            <h1 class="text-2xl font-black text-amber-400">⚡ لوحة التحكم الشاملة بالمتجر</h1>
             <div class="flex gap-3">
                 <a href="index.html" target="_blank" class="bg-amber-500/10 text-amber-300 border border-amber-500/30 px-4 py-2 rounded-xl text-sm font-semibold hover:bg-amber-500 hover:text-black transition">عرض الموقع ↗</a>
                 <button onclick="logout()" class="bg-red-500/10 text-red-400 border border-red-500/30 px-4 py-2 rounded-xl text-sm font-semibold hover:bg-red-600 hover:text-white transition">خروج</button>
             </div>
         </div>
 
-        <!-- 1. لوحة إضافة المنتجات (تدعم حتى 10 صور + اختيار إظهار السعر) -->
+        <!-- 1. إضافة منتج (مع رفع صور متعددة من الجهاز) -->
         <div class="bg-neutral-950/60 p-6 rounded-2xl border border-amber-900/30">
-            <h3 class="text-lg font-bold text-amber-400 mb-4">📦 إضافة منتج رجالي جديد (حتى 10 صور)</h3>
+            <h3 class="text-lg font-bold text-amber-400 mb-4">📦 إضافة منتج رجالي جديد (رفع صور من الجهاز)</h3>
             <form id="productForm" onsubmit="addProduct(event)" class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <label class="block text-sm text-neutral-400 mb-1">اسم المنتج</label>
-                    <input type="text" id="pName" required placeholder="مثال: بدلة رجالي كلاسيكية فاخرة" class="w-full bg-neutral-900 border border-amber-900/40 rounded-xl px-4 py-2.5 text-white focus:border-amber-500">
+                    <input type="text" id="pName" required placeholder="مثال: بدلة كلاسيكية فاخرة" class="w-full bg-neutral-900 border border-amber-900/40 rounded-xl px-4 py-2.5 text-white">
                 </div>
                 <div>
                     <label class="block text-sm text-neutral-400 mb-1">القسم الرجالي</label>
-                    <select id="pCategory" class="w-full bg-neutral-900 border border-amber-900/40 rounded-xl px-4 py-2.5 text-white focus:border-amber-500">
+                    <select id="pCategory" class="w-full bg-neutral-900 border border-amber-900/40 rounded-xl px-4 py-2.5 text-white">
                         <option value="classic">🧥 بدلات وكلاسيك</option>
-                        <option value="pants">👖 بناطيل رجالية</option>
+                        <option value="pants">👖 بناطيل</option>
                         <option value="shoes">👟 كوتشيات وأحذية</option>
                     </select>
                 </div>
                 <div class="md:col-span-2">
-                    <label class="block text-sm text-neutral-400 mb-1">روابط الصور (ضع حتى 10 روابط، افصل بينها بفاصلة أو سطر جديد)</label>
-                    <textarea id="pImages" rows="3" required placeholder="https://image1.jpg, https://image2.jpg" class="w-full bg-neutral-900 border border-amber-900/40 rounded-xl px-4 py-2.5 text-white text-xs font-mono"></textarea>
+                    <label class="block text-sm text-neutral-400 mb-1">اختر الصور من جهازك (يمكنك اختيار عدة صور دفعة واحدة):</label>
+                    <input type="file" id="pImageFiles" multiple accept="image/*" class="w-full bg-neutral-900 border border-amber-900/40 rounded-xl p-2.5 text-white file:bg-amber-500 file:text-black file:border-0 file:rounded-lg file:px-4 file:py-1 file:font-bold cursor-pointer">
                 </div>
                 <div>
                     <label class="block text-sm text-neutral-400 mb-1">السعر (ر.س)</label>
-                    <input type="number" id="pPrice" placeholder="350" class="w-full bg-neutral-900 border border-amber-900/40 rounded-xl px-4 py-2.5 text-white focus:border-amber-500">
+                    <input type="number" id="pPrice" placeholder="350" class="w-full bg-neutral-900 border border-amber-900/40 rounded-xl px-4 py-2.5 text-white">
                 </div>
                 <div class="flex items-center gap-3 pt-6">
                     <input type="checkbox" id="showPriceCheck" checked class="w-5 h-5 accent-amber-500">
@@ -64,7 +64,7 @@
                 </div>
                 <div class="md:col-span-2">
                     <label class="block text-sm text-neutral-400 mb-1">وصف المنتج</label>
-                    <textarea id="pDesc" rows="2" placeholder="تفاصيل الخامات والمقاسات المتوفرة..." class="w-full bg-neutral-900 border border-amber-900/40 rounded-xl px-4 py-2.5 text-white"></textarea>
+                    <textarea id="pDesc" rows="2" placeholder="تفاصيل المقاسات والخامات..." class="w-full bg-neutral-900 border border-amber-900/40 rounded-xl px-4 py-2.5 text-white"></textarea>
                 </div>
                 <div class="md:col-span-2">
                     <button type="submit" class="w-full amber-gradient text-black font-extrabold py-3 rounded-xl transition shadow-xl hover:opacity-90">نشر المنتج فوراً في المتجر 🚀</button>
@@ -72,50 +72,77 @@
             </form>
         </div>
 
-        <!-- 2. لوحة إدارة العروض المؤقتة (بتوقيت ينتهي تلقائياً) -->
+        <!-- 2. العروض الموقوتة (مع رفع صورة العرض من الجهاز) -->
         <div class="bg-neutral-950/60 p-6 rounded-2xl border border-amber-900/30">
-            <h3 class="text-lg font-bold text-amber-400 mb-4">🔥 إدارة العروض الموقوتة</h3>
-            <form onsubmit="saveOffer(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <input type="text" id="offerTitle" required placeholder="عنوان العرض (مثال: خصم الجمعة)" class="bg-neutral-900 border border-amber-900/40 rounded-xl px-4 py-2.5 text-white text-sm">
-                <input type="number" id="offerPrice" required placeholder="السعر العرض (ر.س)" class="bg-neutral-900 border border-amber-900/40 rounded-xl px-4 py-2.5 text-white text-sm">
-                <input type="url" id="offerImage" required placeholder="رابط صورة العرض" class="bg-neutral-900 border border-amber-900/40 rounded-xl px-4 py-2.5 text-white text-sm">
+            <h3 class="text-lg font-bold text-amber-400 mb-4">🔥 إدارة العروض الموقوتة (بعداد تنازلي)</h3>
+            <form onsubmit="saveOffer(event)" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <input type="text" id="offerTitle" required placeholder="عنوان العرض (مثال: خصم الجمعة الكبرى)" class="bg-neutral-900 border border-amber-900/40 rounded-xl px-4 py-2.5 text-white text-sm">
+                <input type="number" id="offerPrice" required placeholder="سعر العرض (ر.س)" class="bg-neutral-900 border border-amber-900/40 rounded-xl px-4 py-2.5 text-white text-sm">
+                <div class="md:col-span-2">
+                    <label class="block text-xs text-neutral-400 mb-1">صورة العرض (اختر من الجهاز):</label>
+                    <input type="file" id="offerImageFile" accept="image/*" class="w-full bg-neutral-900 border border-amber-900/40 rounded-xl p-2 text-white file:bg-amber-500 file:text-black file:border-0 file:rounded-lg file:px-3 file:py-1 file:font-bold cursor-pointer">
+                </div>
                 <div class="md:col-span-2">
                     <label class="block text-xs text-neutral-400 mb-1">تاريخ ووقت انتهاء العرض:</label>
                     <input type="datetime-local" id="offerEndTime" required class="w-full bg-neutral-900 border border-amber-900/40 rounded-xl px-4 py-2.5 text-white text-sm">
                 </div>
-                <div class="flex items-end">
+                <div class="md:col-span-2">
                     <button type="submit" class="w-full bg-amber-600 hover:bg-amber-500 text-black font-extrabold py-2.5 rounded-xl transition">تفعيل العرض في الصفحة الرئيسية</button>
                 </div>
             </form>
         </div>
 
-        <!-- 3. لوحة التحكم الكاملة في الخطوط والألوان والعنوان واسم المتجر -->
+        <!-- 3. التحكم الكامل في العناوين والخطوط والألوان -->
         <div class="bg-neutral-950/60 p-6 rounded-2xl border border-amber-900/30">
-            <h3 class="text-lg font-bold text-amber-400 mb-4">🎨 التحكم في الخطوط، الألوان، واسم المتجر</h3>
+            <h3 class="text-lg font-bold text-amber-400 mb-4">🎨 التحكم الكامل في العناوين، النصوص، الخطوط والألوان</h3>
             <form onsubmit="saveSettings(event)" class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                    <label class="block text-sm text-neutral-400 mb-1">اسم المتجر (في القائمة)</label>
-                    <input type="text" id="settingBrand" placeholder="👔 MEN'S LUXURY" class="w-full bg-neutral-900 border border-amber-900/40 rounded-xl px-4 py-2.5 text-white">
+                    <label class="block text-xs text-neutral-400 mb-1">اسم المتجر (في القائمة)</label>
+                    <input type="text" id="settingBrand" class="w-full bg-neutral-900 border border-amber-900/40 rounded-xl px-4 py-2 text-white text-sm">
                 </div>
                 <div>
-                    <label class="block text-sm text-neutral-400 mb-1">عنوان المتجر (الصفحة)</label>
-                    <input type="text" id="settingTitle" placeholder="متجر الأزياء الرجالية الفاخرة" class="w-full bg-neutral-900 border border-amber-900/40 rounded-xl px-4 py-2.5 text-white">
+                    <label class="block text-xs text-neutral-400 mb-1">عنوان الصفحة</label>
+                    <input type="text" id="settingTitle" class="w-full bg-neutral-900 border border-amber-900/40 rounded-xl px-4 py-2 text-white text-sm">
                 </div>
                 <div>
-                    <label class="block text-sm text-neutral-400 mb-1">لون الهوية الأساسي</label>
-                    <input type="color" id="settingColor" value="#d4af37" class="w-full h-11 bg-neutral-900 border border-amber-900/40 rounded-xl px-2 cursor-pointer">
+                    <label class="block text-xs text-neutral-400 mb-1">العنوان الفرعي (فوق الهيرو)</label>
+                    <input type="text" id="settingHeroSub" class="w-full bg-neutral-900 border border-amber-900/40 rounded-xl px-4 py-2 text-white text-sm">
                 </div>
                 <div>
-                    <label class="block text-sm text-neutral-400 mb-1">لون الخلفية الداكنة</label>
-                    <input type="color" id="settingBg" value="#12100e" class="w-full h-11 bg-neutral-900 border border-amber-900/40 rounded-xl px-2 cursor-pointer">
+                    <label class="block text-xs text-neutral-400 mb-1">العنوان الرئيسي (الهيرو)</label>
+                    <input type="text" id="settingHeroTitle" class="w-full bg-neutral-900 border border-amber-900/40 rounded-xl px-4 py-2 text-white text-sm">
                 </div>
                 <div class="md:col-span-2">
-                    <button type="submit" class="w-full amber-gradient text-black font-extrabold py-3 rounded-xl transition shadow-xl hover:opacity-90">حفظ وتطبيق التصميم فوراً 🌟</button>
+                    <label class="block text-xs text-neutral-400 mb-1">وصف الهيرو</label>
+                    <input type="text" id="settingHeroDesc" class="w-full bg-neutral-900 border border-amber-900/40 rounded-xl px-4 py-2 text-white text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs text-neutral-400 mb-1">عنوان قسم المنتجات</label>
+                    <input type="text" id="settingGridTitle" class="w-full bg-neutral-900 border border-amber-900/40 rounded-xl px-4 py-2 text-white text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs text-neutral-400 mb-1">اسم القسم 1 (بدلات)</label>
+                    <input type="text" id="settingCat1" class="w-full bg-neutral-900 border border-amber-900/40 rounded-xl px-4 py-2 text-white text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs text-neutral-400 mb-1">اسم القسم 2 (بناطيل)</label>
+                    <input type="text" id="settingCat2" class="w-full bg-neutral-900 border border-amber-900/40 rounded-xl px-4 py-2 text-white text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs text-neutral-400 mb-1">اسم القسم 3 (أحذية)</label>
+                    <input type="text" id="settingCat3" class="w-full bg-neutral-900 border border-amber-900/40 rounded-xl px-4 py-2 text-white text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs text-neutral-400 mb-1">لون الهوية الأساسي</label>
+                    <input type="color" id="settingColor" value="#d4af37" class="w-full h-10 bg-neutral-900 border border-amber-900/40 rounded-xl px-2 cursor-pointer">
+                </div>
+                <div class="md:col-span-2">
+                    <button type="submit" class="w-full amber-gradient text-black font-extrabold py-3 rounded-xl transition shadow-xl hover:opacity-90">حفظ وتطبيق إعدادات المتجر بالكامل 🌟</button>
                 </div>
             </form>
         </div>
 
-        <!-- قائمة المنتجات الحالية للحذف -->
+        <!-- إدارة المنتجات للحذف -->
         <h3 class="text-lg font-bold text-white mb-2">إدارة المنتجات المسجلة:</h3>
         <div id="adminProductsList" class="space-y-3 max-h-60 overflow-y-auto pr-2"></div>
 
@@ -132,20 +159,35 @@
             document.getElementById('loginModal').classList.add('hidden');
             document.getElementById('adminPanel').classList.remove('hidden');
             loadAdminData();
+            loadSettingsToForm();
         }
         function logout() { localStorage.removeItem('is_admin_logged'); location.reload(); }
         if (localStorage.getItem('is_admin_logged') === 'true') { showPanel(); }
 
-        function addProduct(e) {
+        // تحويل الملفات المرفوعة إلى Base64 لضمان حفظها محلياً وعرضها فوراً
+        async function convertFilesToBasePath(fileInput) {
+            const files = fileInput.files;
+            const promises = [];
+            for (let i = 0; i < files.length; i++) {
+                promises.push(new Promise((resolve) => {
+                    const reader = new FileReader();
+                    reader.onload = (e) => resolve(e.target.result);
+                    reader.readAsDataURL(files[i]);
+                }));
+            }
+            return await Promise.all(promises);
+        }
+
+        async function addProduct(e) {
             e.preventDefault();
-            const rawImages = document.getElementById('pImages').value;
-            const imagesArray = rawImages.split(/[\n,]+/).map(img => img.trim()).filter(img => img.length > 0);
+            const fileInput = document.getElementById('pImageFiles');
+            const imagesBase64 = await convertFilesToBasePath(fileInput);
 
             const newProduct = {
                 id: Date.now(),
                 name: document.getElementById('pName').value,
                 category: document.getElementById('pCategory').value,
-                images: imagesArray,
+                images: imagesBase64,
                 price: document.getElementById('pPrice').value,
                 showPrice: document.getElementById('showPriceCheck').checked,
                 desc: document.getElementById('pDesc').value
@@ -156,19 +198,22 @@
             localStorage.setItem('cloud_products', JSON.stringify(products));
             document.getElementById('productForm').reset();
             loadAdminData();
-            alert('تمت الإضافة ونشر المنتج في المتجر بنجاح!');
+            alert('تم رفع الصور ونشر المنتج في المتجر بنجاح!');
         }
 
-        function saveOffer(e) {
+        async function saveOffer(e) {
             e.preventDefault();
+            const fileInput = document.getElementById('offerImageFile');
+            const imagesBase64 = await convertFilesToBasePath(fileInput);
+
             const offer = {
                 title: document.getElementById('offerTitle').value,
                 price: document.getElementById('offerPrice').value,
-                image: document.getElementById('offerImage').value,
+                image: imagesBase64[0] || '',
                 endTime: document.getElementById('offerEndTime').value
             };
             localStorage.setItem('store_offer', JSON.stringify(offer));
-            alert('تم تفعيل عرض المؤقت بنجاح!');
+            alert('تم رفع صورة العرض وتفعيله في الصفحة الرئيسية بنجاح!');
         }
 
         function saveSettings(e) {
@@ -176,11 +221,31 @@
             const settings = {
                 siteName: document.getElementById('settingBrand').value,
                 siteTitle: document.getElementById('settingTitle').value,
-                primaryColor: document.getElementById('settingColor').value,
-                bgColor: document.getElementById('settingBg').value
+                heroSubtitle: document.getElementById('settingHeroSub').value,
+                heroTitle: document.getElementById('settingHeroTitle').value,
+                heroDesc: document.getElementById('settingHeroDesc').value,
+                sectionGridTitle: document.getElementById('settingGridTitle').value,
+                cat1: document.getElementById('settingCat1').value,
+                cat2: document.getElementById('settingCat2').value,
+                cat3: document.getElementById('settingCat3').value,
+                primaryColor: document.getElementById('settingColor').value
             };
             localStorage.setItem('store_settings', JSON.stringify(settings));
-            alert('تم تحديث تصميم وألوان المتجر بنجاح!');
+            alert('تم حفظ إعدادات وتصميم المتجر بالكامل بنجاح!');
+        }
+
+        function loadSettingsToForm() {
+            const s = JSON.parse(localStorage.getItem('store_settings') || '{}');
+            if(s.siteName) document.getElementById('settingBrand').value = s.siteName;
+            if(s.siteTitle) document.getElementById('settingTitle').value = s.siteTitle;
+            if(s.heroSubtitle) document.getElementById('settingHeroSub').value = s.heroSubtitle;
+            if(s.heroTitle) document.getElementById('settingHeroTitle').value = s.heroTitle;
+            if(s.heroDesc) document.getElementById('settingHeroDesc').value = s.heroDesc;
+            if(s.sectionGridTitle) document.getElementById('settingGridTitle').value = s.sectionGridTitle;
+            if(s.cat1) document.getElementById('settingCat1').value = s.cat1;
+            if(s.cat2) document.getElementById('settingCat2').value = s.cat2;
+            if(s.cat3) document.getElementById('settingCat3').value = s.cat3;
+            if(s.primaryColor) document.getElementById('settingColor').value = s.primaryColor;
         }
 
         function deleteProduct(id) {
