@@ -37,14 +37,14 @@
     <!-- المحتوى الرئيسي للمتجر -->
     <main class="flex-grow container mx-auto px-4 py-6">
         
-        <!-- الهيرو سكشن مع القطة المتحركة -->
+        <!-- الهيرو سكشن مع القطة المتحركة والنصوص القابلة للتخصيص -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-10 items-center">
             
             <div class="lg:col-span-7 glass-card p-8 rounded-3xl relative overflow-hidden shadow-2xl">
                 <div class="absolute -left-10 -bottom-10 w-40 h-40 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
-                <span class="text-xs text-amber-400 font-bold tracking-widest uppercase">الأناقة الرجالية الحصرية</span>
-                <h2 class="text-3xl md:text-5xl font-black text-white mt-2 mb-4 leading-tight">ارتقِ بأناقتك مع تشكيلة رجالية فاخرة</h2>
-                <p class="text-neutral-400 text-sm md:text-base mb-6">تسوق أحدث صيحات الموضة الرجالية الكلاسيكية، البناطيل العصرية، والأحذية والكوتشيات الفاخرة.</p>
+                <span id="heroSubtitle" class="text-xs text-amber-400 font-bold tracking-widest uppercase">الأناقة الرجالية الحصرية</span>
+                <h2 id="heroTitle" class="text-3xl md:text-5xl font-black text-white mt-2 mb-4 leading-tight">ارتقِ بأناقتك مع تشكيلة رجالية فاخرة</h2>
+                <p id="heroDesc" class="text-neutral-400 text-sm md:text-base mb-6">تسوق أحدث صيحات الموضة الرجالية الكلاسيكية، البناطيل العصرية، والأحذية والكوتشيات الفاخرة.</p>
                 <div class="flex gap-4">
                     <a href="#productsGrid" class="amber-gradient text-black font-extrabold px-6 py-3 rounded-xl text-sm shadow-xl hover:opacity-90 transition">تسوق الآن</a>
                 </div>
@@ -75,28 +75,28 @@
             </div>
         </div>
 
-        <!-- أقسام المنتجات الرجالية المخصصة -->
+        <!-- أقسام المنتجات الرجالية (قابلة للتسمية من الأدمن) -->
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-10">
             <button onclick="filterCategory('classic')" class="glass-card p-4 rounded-2xl text-center hover:border-amber-400 transition group">
                 <span class="text-2xl mb-1 block">🧥</span>
-                <span class="font-bold text-white group-hover:text-amber-400">بدلات وكلاسيك</span>
+                <span id="cat1Name" class="font-bold text-white group-hover:text-amber-400">بدلات وكلاسيك</span>
             </button>
             <button onclick="filterCategory('pants')" class="glass-card p-4 rounded-2xl text-center hover:border-amber-400 transition group">
                 <span class="text-2xl mb-1 block">👖</span>
-                <span class="font-bold text-white group-hover:text-amber-400">بناطيل</span>
+                <span id="cat2Name" class="font-bold text-white group-hover:text-amber-400">بناطيل</span>
             </button>
             <button onclick="filterCategory('shoes')" class="glass-card p-4 rounded-2xl text-center hover:border-amber-400 transition group">
                 <span class="text-2xl mb-1 block">👟</span>
-                <span class="font-bold text-white group-hover:text-amber-400">كوتشيات وأحذية</span>
+                <span id="cat3Name" class="font-bold text-white group-hover:text-amber-400">كوتشيات وأحذية</span>
             </button>
             <button onclick="filterCategory('all')" class="glass-card p-4 rounded-2xl text-center hover:border-amber-400 transition group">
                 <span class="text-2xl mb-1 block">✨</span>
-                <span class="font-bold text-white group-hover:text-amber-400">كل المنتجات</span>
+                <span id="cat4Name" class="font-bold text-white group-hover:text-amber-400">كل المنتجات</span>
             </button>
         </div>
 
         <!-- شبكة المنتجات -->
-        <h3 class="text-xl font-bold text-amber-400 mb-6 border-r-4 border-amber-500 pr-3">تشكيلة المنتجات الرجالية</h3>
+        <h3 id="sectionGridTitle" class="text-xl font-bold text-amber-400 mb-6 border-r-4 border-amber-500 pr-3">تشكيلة المنتجات الرجالية</h3>
         <div id="productsGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></div>
 
     </main>
@@ -106,15 +106,25 @@
     </footer>
 
     <script>
-        // تطبيق إعدادات التصميم المخصصة من الأدمن
+        // تطبيق إعدادات التصميم والنصوص والمحتوى من الأدمن
         const settings = JSON.parse(localStorage.getItem('store_settings') || '{}');
         if(settings.siteName) document.getElementById('brandName').innerText = settings.siteName;
         if(settings.siteTitle) document.getElementById('siteTitle').innerText = settings.siteTitle;
+        if(settings.heroSubtitle) document.getElementById('heroSubtitle').innerText = settings.heroSubtitle;
+        if(settings.heroTitle) document.getElementById('heroTitle').innerText = settings.heroTitle;
+        if(settings.heroDesc) document.getElementById('heroDesc').innerText = settings.heroDesc;
+        if(settings.sectionGridTitle) document.getElementById('sectionGridTitle').innerText = settings.sectionGridTitle;
+        
+        if(settings.cat1) document.getElementById('cat1Name').innerText = settings.cat1;
+        if(settings.cat2) document.getElementById('cat2Name').innerText = settings.cat2;
+        if(settings.cat3) document.getElementById('cat3Name').innerText = settings.cat3;
+        if(settings.cat4) document.getElementById('cat4Name').innerText = settings.cat4;
+
         if(settings.primaryColor) {
             document.getElementById('customStyle').innerHTML += `
                 .amber-gradient { background: linear-gradient(135deg, ${settings.primaryColor} 0%, #000 100%) !important; }
                 .text-amber-400 { color: ${settings.primaryColor} !important; }
-                body { background-color: ${settings.bgColor || '#12100e'} !important; font-family: '${settings.fontFamily || 'Cairo'}', sans-serif !important; }
+                body { background-color: ${settings.bgColor || '#12100e'} !important; }
             `;
         }
 
