@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة تحكم الأدمن | المتجر الفاخر</title>
+    <title>لوحة التحكم الشاملة | المتجر الرجالي</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     <style>
@@ -12,136 +12,200 @@
         .amber-gradient { background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%); }
     </style>
 </head>
-<body class="min-h-screen flex items-center justify-center p-4">
+<body class="min-h-screen p-4 md:p-8 flex justify-center">
 
     <!-- نافذة تسجيل الدخول -->
-    <div id="loginModal" class="glass-card p-8 rounded-3xl w-full max-w-md shadow-2xl text-center">
+    <div id="loginModal" class="glass-card p-8 rounded-3xl w-full max-w-md shadow-2xl text-center self-center">
         <h2 class="text-2xl font-black text-amber-400 mb-2">تسجيل دخول الأدمن 🔐</h2>
-        <p class="text-neutral-400 text-sm mb-6">أدخل كلمة المرور للوصول (الافتراضية: 1234)</p>
-        <input type="password" id="adminPass" placeholder="كلمة المرور" class="w-full bg-neutral-950 border border-amber-900/40 rounded-xl px-4 py-3 text-white mb-4 focus:outline-none focus:border-amber-500 text-center text-lg tracking-widest">
+        <p class="text-neutral-400 text-sm mb-6">أدخل كلمة المرور (الافتراضية: 1234)</p>
+        <input type="password" id="adminPass" placeholder="كلمة المرور" class="w-full bg-neutral-950 border border-amber-900/40 rounded-xl px-4 py-3 text-white mb-4 text-center text-lg tracking-widest focus:outline-none focus:border-amber-500">
         <button onclick="checkLogin()" class="w-full amber-gradient text-black font-extrabold py-3 rounded-xl transition shadow-xl hover:opacity-90">دخول لوحة التحكم</button>
-        <div class="mt-4"><a href="index.html" class="text-sm text-neutral-500 hover:text-amber-400 transition">← العودة للموقع الرئيسي</a></div>
+        <div class="mt-4"><a href="index.html" class="text-sm text-neutral-500 hover:text-amber-400 transition">← العودة للموقع</a></div>
     </div>
 
-    <!-- لوحة التحكم الفعلية -->
-    <div id="adminPanel" class="hidden w-full max-w-4xl glass-card p-6 md:p-8 rounded-3xl shadow-2xl">
-        <div class="flex justify-between items-center mb-6 pb-4 border-b border-amber-900/30">
-            <h1 class="text-xl font-bold text-amber-400">⚡ لوحة إدارة المنتجات والإعلانات</h1>
+    <!-- لوحة التحكم الرئيسية -->
+    <div id="adminPanel" class="hidden w-full max-w-5xl glass-card p-6 md:p-8 rounded-3xl shadow-2xl space-y-8">
+        
+        <div class="flex justify-between items-center pb-4 border-b border-amber-900/30">
+            <h1 class="text-2xl font-black text-amber-400">⚡ لوحة التحكم المتكاملة للمتجر الرجالي</h1>
             <div class="flex gap-3">
                 <a href="index.html" target="_blank" class="bg-amber-500/10 text-amber-300 border border-amber-500/30 px-4 py-2 rounded-xl text-sm font-semibold hover:bg-amber-500 hover:text-black transition">عرض الموقع ↗</a>
                 <button onclick="logout()" class="bg-red-500/10 text-red-400 border border-red-500/30 px-4 py-2 rounded-xl text-sm font-semibold hover:bg-red-600 hover:text-white transition">خروج</button>
             </div>
         </div>
 
-        <!-- نموذج إضافة منتج -->
-        <form id="productForm" onsubmit="addProduct(event)" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-            <div>
-                <label class="block text-sm text-neutral-400 mb-1">اسم المنتج أو الإعلان</label>
-                <input type="text" id="pName" required placeholder="مثال: بدلة كلاسيكية فاخرة" class="w-full bg-neutral-950 border border-amber-900/40 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-amber-500">
-            </div>
-            <div>
-                <label class="block text-sm text-neutral-400 mb-1">السعر (ر.س)</label>
-                <input type="number" id="pPrice" required placeholder="250" class="w-full bg-neutral-950 border border-amber-900/40 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-amber-500">
-            </div>
-            <div>
-                <label class="block text-sm text-neutral-400 mb-1">القسم الأساسي</label>
-                <select id="pCategory" class="w-full bg-neutral-950 border border-amber-900/40 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-amber-500">
-                    <option value="men">رجالي 👔</option>
-                    <option value="women">نسائي 👗</option>
-                    <option value="kids">أطفالي 🧸</option>
-                </select>
-            </div>
-            <div>
-                <label class="block text-sm text-neutral-400 mb-1">رابط الصورة (جودة عالية)</label>
-                <input type="url" id="pImage" required placeholder="https://example.com/image.jpg" class="w-full bg-neutral-950 border border-amber-900/40 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-amber-500">
-            </div>
-            <div class="md:col-span-2">
-                <label class="block text-sm text-neutral-400 mb-1">وصف موجز</label>
-                <textarea id="pDesc" rows="2" placeholder="تفاصيل سريعة عن المنتج..." class="w-full bg-neutral-950 border border-amber-900/40 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-amber-500"></textarea>
-            </div>
-            <div class="md:col-span-2">
-                <button type="submit" class="w-full amber-gradient text-black font-extrabold py-3 rounded-xl transition shadow-xl hover:opacity-90">نشر المنتج فوراً في الصفحة الرئيسية 🚀</button>
-            </div>
-        </form>
-
-        <!-- قائمة المنتجات المحفوظة -->
-        <h3 class="text-lg font-bold text-white mb-4">المنتجات الحالية في النظام:</h3>
-        <div id="adminProductsList" class="space-y-3 max-h-64 overflow-y-auto pr-2">
-            <!-- يتم تعبئتها تلقائياً -->
+        <!-- 1. لوحة إضافة المنتجات (تدعم حتى 10 صور + اختيار إظهار السعر) -->
+        <div class="bg-neutral-950/60 p-6 rounded-2xl border border-amber-900/30">
+            <h3 class="text-lg font-bold text-amber-400 mb-4">📦 إضافة منتج رجالي جديد (حتى 10 صور)</h3>
+            <form id="productForm" onsubmit="addProduct(event)" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm text-neutral-400 mb-1">اسم المنتج</label>
+                    <input type="text" id="pName" required placeholder="مثال: بدلة رجالي كلاسيكية فاخرة" class="w-full bg-neutral-900 border border-amber-900/40 rounded-xl px-4 py-2.5 text-white focus:border-amber-500">
+                </div>
+                <div>
+                    <label class="block text-sm text-neutral-400 mb-1">القسم الرجالي</label>
+                    <select id="pCategory" class="w-full bg-neutral-900 border border-amber-900/40 rounded-xl px-4 py-2.5 text-white focus:border-amber-500">
+                        <option value="classic">🧥 بدلات وكلاسيك</option>
+                        <option value="pants">👖 بناطيل رجالية</option>
+                        <option value="shoes">👟 كوتشيات وأحذية</option>
+                    </select>
+                </div>
+                <div class="md:col-span-2">
+                    <label class="block text-sm text-neutral-400 mb-1">روابط الصور (ضع حتى 10 روابط، افصل بينها بفاصلة أو سطر جديد)</label>
+                    <textarea id="pImages" rows="3" required placeholder="https://image1.jpg, https://image2.jpg" class="w-full bg-neutral-900 border border-amber-900/40 rounded-xl px-4 py-2.5 text-white text-xs font-mono"></textarea>
+                </div>
+                <div>
+                    <label class="block text-sm text-neutral-400 mb-1">السعر (ر.س)</label>
+                    <input type="number" id="pPrice" placeholder="350" class="w-full bg-neutral-900 border border-amber-900/40 rounded-xl px-4 py-2.5 text-white focus:border-amber-500">
+                </div>
+                <div class="flex items-center gap-3 pt-6">
+                    <input type="checkbox" id="showPriceCheck" checked class="w-5 h-5 accent-amber-500">
+                    <label for="showPriceCheck" class="text-sm text-white">إظهار السعر في الصفحة الرئيسية</label>
+                </div>
+                <div class="md:col-span-2">
+                    <label class="block text-sm text-neutral-400 mb-1">وصف المنتج</label>
+                    <textarea id="pDesc" rows="2" placeholder="تفاصيل الخامات والمقاسات المتوفرة..." class="w-full bg-neutral-900 border border-amber-900/40 rounded-xl px-4 py-2.5 text-white"></textarea>
+                </div>
+                <div class="md:col-span-2">
+                    <button type="submit" class="w-full amber-gradient text-black font-extrabold py-3 rounded-xl transition shadow-xl hover:opacity-90">نشر المنتج فوراً في المتجر 🚀</button>
+                </div>
+            </form>
         </div>
+
+        <!-- 2. لوحة إدارة العروض المؤقتة (بتوقيت ينتهي تلقائياً) -->
+        <div class="bg-neutral-950/60 p-6 rounded-2xl border border-amber-900/30">
+            <h3 class="text-lg font-bold text-amber-400 mb-4">🔥 إدارة العروض الموقوتة</h3>
+            <form onsubmit="saveOffer(event)" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <input type="text" id="offerTitle" required placeholder="عنوان العرض (مثال: خصم الجمعة)" class="bg-neutral-900 border border-amber-900/40 rounded-xl px-4 py-2.5 text-white text-sm">
+                <input type="number" id="offerPrice" required placeholder="السعر العرض (ر.س)" class="bg-neutral-900 border border-amber-900/40 rounded-xl px-4 py-2.5 text-white text-sm">
+                <input type="url" id="offerImage" required placeholder="رابط صورة العرض" class="bg-neutral-900 border border-amber-900/40 rounded-xl px-4 py-2.5 text-white text-sm">
+                <div class="md:col-span-2">
+                    <label class="block text-xs text-neutral-400 mb-1">تاريخ ووقت انتهاء العرض:</label>
+                    <input type="datetime-local" id="offerEndTime" required class="w-full bg-neutral-900 border border-amber-900/40 rounded-xl px-4 py-2.5 text-white text-sm">
+                </div>
+                <div class="flex items-end">
+                    <button type="submit" class="w-full bg-amber-600 hover:bg-amber-500 text-black font-extrabold py-2.5 rounded-xl transition">تفعيل العرض في الصفحة الرئيسية</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- 3. لوحة التحكم الكاملة في الخطوط والألوان والعنوان واسم المتجر -->
+        <div class="bg-neutral-950/60 p-6 rounded-2xl border border-amber-900/30">
+            <h3 class="text-lg font-bold text-amber-400 mb-4">🎨 التحكم في الخطوط، الألوان، واسم المتجر</h3>
+            <form onsubmit="saveSettings(event)" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm text-neutral-400 mb-1">اسم المتجر (في القائمة)</label>
+                    <input type="text" id="settingBrand" placeholder="👔 MEN'S LUXURY" class="w-full bg-neutral-900 border border-amber-900/40 rounded-xl px-4 py-2.5 text-white">
+                </div>
+                <div>
+                    <label class="block text-sm text-neutral-400 mb-1">عنوان المتجر (الصفحة)</label>
+                    <input type="text" id="settingTitle" placeholder="متجر الأزياء الرجالية الفاخرة" class="w-full bg-neutral-900 border border-amber-900/40 rounded-xl px-4 py-2.5 text-white">
+                </div>
+                <div>
+                    <label class="block text-sm text-neutral-400 mb-1">لون الهوية الأساسي</label>
+                    <input type="color" id="settingColor" value="#d4af37" class="w-full h-11 bg-neutral-900 border border-amber-900/40 rounded-xl px-2 cursor-pointer">
+                </div>
+                <div>
+                    <label class="block text-sm text-neutral-400 mb-1">لون الخلفية الداكنة</label>
+                    <input type="color" id="settingBg" value="#12100e" class="w-full h-11 bg-neutral-900 border border-amber-900/40 rounded-xl px-2 cursor-pointer">
+                </div>
+                <div class="md:col-span-2">
+                    <button type="submit" class="w-full amber-gradient text-black font-extrabold py-3 rounded-xl transition shadow-xl hover:opacity-90">حفظ وتطبيق التصميم فوراً 🌟</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- قائمة المنتجات الحالية للحذف -->
+        <h3 class="text-lg font-bold text-white mb-2">إدارة المنتجات المسجلة:</h3>
+        <div id="adminProductsList" class="space-y-3 max-h-60 overflow-y-auto pr-2"></div>
+
     </div>
 
     <script>
         function checkLogin() {
-            const pass = document.getElementById('adminPass').value;
-            if (pass === '1234') {
+            if (document.getElementById('adminPass').value === '1234') {
                 localStorage.setItem('is_admin_logged', 'true');
                 showPanel();
-            } else {
-                alert('كلمة المرور غير صحيحة!');
-            }
+            } else { alert('كلمة المرور خطأ!'); }
         }
-
         function showPanel() {
             document.getElementById('loginModal').classList.add('hidden');
             document.getElementById('adminPanel').classList.remove('hidden');
-            loadAdminProducts();
+            loadAdminData();
         }
-
-        function logout() {
-            localStorage.removeItem('is_admin_logged');
-            location.reload();
-        }
-
-        if (localStorage.getItem('is_admin_logged') === 'true') {
-            showPanel();
-        }
+        function logout() { localStorage.removeItem('is_admin_logged'); location.reload(); }
+        if (localStorage.getItem('is_admin_logged') === 'true') { showPanel(); }
 
         function addProduct(e) {
             e.preventDefault();
+            const rawImages = document.getElementById('pImages').value;
+            const imagesArray = rawImages.split(/[\n,]+/).map(img => img.trim()).filter(img => img.length > 0);
+
             const newProduct = {
                 id: Date.now(),
                 name: document.getElementById('pName').value,
-                price: document.getElementById('pPrice').value,
                 category: document.getElementById('pCategory').value,
-                image: document.getElementById('pImage').value,
+                images: imagesArray,
+                price: document.getElementById('pPrice').value,
+                showPrice: document.getElementById('showPriceCheck').checked,
                 desc: document.getElementById('pDesc').value
             };
 
             let products = JSON.parse(localStorage.getItem('cloud_products') || '[]');
             products.unshift(newProduct);
             localStorage.setItem('cloud_products', JSON.stringify(products));
-
             document.getElementById('productForm').reset();
-            loadAdminProducts();
-            alert('تم نشر المنتج بنجاح وتحديث الصفحة الرئيسية فوراً!');
+            loadAdminData();
+            alert('تمت الإضافة ونشر المنتج في المتجر بنجاح!');
+        }
+
+        function saveOffer(e) {
+            e.preventDefault();
+            const offer = {
+                title: document.getElementById('offerTitle').value,
+                price: document.getElementById('offerPrice').value,
+                image: document.getElementById('offerImage').value,
+                endTime: document.getElementById('offerEndTime').value
+            };
+            localStorage.setItem('store_offer', JSON.stringify(offer));
+            alert('تم تفعيل عرض المؤقت بنجاح!');
+        }
+
+        function saveSettings(e) {
+            e.preventDefault();
+            const settings = {
+                siteName: document.getElementById('settingBrand').value,
+                siteTitle: document.getElementById('settingTitle').value,
+                primaryColor: document.getElementById('settingColor').value,
+                bgColor: document.getElementById('settingBg').value
+            };
+            localStorage.setItem('store_settings', JSON.stringify(settings));
+            alert('تم تحديث تصميم وألوان المتجر بنجاح!');
         }
 
         function deleteProduct(id) {
             let products = JSON.parse(localStorage.getItem('cloud_products') || '[]');
             products = products.filter(p => p.id !== id);
             localStorage.setItem('cloud_products', JSON.stringify(products));
-            loadAdminProducts();
+            loadAdminData();
         }
 
-        function loadAdminProducts() {
+        function loadAdminData() {
             const list = document.getElementById('adminProductsList');
             const products = JSON.parse(localStorage.getItem('cloud_products') || '[]');
             list.innerHTML = '';
-
-            if (products.length === 0) {
-                list.innerHTML = `<p class="text-neutral-500 text-center py-4">لا توجد منتجات مسجلة حالياً.</p>`;
+            if(products.length === 0) {
+                list.innerHTML = `<p class="text-neutral-500 text-center py-4">لا توجد منتجات مسجلة.</p>`;
                 return;
             }
-
             products.forEach(p => {
                 list.innerHTML += `
-                    <div class="bg-neutral-950 border border-amber-900/30 p-4 rounded-xl flex justify-between items-center">
+                    <div class="bg-neutral-900 border border-amber-900/30 p-4 rounded-xl flex justify-between items-center">
                         <div class="flex items-center gap-3">
-                            <img src="${p.image}" class="w-12 h-12 rounded-lg object-cover">
+                            <img src="${p.images && p.images[0] ? p.images[0] : ''}" class="w-12 h-12 rounded-lg object-cover">
                             <div>
                                 <h4 class="font-bold text-white text-sm">${p.name}</h4>
-                                <span class="text-xs text-amber-400">${p.category} | ${p.price} ر.س</span>
+                                <span class="text-xs text-amber-400">${p.category} | ${p.price || 'بدون سعر'} ر.س</span>
                             </div>
                         </div>
                         <button onclick="deleteProduct(${p.id})" class="bg-red-500/10 text-red-400 px-3 py-1.5 rounded-lg text-xs hover:bg-red-600 hover:text-white transition">حذف</button>
