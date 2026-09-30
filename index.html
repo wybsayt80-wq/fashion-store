@@ -30,7 +30,7 @@
             box-shadow: 0 2px 15px rgba(0,0,0,0.6);
         }
 
-        /* الهيدر الاحترافي (بدون لوحة التحكم) */
+        /* الهيدر الاحترافي */
         header {
             background-color: var(--panel-bg);
             padding: 18px 40px;
@@ -45,7 +45,7 @@
 
         /* الواجهة الرئيسية */
         .hero {
-            padding: 60px 20px;
+            padding: 50px 20px;
             text-align: center;
             background: radial-gradient(circle, #1a1a1a 0%, var(--bg-color) 100%);
             border-bottom: 1px solid #222;
@@ -60,19 +60,42 @@
             letter-spacing: 2px;
             text-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
         }
-        .hero h1 { font-size: 28px; margin-bottom: 10px; color: var(--text-color); }
-        .hero p { color: var(--secondary-text); font-size: 17px; margin-bottom: 30px; max-width: 700px; margin-left: auto; margin-right: auto; }
+        .hero h1 { font-size: 26px; margin-bottom: 10px; color: var(--text-color); }
+        .hero p { color: var(--secondary-text); font-size: 16px; margin-bottom: 25px; max-width: 700px; margin-left: auto; margin-right: auto; }
         
-        /* صور الغلاف */
+        /* تأثير حركة الشعار والأجنحة الفاخرة */
+        .animated-logo-container {
+            max-width: 650px;
+            margin: 30px auto 20px auto;
+            position: relative;
+            padding: 10px;
+        }
+        .store-animated-logo {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9), 0 0 25px rgba(212, 175, 55, 0.2);
+            border: 2px solid var(--accent-color);
+            background: #111;
+            /* حركة الأجنحة والنبض الانسيابي */
+            animation: wingFlapAndGlow 4s ease-in-out infinite;
+        }
+
+        @keyframes wingFlapAndGlow {
+            0% { transform: scale(1) rotate(0deg); filter: brightness(1); }
+            50% { transform: scale(1.02) rotate(0.5deg); filter: brightness(1.15) drop-shadow(0 0 15px rgba(255,255,255,0.4)); }
+            100% { transform: scale(1) rotate(0deg); filter: brightness(1); }
+        }
+
+        /* صور الغلاف المتحركة أسفل الشعار */
         .hero-images-container {
-            max-width: 800px;
+            max-width: 750px;
             margin: 25px auto 0 auto;
             border-radius: 12px;
             overflow: hidden;
-            border: 2px solid var(--accent-color);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            border: 1px solid #333;
             background: #111;
-            height: 350px;
+            height: 300px;
             position: relative;
         }
         .hero-img {
@@ -210,7 +233,12 @@
         <h1 id="hero-title">ارتق بأناقتك مع تشكيلة رجالية فاخرة</h1>
         <p id="hero-subtitle">تسوق أحدث صيحات الموضة الرجالية الكلاسيكية، البناطل العصرية، والأحذية والكوتشيات الفاخرة.</p>
         
-        <!-- صور الغلاف المتعددة -->
+        <!-- الشعار المتحرك (الأجنحة والتاج الفاخر غير الشفاف) -->
+        <div class="animated-logo-container">
+            <img src="" id="main-animated-logo" class="store-animated-logo" alt="شعار كيان جينز">
+        </div>
+
+        <!-- صور الغلاف الإضافية المتحركة -->
         <div class="hero-images-container" id="hero-slideshow"></div>
     </section>
 
@@ -222,7 +250,7 @@
         <a href="#shoes-section" class="cat-btn">كوتشيات وأحذية</a>
     </div>
 
-    <!-- الأقسام تحت بعضها بشكل متسلسل احترافي -->
+    <!-- الأقسام تحت بعضها بشكل متسلسل -->
     <div class="section-container" id="suits-section">
         <h2 class="section-title">بدلات وكلاسيك</h2>
         <div class="products-grid" id="suits-grid"></div>
@@ -261,9 +289,9 @@
                 promoActive: true,
                 promoText: "🔥 خصم حصري على كافة المنتجات لفترة محدودة!",
                 promoEndTime: new Date().getTime() + (24 * 60 * 60 * 1000),
+                animatedLogoUrl: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800", // رابط افتراضي للشعار
                 heroImages: [
-                    "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800",
-                    "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=800"
+                    "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800"
                 ]
             };
 
@@ -278,23 +306,34 @@
             document.getElementById('hero-subtitle').innerText = settings.heroSubtitle;
             document.getElementById('footer-text').innerText = settings.footerText;
 
-            const slideshowContainer = document.getElementById('hero-slideshow');
-            const images = settings.heroImages && settings.heroImages.length > 0 ? settings.heroImages : ["https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800"];
-            slideshowContainer.innerHTML = '';
-            images.forEach((imgUrl, index) => {
-                slideshowContainer.innerHTML += `<img src="${imgUrl}" class="hero-img ${index === 0 ? 'active' : ''}" alt="صورة الغلاف">`;
-            });
+            // تعيين الشعار المتحرك
+            const logoImg = document.getElementById('main-animated-logo');
+            logoImg.src = settings.animatedLogoUrl || "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800";
 
-            if (images.length > 1) {
-                let currentImg = 0;
-                const imgElements = slideshowContainer.querySelectorAll('.hero-img');
-                setInterval(() => {
-                    imgElements[currentImg].classList.remove('active');
-                    currentImg = (currentImg + 1) % imgElements.length;
-                    imgElements[currentImg].classList.add('active');
-                }, 3500);
+            // صور الغلاف
+            const slideshowContainer = document.getElementById('hero-slideshow');
+            const images = settings.heroImages && settings.heroImages.length > 0 ? settings.heroImages : [];
+            if (images.length > 0) {
+                slideshowContainer.style.display = 'block';
+                slideshowContainer.innerHTML = '';
+                images.forEach((imgUrl, index) => {
+                    slideshowContainer.innerHTML += `<img src="${imgUrl}" class="hero-img ${index === 0 ? 'active' : ''}" alt="صورة الغلاف">`;
+                });
+
+                if (images.length > 1) {
+                    let currentImg = 0;
+                    const imgElements = slideshowContainer.querySelectorAll('.hero-img');
+                    setInterval(() => {
+                        imgElements[currentImg].classList.remove('active');
+                        currentImg = (currentImg + 1) % imgElements.length;
+                        imgElements[currentImg].classList.add('active');
+                    }, 3500);
+                }
+            } else {
+                slideshowContainer.style.display = 'none';
             }
 
+            // شريط العروض والوقت
             const banner = document.getElementById('promo-banner');
             if (settings.promoActive) {
                 banner.style.display = 'block';
@@ -316,6 +355,7 @@
                 banner.style.display = 'none';
             }
 
+            // المنتجات
             const products = JSON.parse(localStorage.getItem('store_products')) || [
                 { id: 1, name: "بدلة كلاسيكية فاخرة", price: "1200 ج.م", category: "suits", imgs: ["https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=500"] }
             ];
