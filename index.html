@@ -3,163 +3,288 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="siteTitle">متجر الأزياء الرجالية الفاخرة</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
-    <!-- مكتبات Firebase السحابية العالمية -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-    <style id="customStyle">
-        body { font-family: 'Cairo', sans-serif; background-color: #12100e; color: #f3f4f6; }
-        .gold-glow { text-shadow: 0 0 20px rgba(212, 175, 55, 0.5); }
-        .glass-card { background: rgba(26, 22, 18, 0.85); backdrop-filter: blur(12px); border: 1px solid rgba(212, 175, 55, 0.3); }
-        .amber-gradient { background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%); }
-        .cat-float { animation: floatCat 3s ease-in-out infinite; }
-        @keyframes floatCat {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-10px) rotate(1deg); }
+    <title id="page-title">MEN'S LUXURY - المتجر الشامل</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #0d0d0d; color: #fff; line-height: 1.6; }
+        
+        /* شريط العروض العلوي */
+        #promo-banner {
+            background: linear-gradient(135deg, #d4af37, #aa820a);
+            color: #000;
+            text-align: center;
+            padding: 10px;
+            font-weight: bold;
+            font-size: 15px;
+            display: none;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+
+        /* الهيدر */
+        header {
+            background-color: #141414;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #222;
+        }
+        .logo { font-size: 22px; font-weight: bold; color: #d4af37; }
+        nav a { color: #ccc; text-decoration: none; margin-left: 20px; font-size: 14px; transition: 0.3s; }
+        nav a:hover { color: #d4af37; }
+
+        /* القسم الرئيسي (Hero) */
+        .hero {
+            padding: 50px 20px;
+            text-align: center;
+            background: radial-gradient(circle, #1a1a1a 0%, #0d0d0d 100%);
+            border-bottom: 1px solid #222;
+        }
+        .hero h1 { font-size: 36px; margin-bottom: 15px; color: #fff; }
+        .hero p { color: #aaa; font-size: 16px; margin-bottom: 30px; }
+
+        /* أزرار الأقسام السريعة */
+        .categories-nav {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            padding: 20px;
+            background: #111;
+        }
+        .cat-btn {
+            background-color: #1a1a1a;
+            color: #fff;
+            border: 1px solid #333;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+        .cat-btn:hover, .cat-btn.active {
+            background-color: #d4af37;
+            color: #000;
+            border-color: #d4af37;
+        }
+
+        /* الأقسام المتسلسلة تحت بعضها */
+        .section-container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        .section-title {
+            font-size: 24px;
+            color: #d4af37;
+            margin-bottom: 20px;
+            border-right: 4px solid #d4af37;
+            padding-right: 12px;
+        }
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .product-card {
+            background-color: #161616;
+            border: 1px solid #262626;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: 0.3s;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            border-color: #d4af37;
+        }
+        .product-img {
+            width: 100%;
+            height: 200px;
+            background-color: #222;
+            object-fit: cover;
+        }
+        .product-info {
+            padding: 15px;
+        }
+        .product-name { font-size: 18px; margin-bottom: 8px; font-weight: bold; }
+        .product-price { color: #d4af37; font-size: 16px; font-weight: bold; margin-bottom: 12px; }
+        .buy-btn {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #d4af37;
+            color: #000;
+            text-align: center;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .buy-btn:hover { background-color: #b8972b; }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            background-color: #111;
+            color: #777;
+            border-top: 1px solid #222;
+            margin-top: 50px;
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col">
+<body>
 
-    <header class="glass-card sticky top-0 z-50 py-3 px-6 flex justify-between items-center shadow-2xl border-b border-amber-900/30">
-        <div class="flex items-center gap-6">
-            <h1 id="brandName" class="text-xl font-black text-amber-400 gold-glow">👔 MEN'S LUXURY</h1>
-            <nav class="hidden md:flex gap-4 text-sm text-neutral-300">
-                <a href="#productsGrid" class="hover:text-amber-400 transition">المنتجات</a>
-                <a href="#offersSection" class="hover:text-amber-400 transition text-amber-400 font-bold">🔥 العروض الحصرية</a>
-            </nav>
-        </div>
-        <div class="flex items-center gap-4">
-            <div id="liveClock" class="text-xs text-amber-300 font-mono bg-neutral-900/90 px-3 py-1.5 rounded-xl border border-amber-900/40"></div>
-        </div>
+    <!-- شريط العروض التنازلي العلوي -->
+    <div id="promo-banner">
+        🔥 <span id="banner-text">عرض لفترة محدودة!</span> | ينتهي خلال: <span id="countdown-timer">00:00:00</span>
+    </div>
+
+    <!-- الهيدر -->
+    <header>
+        <div class="logo" id="store-logo-text">MEN'S LUXURY</div>
+        <nav>
+            <a href="#all-products">المنتجات</a>
+            <a href="#suits-section">بدلات وклаssيك</a>
+            <a href="#shoes-section">كوتشيات وأحذية</a>
+            <a href="admin.html" style="color: #d4af37;">لوحة التحكم ⚙️</a>
+        </nav>
     </header>
 
-    <main class="flex-grow container mx-auto px-4 py-6">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-10 items-center">
-            <div class="lg:col-span-7 glass-card p-8 rounded-3xl relative overflow-hidden shadow-2xl">
-                <span id="heroSubtitle" class="text-xs text-amber-400 font-bold tracking-widest uppercase">الأناقة الرجالية الحصرية</span>
-                <h2 id="heroTitle" class="text-3xl md:text-5xl font-black text-white mt-2 mb-4 leading-tight">ارتقِ بأناقتك مع تشكيلة رجالية فاخرة</h2>
-                <p id="heroDesc" class="text-neutral-400 text-sm md:text-base mb-6">تسوق أحدث صيحات الموضة الرجالية الكلاسيكية، البناطيل العصرية، والأحذية والكوتشيات الفاخرة.</p>
-            </div>
+    <!-- الواجهة الرئيسية -->
+    <section class="hero">
+        <h1 id="hero-title">ارتق بأناقتك مع تشكيلة رجالية فاخرة</h1>
+        <p id="hero-subtitle">تسوق أحدث صيحات الموضة الرجالية الكلاسيكية، البناطل العصرية، والأحذية والكوتشيات الفاخرة.</p>
+    </section>
 
-            <!-- القطة المتحركة مثل الفيديو الأصلي -->
-            <div class="lg:col-span-5 relative flex justify-center">
-                <div class="absolute -inset-1 rounded-3xl amber-gradient opacity-25 blur-lg"></div>
-                <div class="relative glass-card p-3 rounded-3xl w-full max-w-sm shadow-2xl cat-float">
-                    <img src="https://images.unsplash.com/photo-1543852786-1cf6624b9987?auto=format&fit=crop&w=600&q=80" alt="القطة الأنيقة" class="w-full h-72 object-cover rounded-2xl border border-amber-500/30">
-                    <div class="mt-3 flex justify-between items-center px-2">
-                        <span class="text-xs text-amber-400 font-bold">🐱 الخبير الذكي للملابس</span>
-                        <span class="text-xs font-mono text-green-400 bg-neutral-900 px-2 py-1 rounded">● متصل عالمياً</span>
-                    </div>
-                </div>
-            </div>
+    <!-- أزرار التنقل السريع للأقسام -->
+    <div class="categories-nav">
+        <a href="#all-products" class="cat-btn">كل المنتجات</a>
+        <a href="#suits-section" class="cat-btn">بدلات وكلاسيك</a>
+        <a href="#pants-section" class="cat-btn">بناطل</a>
+        <a href="#shoes-section" class="cat-btn">كوتشيات وأحذية</a>
+    </div>
+
+    <!-- الأقسام تحت بعضها بشكل متسلسل -->
+    
+    <!-- 1. قسم البدلات والكلاسيك -->
+    <div class="section-container" id="suits-section">
+        <h2 class="section-title">بدلات وكلاسيك</h2>
+        <div class="products-grid" id="suits-grid">
+            <!-- يتم تعبئتها من لوحة التحكم -->
         </div>
+    </div>
 
-        <div id="offersSection" class="mb-10 hidden">
-            <div class="glass-card border border-amber-500/50 p-6 rounded-3xl bg-gradient-to-r from-amber-950/40 to-neutral-900">
-                <div class="flex justify-between items-center mb-4 flex-wrap gap-4">
-                    <h3 class="text-xl font-black text-amber-400 flex items-center gap-2">🔥 عروض رجالية مؤقتة</h3>
-                    <div id="countdownTimer" class="bg-black/60 border border-amber-500/40 px-4 py-2 rounded-xl text-amber-300 font-mono font-bold text-sm"></div>
-                </div>
-                <div id="offersGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4"></div>
-            </div>
+    <!-- 2. قسم البناطل -->
+    <div class="section-container" id="pants-section">
+        <h2 class="section-title">بناطل</h2>
+        <div class="products-grid" id="pants-grid">
+            <!-- يتم تعبئتها من لوحة التحكم -->
         </div>
+    </div>
 
-        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-10">
-            <button onclick="filterCategory('classic')" class="glass-card p-4 rounded-2xl text-center hover:border-amber-400 transition group">
-                <span class="text-2xl mb-1 block">🧥</span>
-                <span id="cat1Name" class="font-bold text-white group-hover:text-amber-400">بدلات وكلاسيك</span>
-            </button>
-            <button onclick="filterCategory('pants')" class="glass-card p-4 rounded-2xl text-center hover:border-amber-400 transition group">
-                <span class="text-2xl mb-1 block">👖</span>
-                <span id="cat2Name" class="font-bold text-white group-hover:text-amber-400">بناطيل</span>
-            </button>
-            <button onclick="filterCategory('shoes')" class="glass-card p-4 rounded-2xl text-center hover:border-amber-400 transition group">
-                <span class="text-2xl mb-1 block">👟</span>
-                <span id="cat3Name" class="font-bold text-white group-hover:text-amber-400">كوتشيات وأحذية</span>
-            </button>
-            <button onclick="filterCategory('all')" class="glass-card p-4 rounded-2xl text-center hover:border-amber-400 transition group">
-                <span class="text-2xl mb-1 block">✨</span>
-                <span id="cat4Name" class="font-bold text-white group-hover:text-amber-400">كل المنتجات</span>
-            </button>
+    <!-- 3. قسم الكوتشيات والأحذية -->
+    <div class="section-container" id="shoes-section">
+        <h2 class="section-title">كوتشيات وأحذية</h2>
+        <div class="products-grid" id="shoes-grid">
+            <!-- يتم تعبئتها من لوحة التحكم -->
         </div>
+    </div>
 
-        <h3 id="sectionGridTitle" class="text-xl font-bold text-amber-400 mb-6 border-r-4 border-amber-500 pr-3">تشكيلة المنتجات الرجالية</h3>
-        <div id="productsGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></div>
-    </main>
+    <!-- 4. قسم كل المنتجات -->
+    <div class="section-container" id="all-products">
+        <h2 class="section-title">تشكيلة المنتجات الرجالية الكاملة</h2>
+        <div class="products-grid" id="all-grid">
+            <!-- يتم تعبئتها من لوحة التحكم -->
+        </div>
+    </div>
+
+    <footer>
+        <p id="footer-text">جميع الحقوق محفوظة © MEN'S LUXURY 2026</p>
+    </footer>
 
     <script>
-        // إعدادات مشروعك السحابي الرسمي (fashionstore-f92b6)
-        const firebaseConfig = {
-            apiKey: "AIzaSyD0zBcQYBgL580vQT6NB0Bo03nm84ncXg",
-            authDomain: "fashionstore-f92b6.firebaseapp.com",
-            projectId: "fashionstore-f92b6",
-            storageBucket: "fashionstore-f92b6.appspot.com",
-            messagingSenderId: "787445522859",
-            appId: "1:787445522859:web:79f508718ed066632472ee"
-        };
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
+        // تحميل الإعدادات والبيانات من التخزين المحلي (مرتبطة بلوحة التحكم)
+        window.addEventListener('DOMContentLoaded', () => {
+            // تحديث النصوص الأساسية
+            const settings = JSON.parse(localStorage.getItem('store_settings')) || {
+                storeName: "MEN'S LUXURY",
+                heroTitle: "ارتق بأناقتك مع تشكيلة رجالية فاخرة",
+                heroSubtitle: "تسوق أحدث صيحات الموضة الرجالية الكلاسيكية، البناطل العصرية، والأحذية والكوتشيات الفاخرة.",
+                footerText: "جميع الحقوق محفوظة © MEN'S LUXURY 2026",
+                promoActive: true,
+                promoText: "🔥 خصم حصري على كافة المنتجات لفترة محدودة!",
+                promoEndTime: new Date().getTime() + (24 * 60 * 60 * 1000) // 24 ساعة افتراضياً
+            };
 
-        const settings = JSON.parse(localStorage.getItem('store_settings') || '{}');
-        if(settings.siteName) document.getElementById('brandName').innerText = settings.siteName;
-        if(settings.siteTitle) document.getElementById('siteTitle').innerText = settings.siteTitle;
+            document.getElementById('store-logo-text').innerText = settings.storeName;
+            document.getElementById('page-title').innerText = settings.storeName;
+            document.getElementById('hero-title').innerText = settings.heroTitle;
+            document.getElementById('hero-subtitle').innerText = settings.heroSubtitle;
+            document.getElementById('footer-text').innerText = settings.footerText;
 
-        setInterval(() => {
-            const now = new Date();
-            document.getElementById('liveClock').innerText = `🕒 ${now.toLocaleTimeString('en-US')}`;
-        }, 1000);
-
-        let globalProducts = [];
-
-        // الاستماع الفوري للقاعدة السحابية للتحديث في نفس الثانية بكل هواتف العالم
-        db.collection("products").orderBy("createdAt", "desc").onSnapshot((snapshot) => {
-            globalProducts = [];
-            snapshot.forEach((doc) => {
-                globalProducts.push(doc.data());
-            });
-            renderProducts(globalProducts);
-        });
-
-        function renderProducts(products, filter = 'all') {
-            const grid = document.getElementById('productsGrid');
-            grid.innerHTML = '';
-            
-            const filtered = filter === 'all' ? products : products.filter(p => p.category === filter);
-
-            if (filtered.length === 0) {
-                grid.innerHTML = `<div class="col-span-full text-center py-16 text-amber-500/60 font-semibold glass-card rounded-2xl">لا توجد منتجات مضافة حالياً في هذا القسم... أضف منتجك الأول من لوحة الأدمن!</div>`;
-                return;
+            // إعدادات شريط العروض والوقت
+            const banner = document.getElementById('promo-banner');
+            if (settings.promoActive) {
+                banner.style.display = 'block';
+                document.getElementById('banner-text').innerText = settings.promoText;
+                
+                // عداد الوقت
+                const endTime = new Date(settings.promoEndTime).getTime();
+                setInterval(() => {
+                    const now = new Date().getTime();
+                    const distance = endTime - now;
+                    if (distance < 0) {
+                        document.getElementById('countdown-timer').innerText = "انتهى العرض";
+                    } else {
+                        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                        document.getElementById('countdown-timer').innerText = `${hours}س : ${minutes}د : ${seconds}ث`;
+                    }
+                }, 1000);
+            } else {
+                banner.style.display = 'none';
             }
 
-            filtered.forEach(p => {
-                let imagesHtml = p.images && p.images[0] ? `<img src="${p.images[0]}" class="w-full h-60 object-cover bg-neutral-950">` : `<img src="https://via.placeholder.com/300" class="w-full h-60 object-cover bg-neutral-950">`;
-                let priceDisplay = p.showPrice && p.price ? `<span class="text-xl font-black text-amber-300">${p.price} ر.س</span>` : `<span class="text-sm font-bold text-neutral-400">السعر عند الطلب</span>`;
+            // جلب المنتجات وعرضها في الأقسام
+            const products = JSON.parse(localStorage.getItem('store_products')) || [
+                { id: 1, name: "بدلة كلاسيكية فاخرة", price: "1200 ج.م", category: "suits", img: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=500" },
+                { id: 2, name: "بنطلون قماش عصري", price: "450 ج.م", category: "pants", img: "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=500" },
+                { id: 3, name: "كوتش رياضي مريح", price: "650 ج.م", category: "shoes", img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500" }
+            ];
 
-                grid.innerHTML += `
-                    <div class="glass-card rounded-2xl overflow-hidden shadow-2xl hover:scale-[1.02] transition duration-300 flex flex-col">
-                        ${imagesHtml}
-                        <div class="p-5 flex flex-col flex-grow justify-between">
-                            <div>
-                                <span class="text-xs text-amber-400/80 font-bold uppercase">${p.category}</span>
-                                <h3 class="text-lg font-bold text-white mt-1">${p.name}</h3>
-                                <p class="text-neutral-400 text-sm mt-1 line-clamp-2">${p.desc}</p>
-                            </div>
-                            <div class="flex justify-between items-center mt-5 pt-4 border-t border-amber-900/20">
-                                ${priceDisplay}
-                                <button onclick="alert('تم الطلب بنجاح!')" class="amber-gradient text-black font-extrabold px-4 py-2 rounded-xl text-xs hover:opacity-90 transition">اطلب الآن</button>
-                            </div>
+            const suitsGrid = document.getElementById('suits-grid');
+            const pantsGrid = document.getElementById('pants-grid');
+            const shoesGrid = document.getElementById('shoes-grid');
+            const allGrid = document.getElementById('all-grid');
+
+            suitsGrid.innerHTML = '';
+            pantsGrid.innerHTML = '';
+            shoesGrid.innerHTML = '';
+            allGrid.innerHTML = '';
+
+            products.forEach(p => {
+                const cardHTML = `
+                    <div class="product-card">
+                        <img src="${p.img}" class="product-img" alt="${p.name}">
+                        <div class="product-info">
+                            <div class="product-name">${p.name}</div>
+                            <div class="product-price">${p.price}</div>
+                            <a href="https://wa.me/?text=مرحباً، أود طلب هذا المنتج: ${encodeURIComponent(p.name)} بسعر ${encodeURIComponent(p.price)}" target="_blank" class="buy-btn">اطلب عبر واتساب</a>
                         </div>
                     </div>
                 `;
-            });
-        }
 
-        function filterCategory(cat) {
-            renderProducts(globalProducts, cat);
-        }
+                allGrid.innerHTML += cardHTML;
+                if (p.category === 'suits') suitsGrid.innerHTML += cardHTML;
+                if (p.category === 'pants') pantsGrid.innerHTML += cardHTML;
+                if (p.category === 'shoes') shoesGrid.innerHTML += cardHTML;
+            });
+        });
     </script>
 </body>
 </html>
