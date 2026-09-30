@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="page-title">كيان جنس - معرض الملابس الفاخرة</title>
+    <title id="page-title">كيان جينز - معرض الملابس الفاخرة</title>
     <style>
         :root {
             --bg-color: #0d0d0d;
@@ -30,7 +30,7 @@
             box-shadow: 0 2px 15px rgba(0,0,0,0.6);
         }
 
-        /* الهيدر الاحترافي */
+        /* الهيدر الاحترافي (بدون لوحة التحكم) */
         header {
             background-color: var(--panel-bg);
             padding: 18px 40px;
@@ -43,7 +43,7 @@
         nav a { color: var(--secondary-text); text-decoration: none; margin-left: 25px; font-size: 15px; transition: 0.3s; }
         nav a:hover { color: var(--accent-color); }
 
-        /* الواجهة الرئيسية (Hero & Brand Title) */
+        /* الواجهة الرئيسية */
         .hero {
             padding: 60px 20px;
             text-align: center;
@@ -193,9 +193,9 @@
         🔥 <span id="banner-text">عرض لفترة محدودة!</span> | ينتهي خلال: <span id="countdown-timer">00:00:00</span>
     </div>
 
-    <!-- الهيدر (بدون كلمة لوحة التحكم) -->
+    <!-- الهيدر -->
     <header>
-        <div class="logo" id="store-logo-text">كيان جنس</div>
+        <div class="logo" id="store-logo-text">كيان جينز</div>
         <nav>
             <a href="#all-products">المنتجات</a>
             <a href="#suits-section">بدلات وكلاسيك</a>
@@ -206,14 +206,12 @@
 
     <!-- الواجهة الرئيسية -->
     <section class="hero">
-        <div class="brand-title">كيان جنس</div>
+        <div class="brand-title">كيان جينز</div>
         <h1 id="hero-title">ارتق بأناقتك مع تشكيلة رجالية فاخرة</h1>
         <p id="hero-subtitle">تسوق أحدث صيحات الموضة الرجالية الكلاسيكية، البناطل العصرية، والأحذية والكوتشيات الفاخرة.</p>
         
-        <!-- صور الغلاف المتعددة (حتى 10 صور) -->
-        <div class="hero-images-container" id="hero-slideshow">
-            <!-- يتم تعبئتها ديناميكياً -->
-        </div>
+        <!-- صور الغلاف المتعددة -->
+        <div class="hero-images-container" id="hero-slideshow"></div>
     </section>
 
     <!-- أزرار التنقل السريع للأقسام -->
@@ -246,17 +244,16 @@
     </div>
 
     <footer id="footer-text">
-        جميع الحقوق محفوظة © كيان جنس 2026
+        جميع الحقوق محفوظة © كيان جينز 2026
     </footer>
 
     <script>
         window.addEventListener('DOMContentLoaded', () => {
-            // تحميل الإعدادات
             const settings = JSON.parse(localStorage.getItem('store_settings')) || {
-                storeName: "كيان جنس",
+                storeName: "كيان جينز",
                 heroTitle: "ارتق بأناقتك مع تشكيلة رجالية فاخرة",
                 heroSubtitle: "تسوق أحدث صيحات الموضة الرجالية الكلاسيكية، البناطل العصرية، والأحذية والكوتشيات الفاخرة.",
-                footerText: "جميع الحقوق محفوظة © كيان جنس 2026",
+                footerText: "جميع الحقوق محفوظة © كيان جينز 2026",
                 bgColor: "#0d0d0d",
                 panelBg: "#141414",
                 accentColor: "#d4af37",
@@ -270,7 +267,6 @@
                 ]
             };
 
-            // تطبيق الألوان المخصصة
             document.documentElement.style.setProperty('--bg-color', settings.bgColor || '#0d0d0d');
             document.documentElement.style.setProperty('--panel-bg', settings.panelBg || '#141414');
             document.documentElement.style.setProperty('--accent-color', settings.accentColor || '#d4af37');
@@ -282,7 +278,6 @@
             document.getElementById('hero-subtitle').innerText = settings.heroSubtitle;
             document.getElementById('footer-text').innerText = settings.footerText;
 
-            // عرض صور الغلاف المتحركة
             const slideshowContainer = document.getElementById('hero-slideshow');
             const images = settings.heroImages && settings.heroImages.length > 0 ? settings.heroImages : ["https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800"];
             slideshowContainer.innerHTML = '';
@@ -300,7 +295,6 @@
                 }, 3500);
             }
 
-            // شريط العروض والوقت
             const banner = document.getElementById('promo-banner');
             if (settings.promoActive) {
                 banner.style.display = 'block';
@@ -322,7 +316,6 @@
                 banner.style.display = 'none';
             }
 
-            // المنتجات
             const products = JSON.parse(localStorage.getItem('store_products')) || [
                 { id: 1, name: "بدلة كلاسيكية فاخرة", price: "1200 ج.م", category: "suits", imgs: ["https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=500"] }
             ];
