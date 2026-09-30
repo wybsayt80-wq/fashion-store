@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة التحكم الشاملة - كيان جنس</title>
+    <title>لوحة التحكم الشاملة - كيان جينز</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background-color: #0b0b0b; color: #fff; padding: 20px; }
@@ -30,14 +30,14 @@
 
     <div class="container">
         <a href="index.html" class="back-link">← العودة إلى المتجر الرئيسي</a>
-        <h1>لوحة التحكم الاحترافية - كيان جنس</h1>
+        <h1>لوحة التحكم الاحترافية - كيان جينز</h1>
 
         <!-- 1. إعدادات النصوص، العناوين، والألوان -->
         <div class="section-box">
             <h2>إعدادات النصوص، العناوين، والألوان</h2>
             <div class="form-group">
                 <label>اسم المتجر:</label>
-                <input type="text" id="setting-storeName">
+                <input type="text" id="setting-storeName" value="كيان جينز">
             </div>
             <div class="form-group">
                 <label>العنوان الرئيسي (Hero Title):</label>
@@ -68,9 +68,9 @@
             <button onclick="saveSettings()">حفظ كافة إعدادات المظهر والنصوص</button>
         </div>
 
-        <!-- 2. إدارة شريط العروض والوقت والصور -->
+        <!-- 2. إدارة شريط العروض والوقت -->
         <div class="section-box">
-            <h2>إدارة شريط العروض والتوقيت المباشر والصور الإضافية</h2>
+            <h2>إدارة شريط العروض والتوقيت المباشر</h2>
             <div class="form-group">
                 <label>تفعيل شريط العرض العلوي:</label>
                 <select id="setting-promoActive">
@@ -95,11 +95,11 @@
             <input type="hidden" id="edit-product-id" value="">
             <div class="form-group">
                 <label>اسم المنتج:</label>
-                <input type="text" id="prod-name" placeholder="مثال: بدلة كلاسيكية سوداء">
+                <input type="text" id="prod-name" placeholder="مثال: بنطلون جينز كلاسيكي">
             </div>
             <div class="form-group">
                 <label>السعر:</label>
-                <input type="text" id="prod-price" placeholder="مثال: 1200 ج.م">
+                <input type="text" id="prod-price" placeholder="مثال: 450 ج.م">
             </div>
             <div class="form-group">
                 <label>القسم:</label>
@@ -135,7 +135,7 @@
     <script>
         window.addEventListener('DOMContentLoaded', () => {
             const settings = JSON.parse(localStorage.getItem('store_settings')) || {
-                storeName: "كيان جنس",
+                storeName: "كيان جينز",
                 heroTitle: "ارتق بأناقتك مع تشكيلة رجالية فاخرة",
                 heroSubtitle: "تسوق أحدث صيحات الموضة الرجالية الكلاسيكية...",
                 bgColor: "#0d0d0d",
@@ -204,7 +204,6 @@
             let products = JSON.parse(localStorage.getItem('store_products')) || [];
 
             if (editId) {
-                // تعديل منتج موجود
                 products = products.map(p => {
                     if (p.id == editId) {
                         return { id: Number(editId), name, price, category, imgs: imgs.length > 0 ? imgs : p.imgs };
@@ -215,7 +214,6 @@
                 document.getElementById('form-heading').innerText = "إضافة منتج جديد";
                 document.getElementById('save-prod-btn').innerText = "إضافة المنتج للمتجر";
             } else {
-                // إضافة منتج جديد
                 products.push({ id: Date.now(), name, price, category, imgs });
             }
 
