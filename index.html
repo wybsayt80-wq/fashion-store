@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>المتجر العصري الفاخر | الصفحة الرئيسية</title>
+    <title>متجر الأزياء العصري الفاخر</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     <style>
@@ -11,68 +11,98 @@
         .gold-glow { text-shadow: 0 0 20px rgba(212, 175, 55, 0.5); }
         .glass-card { background: rgba(26, 22, 18, 0.85); backdrop-filter: blur(12px); border: 1px solid rgba(212, 175, 55, 0.3); }
         .amber-gradient { background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%); }
-        .cat-float { animation: float 4s ease-in-out infinite; }
-        @keyframes float {
-            0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-8px); }
-        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
 
     <!-- شريط التنقل العلوي -->
-    <header class="glass-card sticky top-0 z-50 py-4 px-6 flex justify-between items-center shadow-2xl border-b border-amber-900/30">
-        <div class="flex items-center gap-3">
-            <span class="text-2xl font-black text-amber-400 gold-glow tracking-wider">🐱 SWEETY STORE</span>
+    <header class="glass-card sticky top-0 z-50 py-3 px-6 flex justify-between items-center shadow-2xl border-b border-amber-900/30">
+        <div class="flex items-center gap-6">
+            <h1 class="text-xl font-black text-amber-400 gold-glow">🌐 الأزياء</h1>
+            <nav class="hidden md:flex gap-4 text-sm text-neutral-300">
+                <a href="#" class="hover:text-amber-400 transition">منتجات</a>
+                <a href="#" class="hover:text-amber-400 transition">الملابس</a>
+                <a href="#" class="hover:text-amber-400 transition">المقاصد</a>
+                <a href="#" class="hover:text-amber-400 transition">التفضيلات</a>
+            </nav>
         </div>
-        <div class="flex gap-4 items-center">
-            <div id="liveClock" class="text-xs text-amber-300 font-mono bg-neutral-900/80 px-3 py-1.5 rounded-xl border border-amber-900/40"></div>
-            <a href="admin.html" target="_blank" class="text-xs amber-gradient text-black font-extrabold px-4 py-2.5 rounded-xl shadow-lg hover:opacity-90 transition">دخول الأدمن 🔒</a>
+        <div class="flex items-center gap-4">
+            <a href="admin.html" target="_blank" class="text-xs amber-gradient text-black font-extrabold px-3 py-2 rounded-xl shadow-lg hover:opacity-90 transition flex items-center gap-1">
+                <span>➕</span> إضافة إعلان
+            </a>
+            <div class="relative cursor-pointer">
+                <span class="absolute -top-2 -right-2 bg-amber-500 text-black text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">1</span>
+                <span class="text-xl">🛒</span>
+            </div>
+            <div id="liveClock" class="text-xs text-amber-300 font-mono bg-neutral-900/90 px-3 py-1.5 rounded-xl border border-amber-900/40">10:59:45</div>
         </div>
     </header>
 
-    <!-- القسم الرئيسي مع القطة والأزياء -->
-    <section class="container mx-auto px-4 py-8 flex flex-col items-center text-center">
-        <div class="relative mb-6">
-            <div class="absolute -inset-1 rounded-3xl amber-gradient opacity-30 blur-xl"></div>
-            <div class="relative glass-card p-4 rounded-3xl max-w-sm mx-auto cat-float shadow-2xl">
-                <!-- صورة القطة من الفيديو الأصلي -->
-                <img src="https://images.unsplash.com/photo-1543852786-1cf6624b9987?auto=format&fit=crop&w=600&q=80" alt="القطة الأنيقة" class="w-full h-72 object-cover rounded-2xl border border-amber-500/30">
-                <div class="mt-4 text-right">
-                    <span class="text-xs text-amber-400 font-bold">✨ القط المسؤول عن الأناقة</span>
-                    <h2 class="text-lg font-black text-white">أهلاً بك، نحن معك هنا لتألق دائري!</h2>
+    <!-- المحتوى الرئيسي للمتجر مطابق للصورة -->
+    <main class="flex-grow container mx-auto px-4 py-6">
+        
+        <!-- الهيرو سكشن (Hero Section) مع القطة والبطاقات -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-10 items-center">
+            
+            <!-- القسم الأيسر / الأوسط: عنوان المتجر ووصفه -->
+            <div class="lg:col-span-7 glass-card p-8 rounded-3xl relative overflow-hidden shadow-2xl">
+                <div class="absolute -left-10 -bottom-10 w-40 h-40 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+                <span class="text-xs text-amber-400 font-bold tracking-widest uppercase">متجر الأزياء بير</span>
+                <h2 class="text-3xl md:text-5xl font-black text-white mt-2 mb-4 leading-tight">متجر الأزياء العصري الفاخر</h2>
+                <p class="text-neutral-400 text-sm md:text-base mb-6">تسوق أحدث إعلانات الملابس من أفضل المصممين مع عروض مميزة وخدمة توصيل سريعة في جميع المناطق.</p>
+                <div class="flex gap-4">
+                    <a href="admin.html" target="_blank" class="amber-gradient text-black font-extrabold px-6 py-3 rounded-xl text-sm shadow-xl hover:opacity-90 transition">تسوق الآن</a>
+                    <a href="admin.html" target="_blank" class="bg-neutral-900 border border-amber-500/40 text-amber-300 font-bold px-6 py-3 rounded-xl text-sm hover:bg-neutral-800 transition">إدارة إعلان سريع</a>
                 </div>
             </div>
+
+            <!-- القسم الأيمن: صورة القطة بالهودي والنظارات -->
+            <div class="lg:col-span-5 relative flex justify-center">
+                <div class="absolute -inset-1 rounded-3xl amber-gradient opacity-25 blur-lg"></div>
+                <div class="relative glass-card p-3 rounded-3xl w-full max-w-sm shadow-2xl">
+                    <img src="https://images.unsplash.com/photo-1543852786-1cf6624b9987?auto=format&fit=crop&w=600&q=80" alt="القطة الأنيقة" class="w-full h-72 object-cover rounded-2xl border border-amber-500/30">
+                    <div class="mt-3 flex justify-between items-center px-2">
+                        <span class="text-xs text-amber-400 font-bold">إضافة التصريح</span>
+                        <span class="text-xs font-mono text-neutral-300 bg-neutral-900 px-2 py-1 rounded">00 : 08 : 38</span>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
-        <!-- الأقسام الرئيسية للمتجر -->
-        <div class="flex justify-center gap-3 mb-10 flex-wrap w-full">
-            <button onclick="filterCategory('all')" class="cat-btn active px-6 py-2.5 rounded-full amber-gradient text-black font-extrabold transition shadow-lg">الكل</button>
-            <button onclick="filterCategory('men')" class="cat-btn px-6 py-2.5 rounded-full bg-neutral-900/80 border border-amber-900/30 text-amber-200 hover:bg-amber-950/40 transition">رجالي 👔</button>
-            <button onclick="filterCategory('women')" class="cat-btn px-6 py-2.5 rounded-full bg-neutral-900/80 border border-amber-900/30 text-amber-200 hover:bg-amber-950/40 transition">نسائي 👗</button>
-            <button onclick="filterCategory('kids')" class="cat-btn px-6 py-2.5 rounded-full bg-neutral-900/80 border border-amber-900/30 text-amber-200 hover:bg-amber-950/40 transition">أطفالي 🧸</button>
+        <!-- أقسم الفئات سريعة (رجالي، نسائي، أطفالي) -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-10">
+            <button onclick="filterCategory('men')" class="glass-card p-4 rounded-2xl text-center hover:border-amber-400 transition group">
+                <span class="text-2xl mb-1 block">👔</span>
+                <span class="font-bold text-white group-hover:text-amber-400">Men</span>
+            </button>
+            <button onclick="filterCategory('women')" class="glass-card p-4 rounded-2xl text-center hover:border-amber-400 transition group">
+                <span class="text-2xl mb-1 block">👗</span>
+                <span class="font-bold text-white group-hover:text-amber-400">Women</span>
+            </button>
+            <button onclick="filterCategory('kids')" class="glass-card p-4 rounded-2xl text-center hover:border-amber-400 transition group">
+                <span class="text-2xl mb-1 block">🧸</span>
+                <span class="font-bold text-white group-hover:text-amber-400">Kids</span>
+            </button>
+            <button onclick="filterCategory('all')" class="glass-card p-4 rounded-2xl text-center hover:border-amber-400 transition group">
+                <span class="text-2xl mb-1 block">✨</span>
+                <span class="font-bold text-white group-hover:text-amber-400">الكل</span>
+            </button>
         </div>
-    </section>
 
-    <!-- شبكة المنتجات -->
-    <main class="flex-grow container mx-auto px-4 py-4">
-        <h3 class="text-xl font-bold text-amber-400 mb-6 border-r-4 border-amber-500 pr-3">منتجات وعروض المتجر الحالية</h3>
+        <!-- شبكة المنتجات المعروضة -->
+        <h3 class="text-xl font-bold text-amber-400 mb-6 border-r-4 border-amber-500 pr-3">أحدث المنتجات والإعلانات المضافة</h3>
         <div id="productsGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            <!-- المنتجات تظهر هنا فورياً -->
+            <!-- المنتجات تظهر هنا فورياً عند إضافتها من الأدمن -->
         </div>
+
     </main>
 
     <footer class="text-center py-6 text-amber-500/50 text-sm border-t border-amber-900/20 mt-12">
-        جميع الحقوق محفوظة © المتجر الفاخر 2026
+        جميع الحقوق محفوظة © متجر الأزياء العصري 2026
     </footer>
 
     <script>
-        // تحديث الوقت الحي مثل الفيديو
-        setInterval(() => {
-            const now = new Date();
-            document.getElementById('liveClock').innerText = `🕒 ${now.toLocaleTimeString('en-US')}`;
-        }, 1000);
-
         function loadProducts() {
             const products = JSON.parse(localStorage.getItem('cloud_products') || '[]');
             renderProducts(products);
@@ -85,7 +115,7 @@
             const filtered = filter === 'all' ? products : products.filter(p => p.category === filter);
 
             if (filtered.length === 0) {
-                grid.innerHTML = `<div class="col-span-full text-center py-16 text-amber-500/60 font-semibold glass-card rounded-2xl">لا توجد منتجات مضافة في هذا القسم حالياً... أضف أول منتج عبر لوحة التحكم!</div>`;
+                grid.innerHTML = `<div class="col-span-full text-center py-16 text-amber-500/60 font-semibold glass-card rounded-2xl">لا توجد منتجات مضافة حالياً في هذا القسم... افتح لوحة الأدمن وأضف إعلانك الأول ليظهر فوراً!</div>`;
                 return;
             }
 
@@ -110,13 +140,6 @@
         }
 
         function filterCategory(cat) {
-            document.querySelectorAll('.cat-btn').forEach(btn => {
-                btn.classList.remove('amber-gradient', 'text-black', 'font-extrabold', 'shadow-lg');
-                btn.classList.add('bg-neutral-900/80', 'border', 'border-amber-900/30', 'text-amber-200');
-            });
-            event.target.classList.remove('bg-neutral-900/80', 'border', 'border-amber-900/30', 'text-amber-200');
-            event.target.classList.add('amber-gradient', 'text-black', 'font-extrabold', 'shadow-lg');
-
             const products = JSON.parse(localStorage.getItem('cloud_products') || '[]');
             renderProducts(products, cat);
         }
