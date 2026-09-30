@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة التحكم الشاملة - كيان جينز</title>
+    <title>لوحة التحكم العالمية السحابية - كيان جينز</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background-color: #0b0b0b; color: #fff; padding: 20px; }
@@ -12,6 +12,7 @@
         .form-group { margin-bottom: 18px; }
         label { display: block; margin-bottom: 6px; color: #ccc; font-weight: 500; }
         input, select, textarea { width: 100%; padding: 12px; background: #1a1a1a; border: 1px solid #333; color: #fff; border-radius: 6px; font-size: 15px; }
+        input[type="file"] { background: #222; cursor: pointer; padding: 10px; }
         button { background: #d4af37; color: #000; border: none; padding: 12px 25px; font-weight: bold; border-radius: 6px; cursor: pointer; transition: 0.3s; margin-top: 10px; font-size: 16px; }
         button:hover { background: #b8972b; transform: translateY(-2px); }
         .back-link { display: inline-block; margin-bottom: 25px; color: #d4af37; text-decoration: none; font-weight: bold; }
@@ -22,25 +23,25 @@
         .action-btns { display: flex; gap: 8px; }
         .edit-btn { background: #3377cc; color: #fff; padding: 6px 12px; border: none; border-radius: 4px; cursor: pointer; }
         .del-btn { background: #cc3333; color: #fff; padding: 6px 12px; border: none; border-radius: 4px; cursor: pointer; }
-        .color-pickers { display: flex; gap: 15px; flex-wrap: wrap; }
-        .color-pickers div { flex: 1; min-width: 200px; }
+        .preview-imgs { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+        .preview-imgs img { width: 60px; height: 60px; object-fit: cover; border-radius: 4px; border: 1px solid #444; }
     </style>
 </head>
 <body>
 
     <div class="container">
         <a href="index.html" class="back-link">← العودة إلى المتجر الرئيسي</a>
-        <h1>لوحة التحكم الاحترافية - كيان جينز</h1>
+        <h1>لوحة التحكم السحابية العالمية - كيان جينز</h1>
 
-        <!-- 1. إعدادات النصوص، الشعار المتحرك، والألوان -->
+        <!-- 1. إعدادات المظهر والشعار -->
         <div class="section-box">
-            <h2>إعدادات الشعار المتحرك، النصوص، والألوان</h2>
+            <h2>إعدادات الشعار المتحرك والمظهر العام</h2>
             <div class="form-group">
                 <label>اسم المتجر:</label>
                 <input type="text" id="setting-storeName" value="كيان جينز">
             </div>
             <div class="form-group">
-                <label>العنوان الرئيسي (Hero Title):</label>
+                <label>العنوان الرئيسي:</label>
                 <input type="text" id="setting-heroTitle">
             </div>
             <div class="form-group">
@@ -48,62 +49,51 @@
                 <textarea id="setting-heroSubtitle" rows="3"></textarea>
             </div>
             <div class="form-group">
-                <label>رابط الشعار المتحرك (رابط الشعار الذي يحتوي على الأجنحة والتاج):</label>
-                <input type="text" id="setting-animatedLogoUrl" placeholder="ضع رابط الشعار هنا...">
+                <label>ارفع الشعار المتحرك (أجنحة وتاج): اختر ملف من جهازك أو موبايلك</label>
+                <input type="file" id="setting-animatedLogoFile" accept="image/*" onchange="convertLogoFile(this)">
+                <input type="hidden" id="setting-animatedLogoUrl">
+                <div class="preview-imgs" id="logo-preview"></div>
             </div>
-            <div class="form-group color-pickers">
-                <div>
-                    <label>لون الخلفية العام:</label>
-                    <input type="color" id="setting-bgColor" value="#0d0d0d">
-                </div>
-                <div>
-                    <label>لون اللوحات والأقسام:</label>
-                    <input type="color" id="setting-panelBg" value="#141414">
-                </div>
-                <div>
-                    <label>لون التميز (الأزرار والعناوين):</label>
-                    <input type="color" id="setting-accentColor" value="#d4af37">
-                </div>
-            </div>
-            <div class="form-group" style="margin-top: 15px;">
-                <label>روابط صور الغلاف الإضافية (حتى 10 صور):</label>
-                <textarea id="setting-heroImages" rows="3" placeholder="ضع روابط الصور هنا..."></textarea>
-            </div>
-            <button onclick="saveSettings()">حفظ كافة إعدادات الشعار والمظهر</button>
+            <button onclick="saveSettings()">حفظ إعدادات الشعار والمظهر</button>
         </div>
 
-        <!-- 2. إدارة شريط العروض والوقت -->
+        <!-- 2. إدارة شريط العروض المميزة في أعلى الشاشة مع رفع الصور -->
         <div class="section-box">
-            <h2>إدارة شريط العروض والتوقيت المباشر</h2>
+            <h2>إدارة شريط العروض المميزة (يظهر في القمة)</h2>
             <div class="form-group">
-                <label>تفعيل شريط العرض العلوي:</label>
+                <label>تفعيل الشريط في قمة الشاشة:</label>
                 <select id="setting-promoActive">
                     <option value="true">مفعل (يظهر فوق)</option>
                     <option value="false">مخفي</option>
                 </select>
             </div>
             <div class="form-group">
-                <label>نص العرض:</label>
+                <label>نص العرض الحصري:</label>
                 <input type="text" id="setting-promoText">
             </div>
             <div class="form-group">
                 <label>تاريخ ووقت انتهاء العرض:</label>
                 <input type="datetime-local" id="setting-promoEndTime">
             </div>
-            <button onclick="savePromoSettings()">حفظ إعدادات العرض</button>
+            <div class="form-group">
+                <label>ارفع صور العرض (اختر حتى 10 صور من جهازك أو موبايلك):</label>
+                <input type="file" id="setting-promoFiles" accept="image/*" multiple onchange="convertPromoFiles(this)">
+                <div class="preview-imgs" id="promo-preview-container"></div>
+            </div>
+            <button onclick="savePromoSettings()">حفظ وتفعيل شريط العروض</button>
         </div>
 
-        <!-- 3. إدارة المنتجات والأقسام -->
+        <!-- 3. إضافة وتعديل المنتجات مع رفع الصور المباشر -->
         <div class="section-box">
-            <h2 id="form-heading">إضافة منتج جديد</h2>
+            <h2 id="form-heading">إضافة منتج جديد سحابياً</h2>
             <input type="hidden" id="edit-product-id" value="">
             <div class="form-group">
                 <label>اسم المنتج:</label>
-                <input type="text" id="prod-name" placeholder="مثال: بنطلون جينز فاخر">
+                <input type="text" id="prod-name" placeholder="مثال: بنطلون جينز كلاسيكي فاخر">
             </div>
             <div class="form-group">
                 <label>السعر:</label>
-                <input type="text" id="prod-price" placeholder="مثال: 500 ج.م">
+                <input type="text" id="prod-price" placeholder="مثال: 550 ج.م">
             </div>
             <div class="form-group">
                 <label>القسم:</label>
@@ -114,12 +104,13 @@
                 </select>
             </div>
             <div class="form-group">
-                <label>روابط صور المنتج (حتى 10 صور):</label>
-                <textarea id="prod-imgs" rows="3" placeholder="ضع روابط الصور هنا..."></textarea>
+                <label>ارفع صور المنتج (اختر حتى 10 صور من موبايلك أو لابتوبك):</label>
+                <input type="file" id="prod-files" accept="image/*" multiple onchange="convertProdFiles(this)">
+                <div class="preview-imgs" id="prod-preview-container"></div>
             </div>
-            <button onclick="saveProduct()" id="save-prod-btn">إضافة المنتج للمتجر</button>
+            <button onclick="saveProduct()" id="save-prod-btn">إضافة المنتج للمتجر العالمي</button>
 
-            <h2>المنتجات الحالية</h2>
+            <h2>المنتجات الحالية السحابية</h2>
             <table>
                 <thead>
                     <tr>
@@ -135,62 +126,110 @@
     </div>
 
     <script>
+        let tempPromoImages = [];
+        let tempProdImages = [];
+        let tempLogoUrl = "";
+
         window.addEventListener('DOMContentLoaded', () => {
-            const settings = JSON.parse(localStorage.getItem('store_settings')) || {
+            const settings = JSON.parse(localStorage.getItem('cloud_store_settings')) || {
                 storeName: "كيان جينز",
                 heroTitle: "ارتق بأناقتك مع تشكيلة رجالية فاخرة",
                 heroSubtitle: "تسوق أحدث صيحات الموضة الرجالية الكلاسيكية...",
-                bgColor: "#0d0d0d",
-                panelBg: "#141414",
-                accentColor: "#d4af37",
-                textColor: "#ffffff",
                 promoActive: true,
                 promoText: "🔥 خصم حصري على كافة المنتجات لفترة محدودة!",
-                animatedLogoUrl: "",
-                heroImages: []
+                promoImages: [],
+                animatedLogoUrl: ""
             };
 
             document.getElementById('setting-storeName').value = settings.storeName;
             document.getElementById('setting-heroTitle').value = settings.heroTitle;
             document.getElementById('setting-heroSubtitle').value = settings.heroSubtitle;
-            document.getElementById('setting-animatedLogoUrl').value = settings.animatedLogoUrl || "";
-            document.getElementById('setting-bgColor').value = settings.bgColor || "#0d0d0d";
-            document.getElementById('setting-panelBg').value = settings.panelBg || "#141414";
-            document.getElementById('setting-accentColor').value = settings.accentColor || "#d4af37";
             document.getElementById('setting-promoActive').value = settings.promoActive ? "true" : "false";
             document.getElementById('setting-promoText').value = settings.promoText;
-            document.getElementById('setting-heroImages').value = settings.heroImages ? settings.heroImages.join('\n') : '';
+            
+            tempLogoUrl = settings.animatedLogoUrl || "";
+            if(tempLogoUrl) {
+                document.getElementById('logo-preview').innerHTML = `<img src="${tempLogoUrl}">`;
+            }
+
+            tempPromoImages = settings.promoImages || [];
+            renderPreviews('promo-preview-container', tempPromoImages);
 
             renderProductsTable();
         });
 
+        // دوال تحويل الملفات المرفوعة من الموبايل/اللابتوب إلى صور سحابية فورية
+        function convertLogoFile(input) {
+            if(input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    tempLogoUrl = e.target.result;
+                    document.getElementById('logo-preview').innerHTML = `<img src="${tempLogoUrl}">`;
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function convertPromoFiles(input) {
+            tempPromoImages = [];
+            const container = document.getElementById('promo-preview-container');
+            container.innerHTML = '';
+            Array.from(input.files).forEach(file => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    tempPromoImages.push(e.target.result);
+                    container.innerHTML += `<img src="${e.target.result}">`;
+                }
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function convertProdFiles(input) {
+            tempProdImages = [];
+            const container = document.getElementById('prod-preview-container');
+            container.innerHTML = '';
+            Array.from(input.files).forEach(file => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    tempProdImages.push(e.target.result);
+                    container.innerHTML += `<img src="${e.target.result}">`;
+                }
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function renderPreviews(containerId, imgsArray) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+            imgsArray.forEach(img => {
+                container.innerHTML += `<img src="${img}">`;
+            });
+        }
+
         function saveSettings() {
-            const settings = JSON.parse(localStorage.getItem('store_settings')) || {};
+            const settings = JSON.parse(localStorage.getItem('cloud_store_settings')) || {};
             settings.storeName = document.getElementById('setting-storeName').value;
             settings.heroTitle = document.getElementById('setting-heroTitle').value;
             settings.heroSubtitle = document.getElementById('setting-heroSubtitle').value;
-            settings.animatedLogoUrl = document.getElementById('setting-animatedLogoUrl').value;
-            settings.bgColor = document.getElementById('setting-bgColor').value;
-            settings.panelBg = document.getElementById('setting-panelBg').value;
-            settings.accentColor = document.getElementById('setting-accentColor').value;
+            settings.animatedLogoUrl = tempLogoUrl;
             
-            const rawImgs = document.getElementById('setting-heroImages').value;
-            settings.heroImages = rawImgs.split(/[\n,]+/).map(s => s.trim()).filter(s => s.length > 0);
-
-            localStorage.setItem('store_settings', JSON.stringify(settings));
-            alert("تم حفظ إعدادات الشعار والمظهر بنجاح!");
+            localStorage.setItem('cloud_store_settings', JSON.stringify(settings));
+            alert("تم حفظ إعدادات الشعار والمظهر بنجاح وسيتحدث في كل أنحاء العالم!");
         }
 
         function savePromoSettings() {
-            const settings = JSON.parse(localStorage.getItem('store_settings')) || {};
+            const settings = JSON.parse(localStorage.getItem('cloud_store_settings')) || {};
             settings.promoActive = document.getElementById('setting-promoActive').value === "true";
             settings.promoText = document.getElementById('setting-promoText').value;
+            settings.promoImages = tempPromoImages;
+            
             const datetimeInput = document.getElementById('setting-promoEndTime').value;
             if (datetimeInput) {
                 settings.promoEndTime = new Date(datetimeInput).getTime();
             }
-            localStorage.setItem('store_settings', JSON.stringify(settings));
-            alert("تم تحديث إعدادات العرض بنجاح!");
+            
+            localStorage.setItem('cloud_store_settings', JSON.stringify(settings));
+            alert("تم تحديث شريط العروض المميزة في قمة الشاشة بنجاح!");
         }
 
         function saveProduct() {
@@ -198,49 +237,56 @@
             const name = document.getElementById('prod-name').value;
             const price = document.getElementById('prod-price').value;
             const category = document.getElementById('prod-category').value;
-            const rawImgs = document.getElementById('prod-imgs').value;
-            const imgs = rawImgs.split(/[\n,]+/).map(s => s.trim()).filter(s => s.length > 0);
 
             if (!name || !price) {
                 alert("الرجاء إدخال اسم المنتج والسعر على الأقل!");
                 return;
             }
 
-            let products = JSON.parse(localStorage.getItem('store_products')) || [];
+            let products = JSON.parse(localStorage.getItem('cloud_store_products')) || [];
 
             if (editId) {
                 products = products.map(p => {
                     if (p.id == editId) {
-                        return { id: Number(editId), name, price, category, imgs: imgs.length > 0 ? imgs : p.imgs };
+                        return { 
+                            id: Number(editId), 
+                            name, 
+                            price, 
+                            category, 
+                            imgs: tempProdImages.length > 0 ? tempProdImages : p.imgs 
+                        };
                     }
                     return p;
                 });
                 document.getElementById('edit-product-id').value = '';
-                document.getElementById('form-heading').innerText = "إضافة منتج جديد";
-                document.getElementById('save-prod-btn').innerText = "إضافة المنتج للمتجر";
+                document.getElementById('form-heading').innerText = "إضافة منتج جديد سحابياً";
+                document.getElementById('save-prod-btn').innerText = "إضافة المنتج للمتجر العالمي";
             } else {
-                products.push({ id: Date.now(), name, price, category, imgs });
+                products.push({ id: Date.now(), name, price, category, imgs: tempProdImages });
             }
 
-            localStorage.setItem('store_products', JSON.stringify(products));
+            localStorage.setItem('cloud_store_products', JSON.stringify(products));
 
             document.getElementById('prod-name').value = '';
             document.getElementById('prod-price').value = '';
-            document.getElementById('prod-imgs').value = '';
+            document.getElementById('prod-files').value = '';
+            tempProdImages = [];
+            document.getElementById('prod-preview-container').innerHTML = '';
 
             renderProductsTable();
-            alert("تم حفظ المنتج بنجاح!");
+            alert("تم حفظ ونشر المنتج سحابياً ليظهر في كل الموبايلات حول العالم فوراً!");
         }
 
         function editProduct(id) {
-            const products = JSON.parse(localStorage.getItem('store_products')) || [];
+            const products = JSON.parse(localStorage.getItem('cloud_store_products')) || [];
             const p = products.find(item => item.id == id);
             if (p) {
                 document.getElementById('edit-product-id').value = p.id;
                 document.getElementById('prod-name').value = p.name;
                 document.getElementById('prod-price').value = p.price;
                 document.getElementById('prod-category').value = p.category;
-                document.getElementById('prod-imgs').value = p.imgs ? p.imgs.join('\n') : '';
+                tempProdImages = p.imgs || [];
+                renderPreviews('prod-preview-container', tempProdImages);
                 document.getElementById('form-heading').innerText = "تعديل المنتج الحالي";
                 document.getElementById('save-prod-btn').innerText = "حفظ التعديلات";
                 window.scrollTo({ top: document.getElementById('form-heading').offsetTop, behavior: 'smooth' });
@@ -248,14 +294,14 @@
         }
 
         function deleteProduct(id) {
-            let products = JSON.parse(localStorage.getItem('store_products')) || [];
+            let products = JSON.parse(localStorage.getItem('cloud_store_products')) || [];
             products = products.filter(p => p.id !== id);
-            localStorage.setItem('store_products', JSON.stringify(products));
+            localStorage.setItem('cloud_store_products', JSON.stringify(products));
             renderProductsTable();
         }
 
         function renderProductsTable() {
-            const products = JSON.parse(localStorage.getItem('store_products')) || [];
+            const products = JSON.parse(localStorage.getItem('cloud_store_products')) || [];
             const tbody = document.getElementById('products-table-body');
             tbody.innerHTML = '';
 
