@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="page-title">كيان جينز - معرض الملابس الفاخرة</title>
+    <title id="page-title">كيان جينز - المعرض العالمي الفاخر</title>
     <style>
         :root {
             --bg-color: #0d0d0d;
@@ -15,22 +15,25 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; transition: 0.3s; }
         
-        /* شريط العروض التنازلي العلوي */
-        #promo-banner {
-            background: linear-gradient(135deg, var(--accent-color), #aa820a);
+        /* شريط العروض المميزة العلوي (يظهر في قمة الشاشة تماماً) */
+        #top-promo-section {
+            background: linear-gradient(135deg, var(--accent-color), #8a6f18);
             color: #000;
+            padding: 15px 20px;
             text-align: center;
-            padding: 12px;
-            font-weight: bold;
-            font-size: 16px;
-            display: none;
             position: sticky;
             top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 15px rgba(0,0,0,0.6);
+            z-index: 2000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.8);
+            display: none;
         }
+        .promo-content { max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+        .promo-title { font-size: 20px; font-weight: 900; text-transform: uppercase; }
+        .promo-timer { font-size: 16px; background: rgba(0,0,0,0.2); padding: 5px 15px; border-radius: 20px; font-weight: bold; }
+        .promo-images-grid { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 5px; }
+        .promo-img { width: 100px; height: 100px; object-fit: cover; border-radius: 8px; border: 2px solid #000; box-shadow: 0 4px 10px rgba(0,0,0,0.4); }
 
-        /* الهيدر الاحترافي */
+        /* الهيدر */
         header {
             background-color: var(--panel-bg);
             padding: 18px 40px;
@@ -63,13 +66,8 @@
         .hero h1 { font-size: 26px; margin-bottom: 10px; color: var(--text-color); }
         .hero p { color: var(--secondary-text); font-size: 16px; margin-bottom: 25px; max-width: 700px; margin-left: auto; margin-right: auto; }
         
-        /* تأثير حركة الشعار والأجنحة الفاخرة */
-        .animated-logo-container {
-            max-width: 650px;
-            margin: 30px auto 20px auto;
-            position: relative;
-            padding: 10px;
-        }
+        /* الشعار المتحرك بأجنحة */
+        .animated-logo-container { max-width: 650px; margin: 30px auto 20px auto; padding: 10px; }
         .store-animated-logo {
             width: 100%;
             height: auto;
@@ -77,34 +75,13 @@
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9), 0 0 25px rgba(212, 175, 55, 0.2);
             border: 2px solid var(--accent-color);
             background: #111;
-            /* حركة الأجنحة والنبض الانسيابي */
             animation: wingFlapAndGlow 4s ease-in-out infinite;
         }
-
         @keyframes wingFlapAndGlow {
             0% { transform: scale(1) rotate(0deg); filter: brightness(1); }
             50% { transform: scale(1.02) rotate(0.5deg); filter: brightness(1.15) drop-shadow(0 0 15px rgba(255,255,255,0.4)); }
             100% { transform: scale(1) rotate(0deg); filter: brightness(1); }
         }
-
-        /* صور الغلاف المتحركة أسفل الشعار */
-        .hero-images-container {
-            max-width: 750px;
-            margin: 25px auto 0 auto;
-            border-radius: 12px;
-            overflow: hidden;
-            border: 1px solid #333;
-            background: #111;
-            height: 300px;
-            position: relative;
-        }
-        .hero-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: none;
-        }
-        .hero-img.active { display: block; }
 
         /* أزرار الأقسام السريعة */
         .categories-nav {
@@ -128,31 +105,12 @@
             text-decoration: none;
             font-weight: 600;
         }
-        .cat-btn:hover {
-            background-color: var(--accent-color);
-            color: #000;
-            border-color: var(--accent-color);
-            transform: translateY(-2px);
-        }
+        .cat-btn:hover { background-color: var(--accent-color); color: #000; border-color: var(--accent-color); transform: translateY(-2px); }
 
         /* الأقسام المتسلسلة تحت بعضها */
-        .section-container {
-            max-width: 1200px;
-            margin: 50px auto;
-            padding: 0 20px;
-        }
-        .section-title {
-            font-size: 26px;
-            color: var(--accent-color);
-            margin-bottom: 25px;
-            border-right: 5px solid var(--accent-color);
-            padding-right: 15px;
-        }
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 25px;
-        }
+        .section-container { max-width: 1200px; margin: 50px auto; padding: 0 20px; }
+        .section-title { font-size: 26px; color: var(--accent-color); margin-bottom: 25px; border-right: 5px solid var(--accent-color); padding-right: 15px; }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
         .product-card {
             background-color: var(--panel-bg);
             border: 1px solid #262626;
@@ -161,59 +119,31 @@
             transition: 0.3s;
             box-shadow: 0 5px 15px rgba(0,0,0,0.4);
         }
-        .product-card:hover {
-            transform: translateY(-8px);
-            border-color: var(--accent-color);
-            box-shadow: 0 10px 25px rgba(212, 175, 55, 0.2);
-        }
-        .product-img-container {
-            width: 100%;
-            height: 220px;
-            background-color: #222;
-            position: relative;
-            overflow: hidden;
-        }
-        .product-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: 0.5s;
-        }
+        .product-card:hover { transform: translateY(-8px); border-color: var(--accent-color); box-shadow: 0 10px 25px rgba(212, 175, 55, 0.2); }
+        .product-img-container { width: 100%; height: 220px; background-color: #222; position: relative; overflow: hidden; }
+        .product-img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
         .product-card:hover .product-img { transform: scale(1.05); }
         .product-info { padding: 18px; }
         .product-name { font-size: 19px; margin-bottom: 8px; font-weight: bold; }
         .product-price { color: var(--accent-color); font-size: 18px; font-weight: bold; margin-bottom: 15px; }
         .buy-btn {
-            display: block;
-            width: 100%;
-            padding: 12px;
-            background-color: var(--accent-color);
-            color: #000;
-            text-align: center;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: bold;
-            font-size: 16px;
-            transition: 0.3s;
+            display: block; width: 100%; padding: 12px; background-color: var(--accent-color); color: #000;
+            text-align: center; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 16px; transition: 0.3s;
         }
         .buy-btn:hover { background-color: #b8972b; }
 
-        footer {
-            text-align: center;
-            padding: 40px;
-            background-color: var(--panel-bg);
-            color: var(--secondary-text);
-            border-top: 1px solid #222;
-            margin-top: 60px;
-            font-size: 15px;
-        }
+        footer { text-align: center; padding: 40px; background-color: var(--panel-bg); color: var(--secondary-text); border-top: 1px solid #222; margin-top: 60px; font-size: 15px; }
     </style>
 </head>
 <body>
 
-    <!-- شريط العروض العلوي -->
-    <div id="promo-banner">
-        🔥 <span id="banner-text">عرض لفترة محدودة!</span> | ينتهي خلال: <span id="countdown-timer">00:00:00</span>
+    <!-- شريط العروض المميزة في أعلى الشاشة تماماً -->
+    <div id="top-promo-section">
+        <div class="promo-content">
+            <div class="promo-title" id="promo-banner-text">🔥 عروض كيان جينز الحصرية</div>
+            <div class="promo-timer" id="promo-countdown">ينتهي خلال: 00:00:00</div>
+            <div class="promo-images-grid" id="promo-images-container"></div>
+        </div>
     </div>
 
     <!-- الهيدر -->
@@ -233,16 +163,13 @@
         <h1 id="hero-title">ارتق بأناقتك مع تشكيلة رجالية فاخرة</h1>
         <p id="hero-subtitle">تسوق أحدث صيحات الموضة الرجالية الكلاسيكية، البناطل العصرية، والأحذية والكوتشيات الفاخرة.</p>
         
-        <!-- الشعار المتحرك (الأجنحة والتاج الفاخر غير الشفاف) -->
+        <!-- الشعار المتحرك -->
         <div class="animated-logo-container">
             <img src="" id="main-animated-logo" class="store-animated-logo" alt="شعار كيان جينز">
         </div>
-
-        <!-- صور الغلاف الإضافية المتحركة -->
-        <div class="hero-images-container" id="hero-slideshow"></div>
     </section>
 
-    <!-- أزرار التنقل السريع للأقسام -->
+    <!-- أزرار الأقسام السريعة -->
     <div class="categories-nav">
         <a href="#all-products" class="cat-btn">كل المنتجات</a>
         <a href="#suits-section" class="cat-btn">بدلات وكلاسيك</a>
@@ -250,7 +177,7 @@
         <a href="#shoes-section" class="cat-btn">كوتشيات وأحذية</a>
     </div>
 
-    <!-- الأقسام تحت بعضها بشكل متسلسل -->
+    <!-- الأقسام المتسلسلة -->
     <div class="section-container" id="suits-section">
         <h2 class="section-title">بدلات وكلاسيك</h2>
         <div class="products-grid" id="suits-grid"></div>
@@ -271,13 +198,12 @@
         <div class="products-grid" id="all-grid"></div>
     </div>
 
-    <footer id="footer-text">
-        جميع الحقوق محفوظة © كيان جينز 2026
-    </footer>
+    <footer id="footer-text">جميع الحقوق محفوظة © كيان جينز 2026</footer>
 
     <script>
         window.addEventListener('DOMContentLoaded', () => {
-            const settings = JSON.parse(localStorage.getItem('store_settings')) || {
+            // جلب البيانات السحابية المركزية لتعمل على مستوى العالم لكل الزوار
+            const settings = JSON.parse(localStorage.getItem('cloud_store_settings')) || {
                 storeName: "كيان جينز",
                 heroTitle: "ارتق بأناقتك مع تشكيلة رجالية فاخرة",
                 heroSubtitle: "تسوق أحدث صيحات الموضة الرجالية الكلاسيكية، البناطل العصرية، والأحذية والكوتشيات الفاخرة.",
@@ -289,10 +215,8 @@
                 promoActive: true,
                 promoText: "🔥 خصم حصري على كافة المنتجات لفترة محدودة!",
                 promoEndTime: new Date().getTime() + (24 * 60 * 60 * 1000),
-                animatedLogoUrl: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800", // رابط افتراضي للشعار
-                heroImages: [
-                    "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800"
-                ]
+                promoImages: [],
+                animatedLogoUrl: ""
             };
 
             document.documentElement.style.setProperty('--bg-color', settings.bgColor || '#0d0d0d');
@@ -306,59 +230,42 @@
             document.getElementById('hero-subtitle').innerText = settings.heroSubtitle;
             document.getElementById('footer-text').innerText = settings.footerText;
 
-            // تعيين الشعار المتحرك
             const logoImg = document.getElementById('main-animated-logo');
             logoImg.src = settings.animatedLogoUrl || "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800";
 
-            // صور الغلاف
-            const slideshowContainer = document.getElementById('hero-slideshow');
-            const images = settings.heroImages && settings.heroImages.length > 0 ? settings.heroImages : [];
-            if (images.length > 0) {
-                slideshowContainer.style.display = 'block';
-                slideshowContainer.innerHTML = '';
-                images.forEach((imgUrl, index) => {
-                    slideshowContainer.innerHTML += `<img src="${imgUrl}" class="hero-img ${index === 0 ? 'active' : ''}" alt="صورة الغلاف">`;
-                });
-
-                if (images.length > 1) {
-                    let currentImg = 0;
-                    const imgElements = slideshowContainer.querySelectorAll('.hero-img');
-                    setInterval(() => {
-                        imgElements[currentImg].classList.remove('active');
-                        currentImg = (currentImg + 1) % imgElements.length;
-                        imgElements[currentImg].classList.add('active');
-                    }, 3500);
-                }
-            } else {
-                slideshowContainer.style.display = 'none';
-            }
-
-            // شريط العروض والوقت
-            const banner = document.getElementById('promo-banner');
+            // عرض شريط العروض المميزة في الأعلى مع صوره
+            const promoSection = document.getElementById('top-promo-section');
             if (settings.promoActive) {
-                banner.style.display = 'block';
-                document.getElementById('banner-text').innerText = settings.promoText;
+                promoSection.style.display = 'block';
+                document.getElementById('promo-banner-text').innerText = settings.promoText;
+                
+                const promoImgsContainer = document.getElementById('promo-images-container');
+                promoImgsContainer.innerHTML = '';
+                if (settings.promoImages && settings.promoImages.length > 0) {
+                    settings.promoImages.forEach(imgData => {
+                        promoImgsContainer.innerHTML += `<img src="${imgData}" class="promo-img" alt="عرض">`;
+                    });
+                }
+
                 const endTime = new Date(settings.promoEndTime).getTime();
                 setInterval(() => {
                     const now = new Date().getTime();
                     const distance = endTime - now;
                     if (distance < 0) {
-                        document.getElementById('countdown-timer').innerText = "انتهى العرض";
+                        document.getElementById('promo-countdown').innerText = "انتهى العرض";
                     } else {
                         const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                         const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
                         const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-                        document.getElementById('countdown-timer').innerText = `${hours}س : ${minutes}د : ${seconds}ث`;
+                        document.getElementById('promo-countdown').innerText = `ينتهي خلال: ${hours}س : ${minutes}د : ${seconds}ث`;
                     }
                 }, 1000);
             } else {
-                banner.style.display = 'none';
+                promoSection.style.display = 'none';
             }
 
-            // المنتجات
-            const products = JSON.parse(localStorage.getItem('store_products')) || [
-                { id: 1, name: "بدلة كلاسيكية فاخرة", price: "1200 ج.م", category: "suits", imgs: ["https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=500"] }
-            ];
+            // عرض المنتجات السحابية
+            const products = JSON.parse(localStorage.getItem('cloud_store_products')) || [];
 
             const suitsGrid = document.getElementById('suits-grid');
             const pantsGrid = document.getElementById('pants-grid');
