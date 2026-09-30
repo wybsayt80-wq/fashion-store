@@ -3,63 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة التحكم | إدارة المتجر</title>
+    <title>لوحة تحكم الأدمن | المتجر الفاخر</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Cairo', sans-serif; background-color: #0b0f19; color: #f3f4f6; }
-        .glass-card { background: rgba(17, 24, 39, 0.85); backdrop-filter: blur(12px); border: 1px solid rgba(168, 85, 247, 0.25); }
+        body { font-family: 'Cairo', sans-serif; background-color: #12100e; color: #f3f4f6; }
+        .glass-card { background: rgba(26, 22, 18, 0.9); backdrop-filter: blur(12px); border: 1px solid rgba(212, 175, 55, 0.3); }
+        .amber-gradient { background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%); }
     </style>
 </head>
 <body class="min-h-screen flex items-center justify-center p-4">
 
     <!-- نافذة تسجيل الدخول -->
     <div id="loginModal" class="glass-card p-8 rounded-3xl w-full max-w-md shadow-2xl text-center">
-        <h2 class="text-2xl font-black text-purple-400 mb-2">تسجيل دخول الأدمن 🔐</h2>
-        <p class="text-gray-400 text-sm mb-6">أدخل كلمة المرور للوصول للوحة التحكم (الافتراضية: 1234)</p>
-        <input type="password" id="adminPass" placeholder="كلمة المرور" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-3 text-white mb-4 focus:outline-none focus:border-purple-500 text-center text-lg tracking-widest">
-        <button onclick="checkLogin()" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-3 rounded-xl transition shadow-lg shadow-purple-600/40">دخول لوحة التحكم</button>
-        <div class="mt-4"><a href="index.html" class="text-sm text-gray-500 hover:text-gray-300">← العودة للموقع الرئيسي</a></div>
+        <h2 class="text-2xl font-black text-amber-400 mb-2">تسجيل دخول الأدمن 🔐</h2>
+        <p class="text-neutral-400 text-sm mb-6">أدخل كلمة المرور للوصول (الافتراضية: 1234)</p>
+        <input type="password" id="adminPass" placeholder="كلمة المرور" class="w-full bg-neutral-950 border border-amber-900/40 rounded-xl px-4 py-3 text-white mb-4 focus:outline-none focus:border-amber-500 text-center text-lg tracking-widest">
+        <button onclick="checkLogin()" class="w-full amber-gradient text-black font-extrabold py-3 rounded-xl transition shadow-xl hover:opacity-90">دخول لوحة التحكم</button>
+        <div class="mt-4"><a href="index.html" class="text-sm text-neutral-500 hover:text-amber-400 transition">← العودة للموقع الرئيسي</a></div>
     </div>
 
-    <!-- لوحة التحكم الفعلية (تظهر بعد الدخول) -->
+    <!-- لوحة التحكم الفعلية -->
     <div id="adminPanel" class="hidden w-full max-w-4xl glass-card p-6 md:p-8 rounded-3xl shadow-2xl">
-        <div class="flex justify-between items-center mb-6 pb-4 border-b border-gray-800">
-            <h1 class="text-xl font-bold text-purple-400">⚡ لوحة إدارة المنتجات والإعلانات</h1>
+        <div class="flex justify-between items-center mb-6 pb-4 border-b border-amber-900/30">
+            <h1 class="text-xl font-bold text-amber-400">⚡ لوحة إدارة المنتجات والإعلانات</h1>
             <div class="flex gap-3">
-                <a href="index.html" target="_blank" class="bg-cyan-600/20 text-cyan-300 border border-cyan-500/40 px-4 py-2 rounded-xl text-sm font-semibold hover:bg-cyan-600 hover:text-white transition">عرض الموقع الرئيسي ↗</a>
-                <button onclick="logout()" class="bg-red-600/20 text-red-300 border border-red-500/40 px-4 py-2 rounded-xl text-sm font-semibold hover:bg-red-600 hover:text-white transition">خروج</button>
+                <a href="index.html" target="_blank" class="bg-amber-500/10 text-amber-300 border border-amber-500/30 px-4 py-2 rounded-xl text-sm font-semibold hover:bg-amber-500 hover:text-black transition">عرض الموقع ↗</a>
+                <button onclick="logout()" class="bg-red-500/10 text-red-400 border border-red-500/30 px-4 py-2 rounded-xl text-sm font-semibold hover:bg-red-600 hover:text-white transition">خروج</button>
             </div>
         </div>
 
         <!-- نموذج إضافة منتج -->
         <form id="productForm" onsubmit="addProduct(event)" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
             <div>
-                <label class="block text-sm text-gray-400 mb-1">اسم المنتج أو الإعلان</label>
-                <input type="text" id="pName" required placeholder="مثال: جاكيت رجالي فاخر" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-purple-500">
+                <label class="block text-sm text-neutral-400 mb-1">اسم المنتج أو الإعلان</label>
+                <input type="text" id="pName" required placeholder="مثال: بدلة كلاسيكية فاخرة" class="w-full bg-neutral-950 border border-amber-900/40 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-amber-500">
             </div>
             <div>
-                <label class="block text-sm text-gray-400 mb-1">السعر (ر.س)</label>
-                <input type="number" id="pPrice" required placeholder="150" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-purple-500">
+                <label class="block text-sm text-neutral-400 mb-1">السعر (ر.س)</label>
+                <input type="number" id="pPrice" required placeholder="250" class="w-full bg-neutral-950 border border-amber-900/40 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-amber-500">
             </div>
             <div>
-                <label class="block text-sm text-gray-400 mb-1">القسم الأساسي</label>
-                <select id="pCategory" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-purple-500">
+                <label class="block text-sm text-neutral-400 mb-1">القسم الأساسي</label>
+                <select id="pCategory" class="w-full bg-neutral-950 border border-amber-900/40 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-amber-500">
                     <option value="men">رجالي 👔</option>
                     <option value="women">نسائي 👗</option>
                     <option value="kids">أطفالي 🧸</option>
                 </select>
             </div>
             <div>
-                <label class="block text-sm text-gray-400 mb-1">رابط الصورة (جودة عالية)</label>
-                <input type="url" id="pImage" required placeholder="https://example.com/image.jpg" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-purple-500">
+                <label class="block text-sm text-neutral-400 mb-1">رابط الصورة (جودة عالية)</label>
+                <input type="url" id="pImage" required placeholder="https://example.com/image.jpg" class="w-full bg-neutral-950 border border-amber-900/40 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-amber-500">
             </div>
             <div class="md:col-span-2">
-                <label class="block text-sm text-gray-400 mb-1">وصف موجز</label>
-                <textarea id="pDesc" rows="2" placeholder="تفاصيل سريعة عن المنتج..." class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-purple-500"></textarea>
+                <label class="block text-sm text-neutral-400 mb-1">وصف موجز</label>
+                <textarea id="pDesc" rows="2" placeholder="تفاصيل سريعة عن المنتج..." class="w-full bg-neutral-950 border border-amber-900/40 rounded-xl px-4 py-2.5 text-white focus:outline-none focus:border-amber-500"></textarea>
             </div>
             <div class="md:col-span-2">
-                <button type="submit" class="w-full bg-purple-600 hover:bg-purple-500 text-white font-bold py-3 rounded-xl transition shadow-lg shadow-purple-600/40">نشر المنتج فوراً في الصفحة الرئيسية 🚀</button>
+                <button type="submit" class="w-full amber-gradient text-black font-extrabold py-3 rounded-xl transition shadow-xl hover:opacity-90">نشر المنتج فوراً في الصفحة الرئيسية 🚀</button>
             </div>
         </form>
 
@@ -129,21 +130,21 @@
             list.innerHTML = '';
 
             if (products.length === 0) {
-                list.innerHTML = `<p class="text-gray-500 text-center py-4">لا توجد منتجات مسجلة حالياً.</p>`;
+                list.innerHTML = `<p class="text-neutral-500 text-center py-4">لا توجد منتجات مسجلة حالياً.</p>`;
                 return;
             }
 
             products.forEach(p => {
                 list.innerHTML += `
-                    <div class="bg-gray-900 border border-gray-800 p-4 rounded-xl flex justify-between items-center">
+                    <div class="bg-neutral-950 border border-amber-900/30 p-4 rounded-xl flex justify-between items-center">
                         <div class="flex items-center gap-3">
                             <img src="${p.image}" class="w-12 h-12 rounded-lg object-cover">
                             <div>
                                 <h4 class="font-bold text-white text-sm">${p.name}</h4>
-                                <span class="text-xs text-purple-400">${p.category} | ${p.price} ر.س</span>
+                                <span class="text-xs text-amber-400">${p.category} | ${p.price} ر.س</span>
                             </div>
                         </div>
-                        <button onclick="deleteProduct(${p.id})" class="bg-red-600/20 text-red-400 px-3 py-1.5 rounded-lg text-xs hover:bg-red-600 hover:text-white transition">حذف</button>
+                        <button onclick="deleteProduct(${p.id})" class="bg-red-500/10 text-red-400 px-3 py-1.5 rounded-lg text-xs hover:bg-red-600 hover:text-white transition">حذف</button>
                     </div>
                 `;
             });
