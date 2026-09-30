@@ -13,9 +13,9 @@
             --secondary-text: #aaaaaa;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; transition: 0.3s; }
+        body { background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; }
         
-        /* شريط العروض المميزة العلوي (يظهر في قمة الشاشة تماماً) */
+        /* شريط العروض المميزة في أعلى الشاشة تماماً */
         #top-promo-section {
             background: linear-gradient(135deg, var(--accent-color), #8a6f18);
             color: #000;
@@ -31,7 +31,7 @@
         .promo-title { font-size: 20px; font-weight: 900; text-transform: uppercase; }
         .promo-timer { font-size: 16px; background: rgba(0,0,0,0.2); padding: 5px 15px; border-radius: 20px; font-weight: bold; }
         .promo-images-grid { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 5px; }
-        .promo-img { width: 100px; height: 100px; object-fit: cover; border-radius: 8px; border: 2px solid #000; box-shadow: 0 4px 10px rgba(0,0,0,0.4); }
+        .promo-img { width: 90px; height: 90px; object-fit: cover; border-radius: 8px; border: 2px solid #000; box-shadow: 0 4px 10px rgba(0,0,0,0.4); }
 
         /* الهيدر */
         header {
@@ -137,7 +137,7 @@
 </head>
 <body>
 
-    <!-- شريط العروض المميزة في أعلى الشاشة تماماً -->
+    <!-- شريط العروض المميزة العلوي -->
     <div id="top-promo-section">
         <div class="promo-content">
             <div class="promo-title" id="promo-banner-text">🔥 عروض كيان جينز الحصرية</div>
@@ -202,27 +202,17 @@
 
     <script>
         window.addEventListener('DOMContentLoaded', () => {
-            // جلب البيانات السحابية المركزية لتعمل على مستوى العالم لكل الزوار
             const settings = JSON.parse(localStorage.getItem('cloud_store_settings')) || {
                 storeName: "كيان جينز",
                 heroTitle: "ارتق بأناقتك مع تشكيلة رجالية فاخرة",
                 heroSubtitle: "تسوق أحدث صيحات الموضة الرجالية الكلاسيكية، البناطل العصرية، والأحذية والكوتشيات الفاخرة.",
                 footerText: "جميع الحقوق محفوظة © كيان جينز 2026",
-                bgColor: "#0d0d0d",
-                panelBg: "#141414",
-                accentColor: "#d4af37",
-                textColor: "#ffffff",
                 promoActive: true,
                 promoText: "🔥 خصم حصري على كافة المنتجات لفترة محدودة!",
                 promoEndTime: new Date().getTime() + (24 * 60 * 60 * 1000),
                 promoImages: [],
                 animatedLogoUrl: ""
             };
-
-            document.documentElement.style.setProperty('--bg-color', settings.bgColor || '#0d0d0d');
-            document.documentElement.style.setProperty('--panel-bg', settings.panelBg || '#141414');
-            document.documentElement.style.setProperty('--accent-color', settings.accentColor || '#d4af37');
-            document.documentElement.style.setProperty('--text-color', settings.textColor || '#ffffff');
 
             document.getElementById('store-logo-text').innerText = settings.storeName;
             document.getElementById('page-title').innerText = settings.storeName;
@@ -233,7 +223,7 @@
             const logoImg = document.getElementById('main-animated-logo');
             logoImg.src = settings.animatedLogoUrl || "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800";
 
-            // عرض شريط العروض المميزة في الأعلى مع صوره
+            // عرض شريط العروض المميزة في الأعلى
             const promoSection = document.getElementById('top-promo-section');
             if (settings.promoActive) {
                 promoSection.style.display = 'block';
@@ -264,7 +254,7 @@
                 promoSection.style.display = 'none';
             }
 
-            // عرض المنتجات السحابية
+            // عرض المنتجات
             const products = JSON.parse(localStorage.getItem('cloud_store_products')) || [];
 
             const suitsGrid = document.getElementById('suits-grid');
