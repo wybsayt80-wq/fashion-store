@@ -3,184 +3,202 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة التحكم السحابية | المتجر الرجالي</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <title>لوحة التحكم الشاملة - إدارة المتجر</title>
     <style>
-        body { font-family: 'Cairo', sans-serif; background-color: #12100e; color: #f3f4f6; }
-        .glass-card { background: rgba(26, 22, 18, 0.9); backdrop-filter: blur(12px); border: 1px solid rgba(212, 175, 55, 0.3); }
-        .amber-gradient { background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%); }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #0b0b0b; color: #fff; padding: 20px; }
+        .container { max-width: 900px; margin: 0 auto; background: #141414; padding: 30px; border-radius: 12px; border: 1px solid #222; }
+        h1, h2 { color: #d4af37; margin-bottom: 20px; border-bottom: 2px solid #222; padding-bottom: 10px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; color: #ccc; }
+        input, select, textarea { width: 100%; padding: 10px; background: #1a1a1a; border: 1px solid #333; color: #fff; border-radius: 6px; }
+        button { background: #d4af37; color: #000; border: none; padding: 12px 20px; font-weight: bold; border-radius: 6px; cursor: pointer; transition: 0.3s; margin-top: 10px; }
+        button:hover { background: #b8972b; }
+        .back-link { display: inline-block; margin-bottom: 20px; color: #d4af37; text-decoration: none; }
+        .section-box { margin-bottom: 40px; background: #181818; padding: 20px; border-radius: 8px; border: 1px solid #282828; }
+        table { width: 100%; margin-top: 15px; border-collapse: collapse; }
+        th, td { padding: 10px; border-bottom: 1px solid #333; text-align: right; font-size: 14px; }
+        th { color: #d4af37; }
+        .del-btn { background: #cc3333; color: #fff; padding: 5px 10px; border: none; border-radius: 4px; cursor: pointer; }
+        .del-btn:hover { background: #aa2222; }
     </style>
 </head>
-<body class="min-h-screen p-4 md:p-8 flex justify-center">
+<body>
 
-    <div id="loginModal" class="glass-card p-8 rounded-3xl w-full max-w-md shadow-2xl text-center self-center">
-        <h2 class="text-2xl font-black text-amber-400 mb-2">تسجيل دخول الأدمن العالمي 🔐</h2>
-        <p class="text-neutral-400 text-sm mb-6">كلمة المرور الافتراضية: 1234</p>
-        <input type="password" id="adminPass" placeholder="كلمة المرور" class="w-full bg-neutral-950 border border-amber-900/40 rounded-xl px-4 py-3 text-white mb-4 text-center text-lg tracking-widest focus:outline-none focus:border-amber-500">
-        <button onclick="checkLogin()" class="w-full amber-gradient text-black font-extrabold py-3 rounded-xl transition shadow-xl hover:opacity-90">دخول لوحة التحكم</button>
-        <div class="mt-4"><a href="index.html" class="text-sm text-neutral-500 hover:text-amber-400">← العودة للموقع</a></div>
-    </div>
+    <div class="container">
+        <a href="index.html" class="back-link">← العودة إلى المتجر الرئيسي</a>
+        <h1>لوحة التحكم الشاملة للمتجر</h1>
 
-    <div id="adminPanel" class="hidden w-full max-w-5xl glass-card p-6 md:p-8 rounded-3xl shadow-2xl space-y-8">
-        <div class="flex justify-between items-center pb-4 border-b border-amber-900/30">
-            <h1 class="text-2xl font-black text-amber-400">⚡ لوحة التحكم السحابية المباشرة (تحديث فوري لكل الدول)</h1>
-            <div class="flex gap-3">
-                <a href="index.html" target="_blank" class="bg-amber-500/10 text-amber-300 border border-amber-500/30 px-4 py-2 rounded-xl text-sm font-semibold">عرض الموقع ↗</a>
-                <button onclick="logout()" class="bg-red-500/10 text-red-400 border border-red-500/30 px-4 py-2 rounded-xl text-sm font-semibold">خروج</button>
+        <!-- 1. إعدادات النصوص والعناوين -->
+        <div class="section-box">
+            <h2>تعديل العناوين والنصوص والترويسة</h2>
+            <div class="form-group">
+                <label>اسم المتجر:</label>
+                <input type="text" id="setting-storeName">
             </div>
+            <div class="form-group">
+                <label>العنوان الرئيسي (Hero Title):</label>
+                <input type="text" id="setting-heroTitle">
+            </div>
+            <div class="form-group">
+                <label>الوصف الترويجي:</label>
+                <textarea id="setting-heroSubtitle" rows="3"></textarea>
+            </div>
+            <button onclick="saveSettings()">حفظ العناوين والنصوص</button>
         </div>
 
-        <div class="bg-neutral-950/60 p-6 rounded-2xl border border-amber-900/30">
-            <h3 class="text-lg font-bold text-amber-400 mb-4">📦 إضافة منتج رجالي جديد (مع ضغط ذكي للصور وتحديث لحظي)</h3>
-            <form id="productForm" onsubmit="addProduct(event)" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <label class="block text-sm text-neutral-400 mb-1">اسم المنتج</label>
-                    <input type="text" id="pName" required placeholder="مثال: بدلة كلاسيكية فاخرة" class="w-full bg-neutral-900 border border-amber-900/40 rounded-xl px-4 py-2.5 text-white">
-                </div>
-                <div>
-                    <label class="block text-sm text-neutral-400 mb-1">القسم الرجالي</label>
-                    <select id="pCategory" class="w-full bg-neutral-900 border border-amber-900/40 rounded-xl px-4 py-2.5 text-white">
-                        <option value="classic">🧥 بدلات وكلاسيك</option>
-                        <option value="pants">👖 بناطيل</option>
-                        <option value="shoes">👟 كوتشيات وأحذية</option>
-                    </select>
-                </div>
-                <div class="md:col-span-2">
-                    <label class="block text-sm text-neutral-400 mb-1">اختر صور المنتج من جهازك (موبايل أو لابتوب):</label>
-                    <input type="file" id="pImageFiles" multiple accept="image/*" required class="w-full bg-neutral-900 border border-amber-900/40 rounded-xl p-2.5 text-white file:bg-amber-500 file:text-black file:border-0 file:rounded-lg file:px-4 file:py-1 file:font-bold cursor-pointer">
-                    <p class="text-xs text-amber-400/70 mt-1">✨ يتم ضغط جودة الصور تلقائياً لتعمل بسرعة صفرية بدون أي تهنيج.</p>
-                </div>
-                <div>
-                    <label class="block text-sm text-neutral-400 mb-1">السعر (ر.س)</label>
-                    <input type="number" id="pPrice" placeholder="350" class="w-full bg-neutral-900 border border-amber-900/40 rounded-xl px-4 py-2.5 text-white">
-                </div>
-                <div class="flex items-center gap-3 pt-6">
-                    <input type="checkbox" id="showPriceCheck" checked class="w-5 h-5 accent-amber-500">
-                    <label for="showPriceCheck" class="text-sm text-white">إظهار السعر</label>
-                </div>
-                <div class="md:col-span-2">
-                    <label class="block text-sm text-neutral-400 mb-1">وصف المنتج</label>
-                    <textarea id="pDesc" rows="2" placeholder="تفاصيل المقاسات والخامات..." class="w-full bg-neutral-900 border border-amber-900/40 rounded-xl px-4 py-2.5 text-white"></textarea>
-                </div>
-                <div class="md:col-span-2">
-                    <button type="submit" id="submitBtn" class="w-full amber-gradient text-black font-extrabold py-3 rounded-xl shadow-xl hover:opacity-90 transition">نشر سحابياً لكل هواتف العالم وفي نفس الثانية 🚀</button>
-                </div>
-            </form>
+        <!-- 2. إعدادات العرض العلوي والوقت -->
+        <div class="section-box">
+            <h2>إدارة شريط العروض والتوقيت المباشر</h2>
+            <div class="form-group">
+                <label>تفعيل شريط العرض العلوي:</label>
+                <select id="setting-promoActive">
+                    <option value="true">مفعل (يظهر فوق)</option>
+                    <option value="false">مخفي</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>نص العرض:</label>
+                <input type="text" id="setting-promoText">
+            </div>
+            <div class="form-group">
+                <label>تاريخ ووقت انتهاء العرض (اختر الوقت المستهدف):</label>
+                <input type="datetime-local" id="setting-promoEndTime">
+            </div>
+            <button onclick="savePromoSettings()">حفظ إعدادات العرض</button>
         </div>
 
-        <h3 class="text-lg font-bold text-white mb-2">إدارة وحذف المنتجات الحالية:</h3>
-        <div id="adminProductsList" class="space-y-3 max-h-60 overflow-y-auto pr-2"></div>
+        <!-- 3. إدارة المنتجات والأقسام -->
+        <div class="section-box">
+            <h2>إضافة منتج جديد</h2>
+            <div class="form-group">
+                <label>اسم المنتج:</label>
+                <input type="text" id="prod-name" placeholder="مثال: بدلة كلاسيكية سوداء">
+            </div>
+            <div class="form-group">
+                <label>السعر:</label>
+                <input type="text" id="prod-price" placeholder="مثال: 1200 ج.م">
+            </div>
+            <div class="form-group">
+                <label>القسم:</label>
+                <select id="prod-category">
+                    <option value="suits">بدلات وكلاسيك</option>
+                    <option value="pants">بناطل</option>
+                    <option value="shoes">كوتشيات وأحذية</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>رابط صورة المنتج (URL):</label>
+                <input type="text" id="prod-img" placeholder="ضع رابط الصورة هنا">
+            </div>
+            <button onclick="addProduct()">إضافة المنتج للمتجر</button>
+
+            <h2>المنتجات الحالية</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>اسم المنتج</th>
+                        <th>السعر</th>
+                        <th>القسم</th>
+                        <th>إجراء</th>
+                    </tr>
+                </span>
+                <tbody id="products-table-body">
+                    <!-- تعبئة المنتجات تلقائياً -->
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <script>
-        // إعدادات مشروعك السحابي الرسمي (fashionstore-f92b6)
-        const firebaseConfig = {
-            apiKey: "AIzaSyD0zBcQYBgL580vQT6NB0Bo03nm84ncXg",
-            authDomain: "fashionstore-f92b6.firebaseapp.com",
-            projectId: "fashionstore-f92b6",
-            storageBucket: "fashionstore-f92b6.appspot.com",
-            messagingSenderId: "787445522859",
-            appId: "1:787445522859:web:79f508718ed066632472ee"
-        };
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
-
-        function checkLogin() {
-            if (document.getElementById('adminPass').value === '1234') {
-                localStorage.setItem('is_admin_logged', 'true');
-                showPanel();
-            } else { alert('كلمة المرور خطأ!'); }
-        }
-        function showPanel() {
-            document.getElementById('loginModal').classList.add('hidden');
-            document.getElementById('adminPanel').classList.remove('hidden');
-            loadAdminProducts();
-        }
-        function logout() { localStorage.removeItem('is_admin_logged'); location.reload(); }
-        if (localStorage.getItem('is_admin_logged') === 'true') { showPanel(); }
-
-        function compressImage(file) {
-            return new Promise((resolve) => {
-                const reader = new FileReader();
-                reader.onload = (event) => {
-                    const img = new Image();
-                    img.onload = () => {
-                        const canvas = document.createElement('canvas');
-                        const ctx = canvas.getContext('2d');
-                        let width = img.width, height = img.height;
-                        const maxDim = 800;
-                        if (width > height && width > maxDim) { height *= maxDim / width; width = maxDim; }
-                        else if (height > maxDim) { width *= maxDim / height; height = maxDim; }
-                        canvas.width = width; canvas.height = height;
-                        ctx.drawImage(img, 0, 0, width, height);
-                        resolve(canvas.toDataURL('image/jpeg', 0.7));
-                    };
-                    img.src = event.target.result;
-                };
-                reader.readAsDataURL(file);
-            });
-        }
-
-        async function addProduct(e) {
-            e.preventDefault();
-            const btn = document.getElementById('submitBtn');
-            btn.innerText = "جاري معالجة الصور والنشر السحابي العالمي...";
-            btn.disabled = true;
-
-            const fileInput = document.getElementById('pImageFiles');
-            const files = fileInput.files;
-            const compressedImages = [];
-            for (let i = 0; i < files.length; i++) {
-                compressedImages.push(await compressImage(files[i]));
-            }
-
-            const productId = Date.now().toString();
-            const newProduct = {
-                id: productId,
-                name: document.getElementById('pName').value,
-                category: document.getElementById('pCategory').value,
-                images: compressedImages,
-                price: document.getElementById('pPrice').value,
-                showPrice: document.getElementById('showPriceCheck').checked,
-                desc: document.getElementById('pDesc').value,
-                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        // تحميل البيانات الحالية عند فتح لوحة التحكم
+        window.addEventListener('DOMContentLoaded', () => {
+            const settings = JSON.parse(localStorage.getItem('store_settings')) || {
+                storeName: "MEN'S LUXURY",
+                heroTitle: "ارتق بأناقتك مع تشكيلة رجالية فاخرة",
+                heroSubtitle: "تسوق أحدث صيحات الموضة الرجالية الكلاسيكية...",
+                promoActive: true,
+                promoText: "🔥 خصم حصري على كافة المنتجات لفترة محدودة!"
             };
 
-            await db.collection("products").doc(productId).set(newProduct);
-            document.getElementById('productForm').reset();
-            loadAdminProducts();
-            alert('تم النشر السحابي وظهر المنتج في جميع هواتف العالم في نفس الثانية!');
-            btn.innerText = "نشر سحابياً لكل هواتف العالم وفي نفس الثانية 🚀";
-            btn.disabled = false;
+            document.getElementById('setting-storeName').value = settings.storeName;
+            document.getElementById('setting-heroTitle').value = settings.heroTitle;
+            document.getElementById('setting-heroSubtitle').value = settings.heroSubtitle;
+            document.getElementById('setting-promoActive').value = settings.promoActive ? "true" : "false";
+            document.getElementById('setting-promoText').value = settings.promoText;
+
+            renderProductsTable();
+        });
+
+        function saveSettings() {
+            const settings = JSON.parse(localStorage.getItem('store_settings')) || {};
+            settings.storeName = document.getElementById('setting-storeName').value;
+            settings.heroTitle = document.getElementById('setting-heroTitle').value;
+            settings.heroSubtitle = document.getElementById('setting-heroSubtitle').value;
+            localStorage.setItem('store_settings', JSON.stringify(settings));
+            alert("تم حفظ العناوين بنجاح! اذهب للمتجر لرؤية التغييرات.");
         }
 
-        async function deleteProduct(id) {
-            await db.collection("products").doc(id).delete();
-            loadAdminProducts();
+        function savePromoSettings() {
+            const settings = JSON.parse(localStorage.getItem('store_settings')) || {};
+            settings.promoActive = document.getElementById('setting-promoActive').value === "true";
+            settings.promoText = document.getElementById('setting-promoText').value;
+            
+            const datetimeInput = document.getElementById('setting-promoEndTime').value;
+            if (datetimeInput) {
+                settings.promoEndTime = new Date(datetimeInput).getTime();
+            } else {
+                settings.promoEndTime = new Date().getTime() + (24 * 60 * 60 * 1000);
+            }
+
+            localStorage.setItem('store_settings', JSON.stringify(settings));
+            alert("تم تحديث شريط العروض والوقت بنجاح!");
         }
 
-        function loadAdminProducts() {
-            const list = document.getElementById('adminProductsList');
-            db.collection("products").orderBy("createdAt", "desc").get().then((snapshot) => {
-                list.innerHTML = '';
-                snapshot.forEach((doc) => {
-                    const p = doc.data();
-                    list.innerHTML += `
-                        <div class="bg-neutral-900 border border-amber-900/30 p-4 rounded-xl flex justify-between items-center">
-                            <div class="flex items-center gap-3">
-                                <img src="${p.images && p.images[0] ? p.images[0] : ''}" class="w-12 h-12 rounded-lg object-cover">
-                                <div>
-                                    <h4 class="font-bold text-white text-sm">${p.name}</h4>
-                                    <span class="text-xs text-amber-400">${p.category} | ${p.price || ''} ر.س</span>
-                                </div>
-                            </div>
-                            <button onclick="deleteProduct('${p.id}')" class="bg-red-500/10 text-red-400 px-3 py-1.5 rounded-lg text-xs hover:bg-red-600 transition">حذف</button>
-                        </div>
-                    `;
-                });
+        function addProduct() {
+            const name = document.getElementById('prod-name').value;
+            const price = document.getElementById('prod-price').value;
+            const category = document.getElementById('prod-category').value;
+            const img = document.getElementById('prod-img').value;
+
+            if (!name || !price || !img) {
+                alert("الرجاء ملء جميع بيانات المنتج!");
+                return;
+            }
+
+            const products = JSON.parse(localStorage.getItem('store_products')) || [];
+            products.push({ id: Date.now(), name, price, category, img });
+            localStorage.setItem('store_products', JSON.stringify(products));
+
+            document.getElementById('prod-name').value = '';
+            document.getElementById('prod-price').value = '';
+            document.getElementById('prod-img').value = '';
+
+            renderProductsTable();
+            alert("تم إضافة المنتج بنجاح!");
+        }
+
+        function deleteProduct(id) {
+            let products = JSON.parse(localStorage.getItem('store_products')) || [];
+            products = products.filter(p => p.id !== id);
+            localStorage.setItem('store_products', JSON.stringify(products));
+            renderProductsTable();
+        }
+
+        function renderProductsTable() {
+            const products = JSON.parse(localStorage.getItem('store_products')) || [];
+            const tbody = document.getElementById('products-table-body');
+            tbody.innerHTML = '';
+
+            products.forEach(p => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${p.name}</td>
+                        <td>${p.price}</td>
+                        <td>${p.category}</td>
+                        <td><button class="del-btn" onclick="deleteProduct(${p.id})">حذف</button></td>
+                    </tr>
+                `;
             });
         }
     </script>
