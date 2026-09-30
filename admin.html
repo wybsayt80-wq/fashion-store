@@ -17,7 +17,7 @@
 <body class="min-h-screen p-4 md:p-8 flex justify-center">
 
     <div id="loginModal" class="glass-card p-8 rounded-3xl w-full max-w-md shadow-2xl text-center self-center">
-        <h2 class="text-2xl font-black text-amber-400 mb-2">تسجيل دخول الأدمن العالمى 🔐</h2>
+        <h2 class="text-2xl font-black text-amber-400 mb-2">تسجيل دخول الأدمن العالمي 🔐</h2>
         <p class="text-neutral-400 text-sm mb-6">كلمة المرور الافتراضية: 1234</p>
         <input type="password" id="adminPass" placeholder="كلمة المرور" class="w-full bg-neutral-950 border border-amber-900/40 rounded-xl px-4 py-3 text-white mb-4 text-center text-lg tracking-widest focus:outline-none focus:border-amber-500">
         <button onclick="checkLogin()" class="w-full amber-gradient text-black font-extrabold py-3 rounded-xl transition shadow-xl hover:opacity-90">دخول لوحة التحكم</button>
@@ -25,18 +25,16 @@
     </div>
 
     <div id="adminPanel" class="hidden w-full max-w-5xl glass-card p-6 md:p-8 rounded-3xl shadow-2xl space-y-8">
-        
         <div class="flex justify-between items-center pb-4 border-b border-amber-900/30">
-            <h1 class="text-2xl font-black text-amber-400">⚡ لوحة التحكم السحابية المباشرة (تحديث فوري عالمي)</h1>
+            <h1 class="text-2xl font-black text-amber-400">⚡ لوحة التحكم السحابية المباشرة (تحديث فوري لكل الدول)</h1>
             <div class="flex gap-3">
-                <a href="index.html" target="_blank" class="bg-amber-500/10 text-amber-300 border border-amber-500/30 px-4 py-2 rounded-xl text-sm font-semibold hover:bg-amber-500 hover:text-black transition">عرض الموقع ↗</a>
-                <button onclick="logout()" class="bg-red-500/10 text-red-400 border border-red-500/30 px-4 py-2 rounded-xl text-sm font-semibold hover:bg-red-600 hover:text-white transition">خروج</button>
+                <a href="index.html" target="_blank" class="bg-amber-500/10 text-amber-300 border border-amber-500/30 px-4 py-2 rounded-xl text-sm font-semibold">عرض الموقع ↗</a>
+                <button onclick="logout()" class="bg-red-500/10 text-red-400 border border-red-500/30 px-4 py-2 rounded-xl text-sm font-semibold">خروج</button>
             </div>
         </div>
 
-        <!-- 1. إضافة منتج مع محرك ضغط وضبط جودة الصور تلقائياً لمنع أي ثقل أو تهنيج -->
         <div class="bg-neutral-950/60 p-6 rounded-2xl border border-amber-900/30">
-            <h3 class="text-lg font-bold text-amber-400 mb-4">📦 إضافة منتج جديد (مع ضغط وضبط جودة الصور تلقائياً)</h3>
+            <h3 class="text-lg font-bold text-amber-400 mb-4">📦 إضافة منتج رجالي جديد (مع ضغط ذكي للصور وتحديث لحظي)</h3>
             <form id="productForm" onsubmit="addProduct(event)" class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                     <label class="block text-sm text-neutral-400 mb-1">اسم المنتج</label>
@@ -51,9 +49,9 @@
                     </select>
                 </div>
                 <div class="md:col-span-2">
-                    <label class="block text-sm text-neutral-400 mb-1">اختر الصور من جهازك (موبايل أو لابتوب - حتى 10 صور):</label>
+                    <label class="block text-sm text-neutral-400 mb-1">اختر صور المنتج من جهازك (موبايل أو لابتوب):</label>
                     <input type="file" id="pImageFiles" multiple accept="image/*" required class="w-full bg-neutral-900 border border-amber-900/40 rounded-xl p-2.5 text-white file:bg-amber-500 file:text-black file:border-0 file:rounded-lg file:px-4 file:py-1 file:font-bold cursor-pointer">
-                    <p class="text-xs text-amber-400/70 mt-1">✨ يتم ضغط وحفظ جودة الصور برمجياً تلقائياً لتعمل بسرعة صفرية بدون أي بطء.</p>
+                    <p class="text-xs text-amber-400/70 mt-1">✨ يتم ضغط جودة الصور تلقائياً لتعمل بسرعة صفرية بدون أي تهنيج.</p>
                 </div>
                 <div>
                     <label class="block text-sm text-neutral-400 mb-1">السعر (ر.س)</label>
@@ -61,68 +59,14 @@
                 </div>
                 <div class="flex items-center gap-3 pt-6">
                     <input type="checkbox" id="showPriceCheck" checked class="w-5 h-5 accent-amber-500">
-                    <label for="showPriceCheck" class="text-sm text-white">إظهار السعر في الصفحة الرئيسية</label>
+                    <label for="showPriceCheck" class="text-sm text-white">إظهار السعر</label>
                 </div>
                 <div class="md:col-span-2">
                     <label class="block text-sm text-neutral-400 mb-1">وصف المنتج</label>
                     <textarea id="pDesc" rows="2" placeholder="تفاصيل المقاسات والخامات..." class="w-full bg-neutral-900 border border-amber-900/40 rounded-xl px-4 py-2.5 text-white"></textarea>
                 </div>
                 <div class="md:col-span-2">
-                    <button type="submit" id="submitBtn" class="w-full amber-gradient text-black font-extrabold py-3 rounded-xl transition shadow-xl hover:opacity-90">نشر المنتج فوراً وسحابياً لكل تليفونات العالم 🚀</button>
-                </div>
-            </form>
-        </div>
-
-        <!-- 2. إدارة العروض الموقوتة -->
-        <div class="bg-neutral-950/60 p-6 rounded-2xl border border-amber-900/30">
-            <h3 class="text-lg font-bold text-amber-400 mb-4">🔥 إدارة العروض الموقوتة (مع ضغط صورة العرض)</h3>
-            <form onsubmit="saveOffer(event)" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <input type="text" id="offerTitle" required placeholder="عنوان العرض" class="bg-neutral-900 border border-amber-900/40 rounded-xl px-4 py-2.5 text-white text-sm">
-                <input type="number" id="offerPrice" required placeholder="سعر العرض (ر.س)" class="bg-neutral-900 border border-amber-900/40 rounded-xl px-4 py-2.5 text-white text-sm">
-                <div class="md:col-span-2">
-                    <label class="block text-xs text-neutral-400 mb-1">صورة العرض:</label>
-                    <input type="file" id="offerImageFile" accept="image/*" class="w-full bg-neutral-900 border border-amber-900/40 rounded-xl p-2 text-white file:bg-amber-500 file:text-black file:border-0 file:rounded-lg file:px-3 file:py-1 file:font-bold cursor-pointer">
-                </div>
-                <div class="md:col-span-2">
-                    <label class="block text-xs text-neutral-400 mb-1">تاريخ ووقت انتهاء العرض:</label>
-                    <input type="datetime-local" id="offerEndTime" required class="w-full bg-neutral-900 border border-amber-900/40 rounded-xl px-4 py-2.5 text-white text-sm">
-                </div>
-                <div class="md:col-span-2">
-                    <button type="submit" class="w-full bg-amber-600 hover:bg-amber-500 text-black font-extrabold py-2.5 rounded-xl transition">تفعيل العرض سحابياً</button>
-                </div>
-            </form>
-        </div>
-
-        <!-- 3. التحكم الكامل في النصوص والعناوين -->
-        <div class="bg-neutral-950/60 p-6 rounded-2xl border border-amber-900/30">
-            <h3 class="text-lg font-bold text-amber-400 mb-4">🎨 التحكم في العناوين والنصوص والألوان</h3>
-            <form onsubmit="saveSettings(event)" class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                    <label class="block text-xs text-neutral-400 mb-1">اسم المتجر</label>
-                    <input type="text" id="settingBrand" class="w-full bg-neutral-900 border border-amber-900/40 rounded-xl px-4 py-2 text-white text-sm">
-                </div>
-                <div>
-                    <label class="block text-xs text-neutral-400 mb-1">عنوان الصفحة</label>
-                    <input type="text" id="settingTitle" class="w-full bg-neutral-900 border border-amber-900/40 rounded-xl px-4 py-2 text-white text-sm">
-                </div>
-                <div>
-                    <label class="block text-xs text-neutral-400 mb-1">العنوان الفرعي (الهيرو)</label>
-                    <input type="text" id="settingHeroSub" class="w-full bg-neutral-900 border border-amber-900/40 rounded-xl px-4 py-2 text-white text-sm">
-                </div>
-                <div>
-                    <label class="block text-xs text-neutral-400 mb-1">العنوان الرئيسي (الهيرو)</label>
-                    <input type="text" id="settingHeroTitle" class="w-full bg-neutral-900 border border-amber-900/40 rounded-xl px-4 py-2 text-white text-sm">
-                </div>
-                <div class="md:col-span-2">
-                    <label class="block text-xs text-neutral-400 mb-1">وصف الهيرو</label>
-                    <input type="text" id="settingHeroDesc" class="w-full bg-neutral-900 border border-amber-900/40 rounded-xl px-4 py-2 text-white text-sm">
-                </div>
-                <div>
-                    <label class="block text-xs text-neutral-400 mb-1">عنوان قسم المنتجات</label>
-                    <input type="text" id="settingGridTitle" class="w-full bg-neutral-900 border border-amber-900/40 rounded-xl px-4 py-2 text-white text-sm">
-                </div>
-                <div class="md:col-span-2">
-                    <button type="submit" class="w-full amber-gradient text-black font-extrabold py-3 rounded-xl transition shadow-xl hover:opacity-90">حفظ الإعدادات بالكامل 🌟</button>
+                    <button type="submit" id="submitBtn" class="w-full amber-gradient text-black font-extrabold py-3 rounded-xl shadow-xl hover:opacity-90 transition">نشر سحابياً لكل هواتف العالم وفي نفس الثانية 🚀</button>
                 </div>
             </form>
         </div>
@@ -132,14 +76,16 @@
     </div>
 
     <script>
+        // إعدادات مشروعك السحابي الرسمي (fashionstore-f92b6)
         const firebaseConfig = {
-            apiKey: "AIzaSyD-MockKeyForGlobalSync-12345",
-            authDomain: "global-fashion-store.firebaseapp.com",
-            projectId: "global-fashion-store"
+            apiKey: "AIzaSyD0zBcQYBgL580vQT6NB0Bo03nm84ncXg",
+            authDomain: "fashionstore-f92b6.firebaseapp.com",
+            projectId: "fashionstore-f92b6",
+            storageBucket: "fashionstore-f92b6.appspot.com",
+            messagingSenderId: "787445522859",
+            appId: "1:787445522859:web:79f508718ed066632472ee"
         };
-        if (!firebase.apps.length) {
-            firebase.initializeApp(firebaseConfig);
-        }
+        firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
         function checkLogin() {
@@ -156,7 +102,6 @@
         function logout() { localStorage.removeItem('is_admin_logged'); location.reload(); }
         if (localStorage.getItem('is_admin_logged') === 'true') { showPanel(); }
 
-        // محرك ذكي لضغط وضبط جودة الصور برمجياً ومنع أي ثقل في الويبسايت
         function compressImage(file) {
             return new Promise((resolve) => {
                 const reader = new FileReader();
@@ -165,24 +110,12 @@
                     img.onload = () => {
                         const canvas = document.createElement('canvas');
                         const ctx = canvas.getContext('2d');
-                        let width = img.width;
-                        let height = img.height;
-                        
-                        // تصغير الأبعاد تلقائياً لو الصورة كبيرة لضمان السرعة الصفرية
+                        let width = img.width, height = img.height;
                         const maxDim = 800;
-                        if (width > height && width > maxDim) {
-                            height *= maxDim / width;
-                            width = maxDim;
-                        } else if (height > maxDim) {
-                            width *= maxDim / height;
-                            height = maxDim;
-                        }
-
-                        canvas.width = width;
-                        canvas.height = height;
+                        if (width > height && width > maxDim) { height *= maxDim / width; width = maxDim; }
+                        else if (height > maxDim) { width *= maxDim / height; height = maxDim; }
+                        canvas.width = width; canvas.height = height;
                         ctx.drawImage(img, 0, 0, width, height);
-                        
-                        // ضغط الجودة لـ 70% للحفاظ على خفة الويبسايت تماماً
                         resolve(canvas.toDataURL('image/jpeg', 0.7));
                     };
                     img.src = event.target.result;
@@ -194,16 +127,14 @@
         async function addProduct(e) {
             e.preventDefault();
             const btn = document.getElementById('submitBtn');
-            btn.innerText = "جاري ضغط وضبط جودة الصور والنشر السحابي...";
+            btn.innerText = "جاري معالجة الصور والنشر السحابي العالمي...";
             btn.disabled = true;
 
             const fileInput = document.getElementById('pImageFiles');
             const files = fileInput.files;
             const compressedImages = [];
-
             for (let i = 0; i < files.length; i++) {
-                const compressed = await compressImage(files[i]);
-                compressedImages.push(compressed);
+                compressedImages.push(await compressImage(files[i]));
             }
 
             const productId = Date.now().toString();
@@ -214,88 +145,39 @@
                 images: compressedImages,
                 price: document.getElementById('pPrice').value,
                 showPrice: document.getElementById('showPriceCheck').checked,
-                desc: document.getElementById('pDesc').value
+                desc: document.getElementById('pDesc').value,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
             };
 
-            try {
-                // إرسال المنتج لقاعدة البيانات السحابية العالمية ليظهر في نفس الثانية بكل هواتف العالم
-                await db.collection("products").doc(productId).set(newProduct);
-                document.getElementById('productForm').reset();
-                loadAdminProducts();
-                alert('تم نشر المنتج سحابياً وظهر في كل الهواتف بالعاصمة وكل العالم في نفس الثانية!');
-            } catch (err) {
-                // حفظ احتياطي محلي لو قطع الإنترنت
-                let localP = JSON.parse(localStorage.getItem('cloud_products') || '[]');
-                localP.unshift(newProduct);
-                localStorage.setItem('cloud_products', JSON.stringify(localP));
-                alert('تم الحفظ بنجاح وتحديث النظام.');
-            }
-
-            btn.innerText = "نشر المنتج فوراً وسحابياً لكل تليفونات العالم 🚀";
+            await db.collection("products").doc(productId).set(newProduct);
+            document.getElementById('productForm').reset();
+            loadAdminProducts();
+            alert('تم النشر السحابي وظهر المنتج في جميع هواتف العالم في نفس الثانية!');
+            btn.innerText = "نشر سحابياً لكل هواتف العالم وفي نفس الثانية 🚀";
             btn.disabled = false;
         }
 
-        async function saveOffer(e) {
-            e.preventDefault();
-            const fileInput = document.getElementById('offerImageFile');
-            let imgBase64 = '';
-            if(fileInput.files.length > 0) {
-                imgBase64 = await compressImage(fileInput.files[0]);
-            }
-            const offer = {
-                title: document.getElementById('offerTitle').value,
-                price: document.getElementById('offerPrice').value,
-                image: imgBase64,
-                endTime: document.getElementById('offerEndTime').value
-            };
-            localStorage.setItem('store_offer', JSON.stringify(offer));
-            alert('تم تفعيل العرض بنجاح!');
-        }
-
-        function saveSettings(e) {
-            e.preventDefault();
-            const settings = {
-                siteName: document.getElementById('settingBrand').value,
-                siteTitle: document.getElementById('settingTitle').value,
-                heroSubtitle: document.getElementById('settingHeroSub').value,
-                heroTitle: document.getElementById('settingHeroTitle').value,
-                heroDesc: document.getElementById('settingHeroDesc').value,
-                sectionGridTitle: document.getElementById('settingGridTitle').value
-            };
-            localStorage.setItem('store_settings', JSON.stringify(settings));
-            alert('تم حفظ إعدادات وتصميم المتجر بنجاح!');
-        }
-
         async function deleteProduct(id) {
-            try {
-                await db.collection("products").doc(id.toString()).delete();
-            } catch(e) {}
-            let products = JSON.parse(localStorage.getItem('cloud_products') || '[]');
-            products = products.filter(p => p.id != id);
-            localStorage.setItem('cloud_products', JSON.stringify(products));
+            await db.collection("products").doc(id).delete();
             loadAdminProducts();
         }
 
         function loadAdminProducts() {
             const list = document.getElementById('adminProductsList');
-            db.collection("products").orderBy("id", "desc").get().then((snapshot) => {
+            db.collection("products").orderBy("createdAt", "desc").get().then((snapshot) => {
                 list.innerHTML = '';
-                if(snapshot.empty) {
-                    list.innerHTML = `<p class="text-neutral-500 text-center py-4">لا توجد منتجات مسجلة.</p>`;
-                    return;
-                }
                 snapshot.forEach((doc) => {
                     const p = doc.data();
                     list.innerHTML += `
                         <div class="bg-neutral-900 border border-amber-900/30 p-4 rounded-xl flex justify-between items-center">
                             <div class="flex items-center gap-3">
                                 <img src="${p.images && p.images[0] ? p.images[0] : ''}" class="w-12 h-12 rounded-lg object-cover">
-                               <div>
+                                <div>
                                     <h4 class="font-bold text-white text-sm">${p.name}</h4>
-                                    <span class="text-xs text-amber-400">${p.category} | ${p.price || 'بدون سعر'} ر.س</span>
+                                    <span class="text-xs text-amber-400">${p.category} | ${p.price || ''} ر.س</span>
                                 </div>
                             </div>
-                            <button onclick="deleteProduct('${p.id}')" class="bg-red-500/10 text-red-400 px-3 py-1.5 rounded-lg text-xs hover:bg-red-600 hover:text-white transition">حذف</button>
+                            <button onclick="deleteProduct('${p.id}')" class="bg-red-500/10 text-red-400 px-3 py-1.5 rounded-lg text-xs hover:bg-red-600 transition">حذف</button>
                         </div>
                     `;
                 });
