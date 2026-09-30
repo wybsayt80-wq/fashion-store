@@ -3,32 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>متجر الأزياء العصري | الصفحة الرئيسية</title>
+    <title>المتجر العصري الفاخر | الصفحة الرئيسية</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Cairo', sans-serif; background-color: #0b0f19; color: #f3f4f6; }
-        .neon-glow { text-shadow: 0 0 15px rgba(168, 85, 247, 0.6); }
-        .glass-card { background: rgba(17, 24, 39, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(168, 85, 247, 0.2); }
+        body { font-family: 'Cairo', sans-serif; background-color: #12100e; color: #f3f4f6; }
+        .gold-glow { text-shadow: 0 0 20px rgba(212, 175, 55, 0.4); }
+        .glass-card { background: rgba(26, 22, 18, 0.85); backdrop-filter: blur(12px); border: 1px solid rgba(212, 175, 55, 0.25); }
+        .amber-gradient { background: linear-gradient(135deg, #d4af37 0%, #b8860b 100%); }
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
 
     <!-- شريط التنقل العلوي -->
-    <header class="glass-card sticky top-0 z-50 py-4 px-6 flex justify-between items-center shadow-lg">
-        <h1 class="text-2xl font-black text-purple-400 neon-glow">✨ FASHION STORE</h1>
+    <header class="glass-card sticky top-0 z-50 py-4 px-6 flex justify-between items-center shadow-2xl border-b border-amber-900/30">
+        <h1 class="text-2xl font-black text-amber-400 gold-glow tracking-wider">✨ LUXURY STORE</h1>
         <div class="flex gap-4">
-            <a href="admin.html" target="_blank" class="text-xs bg-purple-600/30 border border-purple-500/50 px-3 py-2 rounded-xl text-purple-300 hover:bg-purple-600 hover:text-white transition">دخول الأدمن 🔒</a>
+            <a href="admin.html" target="_blank" class="text-xs amber-gradient text-black font-extrabold px-4 py-2.5 rounded-xl shadow-lg hover:opacity-90 transition">دخول الأدمن 🔒</a>
         </div>
     </header>
 
     <!-- الأقسام الرئيسية -->
     <main class="flex-grow container mx-auto px-4 py-8">
-        <div class="flex justify-center gap-4 mb-8">
-            <button onclick="filterCategory('all')" class="cat-btn active px-6 py-2 rounded-full bg-purple-600 text-white font-bold transition shadow-lg shadow-purple-600/30">الكل</button>
-            <button onclick="filterCategory('men')" class="cat-btn px-6 py-2 rounded-full bg-gray-800 text-gray-300 hover:bg-purple-900/50 transition">رجالي 👔</button>
-            <button onclick="filterCategory('women')" class="cat-btn px-6 py-2 rounded-full bg-gray-800 text-gray-300 hover:bg-purple-900/50 transition">نسائي 👗</button>
-            <button onclick="filterCategory('kids')" class="cat-btn px-6 py-2 rounded-full bg-gray-800 text-gray-300 hover:bg-purple-900/50 transition">أطفالي 🧸</button>
+        <div class="flex justify-center gap-3 mb-10 flex-wrap">
+            <button onclick="filterCategory('all')" class="cat-btn active px-6 py-2.5 rounded-full amber-gradient text-black font-extrabold transition shadow-lg">الكل</button>
+            <button onclick="filterCategory('men')" class="cat-btn px-6 py-2.5 rounded-full bg-neutral-900/80 border border-amber-900/30 text-amber-200 hover:bg-amber-950/40 transition">رجالي 👔</button>
+            <button onclick="filterCategory('women')" class="cat-btn px-6 py-2.5 rounded-full bg-neutral-900/80 border border-amber-900/30 text-amber-200 hover:bg-amber-950/40 transition">نسائي 👗</button>
+            <button onclick="filterCategory('kids')" class="cat-btn px-6 py-2.5 rounded-full bg-neutral-900/80 border border-amber-900/30 text-amber-200 hover:bg-amber-950/40 transition">أطفالي 🧸</button>
         </div>
 
         <!-- شبكة المنتجات -->
@@ -37,8 +38,8 @@
         </div>
     </main>
 
-    <footer class="text-center py-6 text-gray-500 text-sm border-t border-gray-800">
-        جميع الحقوق محفوظة © متجر الأزياء السحابي 2026
+    <footer class="text-center py-6 text-amber-500/50 text-sm border-t border-amber-900/20">
+        جميع الحقوق محفوظة © المتجر الفاخر 2026
     </footer>
 
     <script>
@@ -54,23 +55,23 @@
             const filtered = filter === 'all' ? products : products.filter(p => p.category === filter);
 
             if (filtered.length === 0) {
-                grid.innerHTML = `<div class="col-span-full text-center py-20 text-gray-400">لا توجد منتجات مضافة في هذا القسم حالياً...</div>`;
+                grid.innerHTML = `<div class="col-span-full text-center py-20 text-amber-500/60 font-semibold">لا توجد منتجات مضافة في هذا القسم حالياً...</div>`;
                 return;
             }
 
             filtered.forEach(p => {
                 grid.innerHTML += `
-                    <div class="glass-card rounded-2xl overflow-hidden shadow-xl hover:scale-[1.02] transition duration-300 flex flex-col">
-                        <img src="${p.image}" alt="${p.name}" class="w-full h-56 object-cover bg-gray-900" onerror="this.src='https://via.placeholder.com/300?text=No+Image'">
-                        <div class="p-4 flex flex-col flex-grow justify-between">
+                    <div class="glass-card rounded-2xl overflow-hidden shadow-2xl hover:scale-[1.02] transition duration-300 flex flex-col">
+                        <img src="${p.image}" alt="${p.name}" class="w-full h-60 object-cover bg-neutral-950" onerror="this.src='https://via.placeholder.com/300?text=No+Image'">
+                        <div class="p-5 flex flex-col flex-grow justify-between">
                             <div>
-                                <span class="text-xs text-purple-400 font-semibold uppercase">${p.category}</span>
+                                <span class="text-xs text-amber-400/80 font-bold uppercase tracking-wider">${p.category}</span>
                                 <h3 class="text-lg font-bold text-white mt-1">${p.name}</h3>
-                                <p class="text-gray-400 text-sm mt-1 line-clamp-2">${p.desc}</p>
+                                <p class="text-neutral-400 text-sm mt-1 line-clamp-2">${p.desc}</p>
                             </div>
-                            <div class="flex justify-between items-center mt-4 pt-4 border-t border-gray-800">
-                                <span class="text-xl font-black text-cyan-400">${p.price} ر.س</span>
-                                <button onclick="alert('تمت الإضافة للسلة بنجاح!')" class="bg-purple-600 hover:bg-purple-500 text-white px-4 py-2 rounded-xl text-sm font-bold transition">شراء الآن</button>
+                            <div class="flex justify-between items-center mt-5 pt-4 border-t border-amber-900/20">
+                                <span class="text-xl font-black text-amber-300">${p.price} ر.س</span>
+                                <button onclick="alert('تمت الإضافة للسلة بنجاح!')" class="amber-gradient text-black font-extrabold px-4 py-2 rounded-xl text-xs hover:opacity-90 transition shadow-md">شراء الآن</button>
                             </div>
                         </div>
                     </div>
@@ -80,17 +81,16 @@
 
         function filterCategory(cat) {
             document.querySelectorAll('.cat-btn').forEach(btn => {
-                btn.classList.remove('bg-purple-600', 'text-white', 'shadow-lg');
-                btn.classList.add('bg-gray-800', 'text-gray-300');
+                btn.classList.remove('amber-gradient', 'text-black', 'font-extrabold', 'shadow-lg');
+                btn.classList.add('bg-neutral-900/80', 'border', 'border-amber-900/30', 'text-amber-200');
             });
-            event.target.classList.remove('bg-gray-800', 'text-gray-300');
-            event.target.classList.add('bg-purple-600', 'text-white', 'shadow-lg');
+            event.target.classList.remove('bg-neutral-900/80', 'border', 'border-amber-900/30', 'text-amber-200');
+            event.target.classList.add('amber-gradient', 'text-black', 'font-extrabold', 'shadow-lg');
 
             const products = JSON.parse(localStorage.getItem('cloud_products') || '[]');
             renderProducts(products, cat);
         }
 
-        // تحديث فوري للمنتجات عند الإضافة من لوحة الأدمن في أي تبويب آخر
         window.addEventListener('storage', loadProducts);
         window.onload = loadProducts;
     </script>
