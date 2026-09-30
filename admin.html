@@ -3,35 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة التحكم الشاملة - إدارة المتجر</title>
+    <title>لوحة التحكم الشاملة - كيان جنس</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background-color: #0b0b0b; color: #fff; padding: 20px; }
-        .container { max-width: 900px; margin: 0 auto; background: #141414; padding: 30px; border-radius: 12px; border: 1px solid #222; }
+        .container { max-width: 1000px; margin: 0 auto; background: #141414; padding: 35px; border-radius: 14px; border: 1px solid #222; box-shadow: 0 10px 30px rgba(0,0,0,0.7); }
         h1, h2 { color: #d4af37; margin-bottom: 20px; border-bottom: 2px solid #222; padding-bottom: 10px; }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; color: #ccc; }
-        input, select, textarea { width: 100%; padding: 10px; background: #1a1a1a; border: 1px solid #333; color: #fff; border-radius: 6px; }
-        button { background: #d4af37; color: #000; border: none; padding: 12px 20px; font-weight: bold; border-radius: 6px; cursor: pointer; transition: 0.3s; margin-top: 10px; }
-        button:hover { background: #b8972b; }
-        .back-link { display: inline-block; margin-bottom: 20px; color: #d4af37; text-decoration: none; }
-        .section-box { margin-bottom: 40px; background: #181818; padding: 20px; border-radius: 8px; border: 1px solid #282828; }
-        table { width: 100%; margin-top: 15px; border-collapse: collapse; }
-        th, td { padding: 10px; border-bottom: 1px solid #333; text-align: right; font-size: 14px; }
+        .form-group { margin-bottom: 18px; }
+        label { display: block; margin-bottom: 6px; color: #ccc; font-weight: 500; }
+        input, select, textarea { width: 100%; padding: 12px; background: #1a1a1a; border: 1px solid #333; color: #fff; border-radius: 6px; font-size: 15px; }
+        button { background: #d4af37; color: #000; border: none; padding: 12px 25px; font-weight: bold; border-radius: 6px; cursor: pointer; transition: 0.3s; margin-top: 10px; font-size: 16px; }
+        button:hover { background: #b8972b; transform: translateY(-2px); }
+        .back-link { display: inline-block; margin-bottom: 25px; color: #d4af37; text-decoration: none; font-weight: bold; }
+        .section-box { margin-bottom: 45px; background: #181818; padding: 25px; border-radius: 10px; border: 1px solid #282828; }
+        table { width: 100%; margin-top: 20px; border-collapse: collapse; }
+        th, td { padding: 12px; border-bottom: 1px solid #333; text-align: right; font-size: 14px; }
         th { color: #d4af37; }
-        .del-btn { background: #cc3333; color: #fff; padding: 5px 10px; border: none; border-radius: 4px; cursor: pointer; }
-        .del-btn:hover { background: #aa2222; }
+        .action-btns { display: flex; gap: 8px; }
+        .edit-btn { background: #3377cc; color: #fff; padding: 6px 12px; border: none; border-radius: 4px; cursor: pointer; }
+        .del-btn { background: #cc3333; color: #fff; padding: 6px 12px; border: none; border-radius: 4px; cursor: pointer; }
+        .color-pickers { display: flex; gap: 15px; flex-wrap: wrap; }
+        .color-pickers div { flex: 1; min-width: 200px; }
     </style>
 </head>
 <body>
 
     <div class="container">
         <a href="index.html" class="back-link">← العودة إلى المتجر الرئيسي</a>
-        <h1>لوحة التحكم الشاملة للمتجر</h1>
+        <h1>لوحة التحكم الاحترافية - كيان جنس</h1>
 
-        <!-- 1. إعدادات النصوص والعناوين -->
+        <!-- 1. إعدادات النصوص، العناوين، والألوان -->
         <div class="section-box">
-            <h2>تعديل العناوين والنصوص والترويسة</h2>
+            <h2>إعدادات النصوص، العناوين، والألوان</h2>
             <div class="form-group">
                 <label>اسم المتجر:</label>
                 <input type="text" id="setting-storeName">
@@ -44,12 +47,30 @@
                 <label>الوصف الترويجي:</label>
                 <textarea id="setting-heroSubtitle" rows="3"></textarea>
             </div>
-            <button onclick="saveSettings()">حفظ العناوين والنصوص</button>
+            <div class="form-group color-pickers">
+                <div>
+                    <label>لون الخلفية العام:</label>
+                    <input type="color" id="setting-bgColor" value="#0d0d0d">
+                </div>
+                <div>
+                    <label>لون اللوحات والأقسام:</label>
+                    <input type="color" id="setting-panelBg" value="#141414">
+                </div>
+                <div>
+                    <label>لون التميز (الأزرار والعناوين):</label>
+                    <input type="color" id="setting-accentColor" value="#d4af37">
+                </div>
+            </div>
+            <div class="form-group" style="margin-top: 15px;">
+                <label>روابط صور الغلاف (حتى 10 صور، افصل بينها بفاصلة أو سطر جديد):</label>
+                <textarea id="setting-heroImages" rows="4" placeholder="ضع روابط الصور هنا..."></textarea>
+            </div>
+            <button onclick="saveSettings()">حفظ كافة إعدادات المظهر والنصوص</button>
         </div>
 
-        <!-- 2. إعدادات العرض العلوي والوقت -->
+        <!-- 2. إدارة شريط العروض والوقت والصور -->
         <div class="section-box">
-            <h2>إدارة شريط العروض والتوقيت المباشر</h2>
+            <h2>إدارة شريط العروض والتوقيت المباشر والصور الإضافية</h2>
             <div class="form-group">
                 <label>تفعيل شريط العرض العلوي:</label>
                 <select id="setting-promoActive">
@@ -62,15 +83,16 @@
                 <input type="text" id="setting-promoText">
             </div>
             <div class="form-group">
-                <label>تاريخ ووقت انتهاء العرض (اختر الوقت المستهدف):</label>
+                <label>تاريخ ووقت انتهاء العرض:</label>
                 <input type="datetime-local" id="setting-promoEndTime">
             </div>
             <button onclick="savePromoSettings()">حفظ إعدادات العرض</button>
         </div>
 
-        <!-- 3. إدارة المنتجات والأقسام -->
+        <!-- 3. إدارة المنتجات والأقسام (حتى 10 صور لكل منتج) -->
         <div class="section-box">
-            <h2>إضافة منتج جديد</h2>
+            <h2 id="form-heading">إضافة منتج جديد</h2>
+            <input type="hidden" id="edit-product-id" value="">
             <div class="form-group">
                 <label>اسم المنتج:</label>
                 <input type="text" id="prod-name" placeholder="مثال: بدلة كلاسيكية سوداء">
@@ -88,44 +110,52 @@
                 </select>
             </div>
             <div class="form-group">
-                <label>رابط صورة المنتج (URL):</label>
-                <input type="text" id="prod-img" placeholder="ضع رابط الصورة هنا">
+                <label>روابط صور المنتج (حتى 10 صور، ضع كل رابط في سطر أو افصل بينها بفاصلة):</label>
+                <textarea id="prod-imgs" rows="3" placeholder="ضع روابط الصور هنا..."></textarea>
             </div>
-            <button onclick="addProduct()">إضافة المنتج للمتجر</button>
+            <button onclick="saveProduct()" id="save-prod-btn">إضافة المنتج للمتجر</button>
 
-            <h2>المنتجات الحالية</h2>
+            <h2>المنتجات الحالية (إدارة وتعديل مباشر)</h2>
             <table>
                 <thead>
                     <tr>
                         <th>اسم المنتج</th>
                         <th>السعر</th>
                         <th>القسم</th>
-                        <th>إجراء</th>
+                        <th>إجراءات</th>
                     </tr>
-                </span>
+                </thead>
                 <tbody id="products-table-body">
-                    <!-- تعبئة المنتجات تلقائياً -->
+                    <!-- تعبئة تلقائية -->
                 </tbody>
             </table>
         </div>
     </div>
 
     <script>
-        // تحميل البيانات الحالية عند فتح لوحة التحكم
         window.addEventListener('DOMContentLoaded', () => {
             const settings = JSON.parse(localStorage.getItem('store_settings')) || {
-                storeName: "MEN'S LUXURY",
+                storeName: "كيان جنس",
                 heroTitle: "ارتق بأناقتك مع تشكيلة رجالية فاخرة",
                 heroSubtitle: "تسوق أحدث صيحات الموضة الرجالية الكلاسيكية...",
+                bgColor: "#0d0d0d",
+                panelBg: "#141414",
+                accentColor: "#d4af37",
+                textColor: "#ffffff",
                 promoActive: true,
-                promoText: "🔥 خصم حصري على كافة المنتجات لفترة محدودة!"
+                promoText: "🔥 خصم حصري على كافة المنتجات لفترة محدودة!",
+                heroImages: ["https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800"]
             };
 
             document.getElementById('setting-storeName').value = settings.storeName;
             document.getElementById('setting-heroTitle').value = settings.heroTitle;
             document.getElementById('setting-heroSubtitle').value = settings.heroSubtitle;
+            document.getElementById('setting-bgColor').value = settings.bgColor || "#0d0d0d";
+            document.getElementById('setting-panelBg').value = settings.panelBg || "#141414";
+            document.getElementById('setting-accentColor').value = settings.accentColor || "#d4af37";
             document.getElementById('setting-promoActive').value = settings.promoActive ? "true" : "false";
             document.getElementById('setting-promoText').value = settings.promoText;
+            document.getElementById('setting-heroImages').value = settings.heroImages ? settings.heroImages.join('\n') : '';
 
             renderProductsTable();
         });
@@ -135,47 +165,83 @@
             settings.storeName = document.getElementById('setting-storeName').value;
             settings.heroTitle = document.getElementById('setting-heroTitle').value;
             settings.heroSubtitle = document.getElementById('setting-heroSubtitle').value;
+            settings.bgColor = document.getElementById('setting-bgColor').value;
+            settings.panelBg = document.getElementById('setting-panelBg').value;
+            settings.accentColor = document.getElementById('setting-accentColor').value;
+            
+            const rawImgs = document.getElementById('setting-heroImages').value;
+            settings.heroImages = rawImgs.split(/[\n,]+/).map(s => s.trim()).filter(s => s.length > 0);
+
             localStorage.setItem('store_settings', JSON.stringify(settings));
-            alert("تم حفظ العناوين بنجاح! اذهب للمتجر لرؤية التغييرات.");
+            alert("تم حفظ إعدادات المظهر والعناوين بنجاح!");
         }
 
         function savePromoSettings() {
             const settings = JSON.parse(localStorage.getItem('store_settings')) || {};
             settings.promoActive = document.getElementById('setting-promoActive').value === "true";
             settings.promoText = document.getElementById('setting-promoText').value;
-            
             const datetimeInput = document.getElementById('setting-promoEndTime').value;
             if (datetimeInput) {
                 settings.promoEndTime = new Date(datetimeInput).getTime();
-            } else {
-                settings.promoEndTime = new Date().getTime() + (24 * 60 * 60 * 1000);
             }
-
             localStorage.setItem('store_settings', JSON.stringify(settings));
-            alert("تم تحديث شريط العروض والوقت بنجاح!");
+            alert("تم تحديث إعدادات العرض بنجاح!");
         }
 
-        function addProduct() {
+        function saveProduct() {
+            const editId = document.getElementById('edit-product-id').value;
             const name = document.getElementById('prod-name').value;
             const price = document.getElementById('prod-price').value;
             const category = document.getElementById('prod-category').value;
-            const img = document.getElementById('prod-img').value;
+            const rawImgs = document.getElementById('prod-imgs').value;
+            const imgs = rawImgs.split(/[\n,]+/).map(s => s.trim()).filter(s => s.length > 0);
 
-            if (!name || !price || !img) {
-                alert("الرجاء ملء جميع بيانات المنتج!");
+            if (!name || !price) {
+                alert("الرجاء إدخال اسم المنتج والسعر على الأقل!");
                 return;
             }
 
-            const products = JSON.parse(localStorage.getItem('store_products')) || [];
-            products.push({ id: Date.now(), name, price, category, img });
+            let products = JSON.parse(localStorage.getItem('store_products')) || [];
+
+            if (editId) {
+                // تعديل منتج موجود
+                products = products.map(p => {
+                    if (p.id == editId) {
+                        return { id: Number(editId), name, price, category, imgs: imgs.length > 0 ? imgs : p.imgs };
+                    }
+                    return p;
+                });
+                document.getElementById('edit-product-id').value = '';
+                document.getElementById('form-heading').innerText = "إضافة منتج جديد";
+                document.getElementById('save-prod-btn').innerText = "إضافة المنتج للمتجر";
+            } else {
+                // إضافة منتج جديد
+                products.push({ id: Date.now(), name, price, category, imgs });
+            }
+
             localStorage.setItem('store_products', JSON.stringify(products));
 
             document.getElementById('prod-name').value = '';
             document.getElementById('prod-price').value = '';
-            document.getElementById('prod-img').value = '';
+            document.getElementById('prod-imgs').value = '';
 
             renderProductsTable();
-            alert("تم إضافة المنتج بنجاح!");
+            alert("تم حفظ المنتج بنجاح وسيظهر في المتجر فوراً!");
+        }
+
+        function editProduct(id) {
+            const products = JSON.parse(localStorage.getItem('store_products')) || [];
+            const p = products.find(item => item.id == id);
+            if (p) {
+                document.getElementById('edit-product-id').value = p.id;
+                document.getElementById('prod-name').value = p.name;
+                document.getElementById('prod-price').value = p.price;
+                document.getElementById('prod-category').value = p.category;
+                document.getElementById('prod-imgs').value = p.imgs ? p.imgs.join('\n') : '';
+                document.getElementById('form-heading').innerText = "تعديل المنتج الحالي";
+                document.getElementById('save-prod-btn').innerText = "حفظ التعديلات";
+                window.scrollTo({ top: document.getElementById('form-heading').offsetTop, behavior: 'smooth' });
+            }
         }
 
         function deleteProduct(id) {
@@ -196,7 +262,12 @@
                         <td>${p.name}</td>
                         <td>${p.price}</td>
                         <td>${p.category}</td>
-                        <td><button class="del-btn" onclick="deleteProduct(${p.id})">حذف</button></td>
+                        <td>
+                            <div class="action-btns">
+                                <button class="edit-btn" onclick="editProduct(${p.id})">تعديل</button>
+                                <button class="del-btn" onclick="deleteProduct(${p.id})">حذف</button>
+                            </div>
+                        </td>
                     </tr>
                 `;
             });
