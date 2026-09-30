@@ -3,48 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="page-title">MEN'S LUXURY - المتجر الشامل</title>
+    <title id="page-title">كيان جنس - معرض الملابس الفاخرة</title>
     <style>
+        :root {
+            --bg-color: #0d0d0d;
+            --panel-bg: #141414;
+            --accent-color: #d4af37;
+            --text-color: #ffffff;
+            --secondary-text: #aaaaaa;
+        }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: #0d0d0d; color: #fff; line-height: 1.6; }
+        body { background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; transition: 0.3s; }
         
-        /* شريط العروض العلوي */
+        /* شريط العروض التنازلي العلوي */
         #promo-banner {
-            background: linear-gradient(135deg, #d4af37, #aa820a);
+            background: linear-gradient(135deg, var(--accent-color), #aa820a);
             color: #000;
             text-align: center;
-            padding: 10px;
+            padding: 12px;
             font-weight: bold;
-            font-size: 15px;
+            font-size: 16px;
             display: none;
             position: sticky;
             top: 0;
             z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            box-shadow: 0 2px 15px rgba(0,0,0,0.6);
         }
 
-        /* الهيدر */
+        /* الهيدر الاحترافي */
         header {
-            background-color: #141414;
-            padding: 15px 30px;
+            background-color: var(--panel-bg);
+            padding: 18px 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid #222;
         }
-        .logo { font-size: 22px; font-weight: bold; color: #d4af37; }
-        nav a { color: #ccc; text-decoration: none; margin-left: 20px; font-size: 14px; transition: 0.3s; }
-        nav a:hover { color: #d4af37; }
+        .logo { font-size: 24px; font-weight: bold; color: var(--accent-color); letter-spacing: 1px; }
+        nav a { color: var(--secondary-text); text-decoration: none; margin-left: 25px; font-size: 15px; transition: 0.3s; }
+        nav a:hover { color: var(--accent-color); }
 
-        /* القسم الرئيسي (Hero) */
+        /* الواجهة الرئيسية (Hero & Brand Title) */
         .hero {
-            padding: 50px 20px;
+            padding: 60px 20px;
             text-align: center;
-            background: radial-gradient(circle, #1a1a1a 0%, #0d0d0d 100%);
+            background: radial-gradient(circle, #1a1a1a 0%, var(--bg-color) 100%);
             border-bottom: 1px solid #222;
         }
-        .hero h1 { font-size: 36px; margin-bottom: 15px; color: #fff; }
-        .hero p { color: #aaa; font-size: 16px; margin-bottom: 30px; }
+        .brand-title {
+            font-size: 48px;
+            font-weight: 900;
+            background: linear-gradient(45deg, #fff, var(--accent-color), #ffcc00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+            text-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+        }
+        .hero h1 { font-size: 28px; margin-bottom: 10px; color: var(--text-color); }
+        .hero p { color: var(--secondary-text); font-size: 17px; margin-bottom: 30px; max-width: 700px; margin-left: auto; margin-right: auto; }
+        
+        /* صور الغلاف */
+        .hero-images-container {
+            max-width: 800px;
+            margin: 25px auto 0 auto;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid var(--accent-color);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+            background: #111;
+            height: 350px;
+            position: relative;
+        }
+        .hero-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: none;
+        }
+        .hero-img.active { display: block; }
 
         /* أزرار الأقسام السريعة */
         .categories-nav {
@@ -52,112 +89,131 @@
             justify-content: center;
             gap: 15px;
             flex-wrap: wrap;
-            padding: 20px;
-            background: #111;
+            padding: 25px;
+            background: var(--panel-bg);
+            border-bottom: 1px solid #222;
         }
         .cat-btn {
             background-color: #1a1a1a;
-            color: #fff;
+            color: var(--text-color);
             border: 1px solid #333;
-            padding: 12px 25px;
+            padding: 12px 28px;
             border-radius: 8px;
             cursor: pointer;
-            font-size: 15px;
+            font-size: 16px;
             transition: 0.3s;
             text-decoration: none;
+            font-weight: 600;
         }
-        .cat-btn:hover, .cat-btn.active {
-            background-color: #d4af37;
+        .cat-btn:hover {
+            background-color: var(--accent-color);
             color: #000;
-            border-color: #d4af37;
+            border-color: var(--accent-color);
+            transform: translateY(-2px);
         }
 
         /* الأقسام المتسلسلة تحت بعضها */
         .section-container {
-            max-width: 1100px;
-            margin: 40px auto;
+            max-width: 1200px;
+            margin: 50px auto;
             padding: 0 20px;
         }
         .section-title {
-            font-size: 24px;
-            color: #d4af37;
-            margin-bottom: 20px;
-            border-right: 4px solid #d4af37;
-            padding-right: 12px;
+            font-size: 26px;
+            color: var(--accent-color);
+            margin-bottom: 25px;
+            border-right: 5px solid var(--accent-color);
+            padding-right: 15px;
         }
         .products-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
         }
         .product-card {
-            background-color: #161616;
+            background-color: var(--panel-bg);
             border: 1px solid #262626;
-            border-radius: 10px;
+            border-radius: 12px;
             overflow: hidden;
             transition: 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
         }
         .product-card:hover {
-            transform: translateY(-5px);
-            border-color: #d4af37;
+            transform: translateY(-8px);
+            border-color: var(--accent-color);
+            box-shadow: 0 10px 25px rgba(212, 175, 55, 0.2);
+        }
+        .product-img-container {
+            width: 100%;
+            height: 220px;
+            background-color: #222;
+            position: relative;
+            overflow: hidden;
         }
         .product-img {
             width: 100%;
-            height: 200px;
-            background-color: #222;
+            height: 100%;
             object-fit: cover;
+            transition: 0.5s;
         }
-        .product-info {
-            padding: 15px;
-        }
-        .product-name { font-size: 18px; margin-bottom: 8px; font-weight: bold; }
-        .product-price { color: #d4af37; font-size: 16px; font-weight: bold; margin-bottom: 12px; }
+        .product-card:hover .product-img { transform: scale(1.05); }
+        .product-info { padding: 18px; }
+        .product-name { font-size: 19px; margin-bottom: 8px; font-weight: bold; }
+        .product-price { color: var(--accent-color); font-size: 18px; font-weight: bold; margin-bottom: 15px; }
         .buy-btn {
             display: block;
             width: 100%;
-            padding: 10px;
-            background-color: #d4af37;
+            padding: 12px;
+            background-color: var(--accent-color);
             color: #000;
             text-align: center;
-            border-radius: 5px;
+            border-radius: 6px;
             text-decoration: none;
             font-weight: bold;
+            font-size: 16px;
             transition: 0.3s;
         }
         .buy-btn:hover { background-color: #b8972b; }
 
         footer {
             text-align: center;
-            padding: 30px;
-            background-color: #111;
-            color: #777;
+            padding: 40px;
+            background-color: var(--panel-bg);
+            color: var(--secondary-text);
             border-top: 1px solid #222;
-            margin-top: 50px;
+            margin-top: 60px;
+            font-size: 15px;
         }
     </style>
 </head>
 <body>
 
-    <!-- شريط العروض التنازلي العلوي -->
+    <!-- شريط العروض العلوي -->
     <div id="promo-banner">
         🔥 <span id="banner-text">عرض لفترة محدودة!</span> | ينتهي خلال: <span id="countdown-timer">00:00:00</span>
     </div>
 
-    <!-- الهيدر -->
+    <!-- الهيدر (بدون كلمة لوحة التحكم) -->
     <header>
-        <div class="logo" id="store-logo-text">MEN'S LUXURY</div>
+        <div class="logo" id="store-logo-text">كيان جنس</div>
         <nav>
             <a href="#all-products">المنتجات</a>
-            <a href="#suits-section">بدلات وклаssيك</a>
+            <a href="#suits-section">بدلات وكلاسيك</a>
+            <a href="#pants-section">بناطل</a>
             <a href="#shoes-section">كوتشيات وأحذية</a>
-            <a href="admin.html" style="color: #d4af37;">لوحة التحكم ⚙️</a>
         </nav>
     </header>
 
     <!-- الواجهة الرئيسية -->
     <section class="hero">
+        <div class="brand-title">كيان جنس</div>
         <h1 id="hero-title">ارتق بأناقتك مع تشكيلة رجالية فاخرة</h1>
         <p id="hero-subtitle">تسوق أحدث صيحات الموضة الرجالية الكلاسيكية، البناطل العصرية، والأحذية والكوتشيات الفاخرة.</p>
+        
+        <!-- صور الغلاف المتعددة (حتى 10 صور) -->
+        <div class="hero-images-container" id="hero-slideshow">
+            <!-- يتم تعبئتها ديناميكياً -->
+        </div>
     </section>
 
     <!-- أزرار التنقل السريع للأقسام -->
@@ -168,57 +224,57 @@
         <a href="#shoes-section" class="cat-btn">كوتشيات وأحذية</a>
     </div>
 
-    <!-- الأقسام تحت بعضها بشكل متسلسل -->
-    
-    <!-- 1. قسم البدلات والكلاسيك -->
+    <!-- الأقسام تحت بعضها بشكل متسلسل احترافي -->
     <div class="section-container" id="suits-section">
         <h2 class="section-title">بدلات وكلاسيك</h2>
-        <div class="products-grid" id="suits-grid">
-            <!-- يتم تعبئتها من لوحة التحكم -->
-        </div>
+        <div class="products-grid" id="suits-grid"></div>
     </div>
 
-    <!-- 2. قسم البناطل -->
     <div class="section-container" id="pants-section">
         <h2 class="section-title">بناطل</h2>
-        <div class="products-grid" id="pants-grid">
-            <!-- يتم تعبئتها من لوحة التحكم -->
-        </div>
+        <div class="products-grid" id="pants-grid"></div>
     </div>
 
-    <!-- 3. قسم الكوتشيات والأحذية -->
     <div class="section-container" id="shoes-section">
-        <h2 class="section-title">كوتشيات وأحذية</h2>
-        <div class="products-grid" id="shoes-grid">
-            <!-- يتم تعبئتها من لوحة التحكم -->
-        </div>
+        <h2 class="section-title">كوتشيات والأحذية</h2>
+        <div class="products-grid" id="shoes-grid"></div>
     </div>
 
-    <!-- 4. قسم كل المنتجات -->
     <div class="section-container" id="all-products">
-        <h2 class="section-title">تشكيلة المنتجات الرجالية الكاملة</h2>
-        <div class="products-grid" id="all-grid">
-            <!-- يتم تعبئتها من لوحة التحكم -->
-        </div>
+        <h2 class="section-title">تشكيلة المنتجات الكاملة</h2>
+        <div class="products-grid" id="all-grid"></div>
     </div>
 
-    <footer>
-        <p id="footer-text">جميع الحقوق محفوظة © MEN'S LUXURY 2026</p>
+    <footer id="footer-text">
+        جميع الحقوق محفوظة © كيان جنس 2026
     </footer>
 
     <script>
-        // تحميل الإعدادات والبيانات من التخزين المحلي (مرتبطة بلوحة التحكم)
         window.addEventListener('DOMContentLoaded', () => {
-            // تحديث النصوص الأساسية
+            // تحميل الإعدادات
             const settings = JSON.parse(localStorage.getItem('store_settings')) || {
-                storeName: "MEN'S LUXURY",
+                storeName: "كيان جنس",
                 heroTitle: "ارتق بأناقتك مع تشكيلة رجالية فاخرة",
                 heroSubtitle: "تسوق أحدث صيحات الموضة الرجالية الكلاسيكية، البناطل العصرية، والأحذية والكوتشيات الفاخرة.",
-                footerText: "جميع الحقوق محفوظة © MEN'S LUXURY 2026",
+                footerText: "جميع الحقوق محفوظة © كيان جنس 2026",
+                bgColor: "#0d0d0d",
+                panelBg: "#141414",
+                accentColor: "#d4af37",
+                textColor: "#ffffff",
                 promoActive: true,
                 promoText: "🔥 خصم حصري على كافة المنتجات لفترة محدودة!",
-                promoEndTime: new Date().getTime() + (24 * 60 * 60 * 1000) // 24 ساعة افتراضياً
+                promoEndTime: new Date().getTime() + (24 * 60 * 60 * 1000),
+                heroImages: [
+                    "https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800",
+                    "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=800"
+                ]
             };
+
+            // تطبيق الألوان المخصصة
+            document.documentElement.style.setProperty('--bg-color', settings.bgColor || '#0d0d0d');
+            document.documentElement.style.setProperty('--panel-bg', settings.panelBg || '#141414');
+            document.documentElement.style.setProperty('--accent-color', settings.accentColor || '#d4af37');
+            document.documentElement.style.setProperty('--text-color', settings.textColor || '#ffffff');
 
             document.getElementById('store-logo-text').innerText = settings.storeName;
             document.getElementById('page-title').innerText = settings.storeName;
@@ -226,13 +282,29 @@
             document.getElementById('hero-subtitle').innerText = settings.heroSubtitle;
             document.getElementById('footer-text').innerText = settings.footerText;
 
-            // إعدادات شريط العروض والوقت
+            // عرض صور الغلاف المتحركة
+            const slideshowContainer = document.getElementById('hero-slideshow');
+            const images = settings.heroImages && settings.heroImages.length > 0 ? settings.heroImages : ["https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800"];
+            slideshowContainer.innerHTML = '';
+            images.forEach((imgUrl, index) => {
+                slideshowContainer.innerHTML += `<img src="${imgUrl}" class="hero-img ${index === 0 ? 'active' : ''}" alt="صورة الغلاف">`;
+            });
+
+            if (images.length > 1) {
+                let currentImg = 0;
+                const imgElements = slideshowContainer.querySelectorAll('.hero-img');
+                setInterval(() => {
+                    imgElements[currentImg].classList.remove('active');
+                    currentImg = (currentImg + 1) % imgElements.length;
+                    imgElements[currentImg].classList.add('active');
+                }, 3500);
+            }
+
+            // شريط العروض والوقت
             const banner = document.getElementById('promo-banner');
             if (settings.promoActive) {
                 banner.style.display = 'block';
                 document.getElementById('banner-text').innerText = settings.promoText;
-                
-                // عداد الوقت
                 const endTime = new Date(settings.promoEndTime).getTime();
                 setInterval(() => {
                     const now = new Date().getTime();
@@ -250,11 +322,9 @@
                 banner.style.display = 'none';
             }
 
-            // جلب المنتجات وعرضها في الأقسام
+            // المنتجات
             const products = JSON.parse(localStorage.getItem('store_products')) || [
-                { id: 1, name: "بدلة كلاسيكية فاخرة", price: "1200 ج.م", category: "suits", img: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=500" },
-                { id: 2, name: "بنطلون قماش عصري", price: "450 ج.م", category: "pants", img: "https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=500" },
-                { id: 3, name: "كوتش رياضي مريح", price: "650 ج.م", category: "shoes", img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500" }
+                { id: 1, name: "بدلة كلاسيكية فاخرة", price: "1200 ج.م", category: "suits", imgs: ["https://images.unsplash.com/photo-1594938298603-c8148c4dae35?w=500"] }
             ];
 
             const suitsGrid = document.getElementById('suits-grid');
@@ -262,15 +332,15 @@
             const shoesGrid = document.getElementById('shoes-grid');
             const allGrid = document.getElementById('all-grid');
 
-            suitsGrid.innerHTML = '';
-            pantsGrid.innerHTML = '';
-            shoesGrid.innerHTML = '';
-            allGrid.innerHTML = '';
+            suitsGrid.innerHTML = ''; pantsGrid.innerHTML = ''; shoesGrid.innerHTML = ''; allGrid.innerHTML = '';
 
             products.forEach(p => {
+                const mainImg = (p.imgs && p.imgs.length > 0) ? p.imgs[0] : 'https://via.placeholder.com/500';
                 const cardHTML = `
                     <div class="product-card">
-                        <img src="${p.img}" class="product-img" alt="${p.name}">
+                        <div class="product-img-container">
+                            <img src="${mainImg}" class="product-img" alt="${p.name}">
+                        </div>
                         <div class="product-info">
                             <div class="product-name">${p.name}</div>
                             <div class="product-price">${p.price}</div>
