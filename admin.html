@@ -32,9 +32,9 @@
         <a href="index.html" class="back-link">← العودة إلى المتجر الرئيسي</a>
         <h1>لوحة التحكم الاحترافية - كيان جينز</h1>
 
-        <!-- 1. إعدادات النصوص، العناوين، والألوان -->
+        <!-- 1. إعدادات النصوص، الشعار المتحرك، والألوان -->
         <div class="section-box">
-            <h2>إعدادات النصوص، العناوين، والألوان</h2>
+            <h2>إعدادات الشعار المتحرك، النصوص، والألوان</h2>
             <div class="form-group">
                 <label>اسم المتجر:</label>
                 <input type="text" id="setting-storeName" value="كيان جينز">
@@ -46,6 +46,10 @@
             <div class="form-group">
                 <label>الوصف الترويجي:</label>
                 <textarea id="setting-heroSubtitle" rows="3"></textarea>
+            </div>
+            <div class="form-group">
+                <label>رابط الشعار المتحرك (رابط الشعار الذي يحتوي على الأجنحة والتاج):</label>
+                <input type="text" id="setting-animatedLogoUrl" placeholder="ضع رابط الشعار هنا...">
             </div>
             <div class="form-group color-pickers">
                 <div>
@@ -62,10 +66,10 @@
                 </div>
             </div>
             <div class="form-group" style="margin-top: 15px;">
-                <label>روابط صور الغلاف (حتى 10 صور، افصل بينها بفاصلة أو سطر جديد):</label>
-                <textarea id="setting-heroImages" rows="4" placeholder="ضع روابط الصور هنا..."></textarea>
+                <label>روابط صور الغلاف الإضافية (حتى 10 صور):</label>
+                <textarea id="setting-heroImages" rows="3" placeholder="ضع روابط الصور هنا..."></textarea>
             </div>
-            <button onclick="saveSettings()">حفظ كافة إعدادات المظهر والنصوص</button>
+            <button onclick="saveSettings()">حفظ كافة إعدادات الشعار والمظهر</button>
         </div>
 
         <!-- 2. إدارة شريط العروض والوقت -->
@@ -89,17 +93,17 @@
             <button onclick="savePromoSettings()">حفظ إعدادات العرض</button>
         </div>
 
-        <!-- 3. إدارة المنتجات والأقسام (حتى 10 صور لكل منتج) -->
+        <!-- 3. إدارة المنتجات والأقسام -->
         <div class="section-box">
             <h2 id="form-heading">إضافة منتج جديد</h2>
             <input type="hidden" id="edit-product-id" value="">
             <div class="form-group">
                 <label>اسم المنتج:</label>
-                <input type="text" id="prod-name" placeholder="مثال: بنطلون جينز كلاسيكي">
+                <input type="text" id="prod-name" placeholder="مثال: بنطلون جينز فاخر">
             </div>
             <div class="form-group">
                 <label>السعر:</label>
-                <input type="text" id="prod-price" placeholder="مثال: 450 ج.م">
+                <input type="text" id="prod-price" placeholder="مثال: 500 ج.م">
             </div>
             <div class="form-group">
                 <label>القسم:</label>
@@ -110,12 +114,12 @@
                 </select>
             </div>
             <div class="form-group">
-                <label>روابط صور المنتج (حتى 10 صور، ضع كل رابط في سطر أو افصل بينها بفاصلة):</label>
+                <label>روابط صور المنتج (حتى 10 صور):</label>
                 <textarea id="prod-imgs" rows="3" placeholder="ضع روابط الصور هنا..."></textarea>
             </div>
             <button onclick="saveProduct()" id="save-prod-btn">إضافة المنتج للمتجر</button>
 
-            <h2>المنتجات الحالية (إدارة وتعديل مباشر)</h2>
+            <h2>المنتجات الحالية</h2>
             <table>
                 <thead>
                     <tr>
@@ -125,9 +129,7 @@
                         <th>إجراءات</th>
                     </tr>
                 </thead>
-                <tbody id="products-table-body">
-                    <!-- تعبئة تلقائية -->
-                </tbody>
+                <tbody id="products-table-body"></tbody>
             </table>
         </div>
     </div>
@@ -144,12 +146,14 @@
                 textColor: "#ffffff",
                 promoActive: true,
                 promoText: "🔥 خصم حصري على كافة المنتجات لفترة محدودة!",
-                heroImages: ["https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800"]
+                animatedLogoUrl: "",
+                heroImages: []
             };
 
             document.getElementById('setting-storeName').value = settings.storeName;
             document.getElementById('setting-heroTitle').value = settings.heroTitle;
             document.getElementById('setting-heroSubtitle').value = settings.heroSubtitle;
+            document.getElementById('setting-animatedLogoUrl').value = settings.animatedLogoUrl || "";
             document.getElementById('setting-bgColor').value = settings.bgColor || "#0d0d0d";
             document.getElementById('setting-panelBg').value = settings.panelBg || "#141414";
             document.getElementById('setting-accentColor').value = settings.accentColor || "#d4af37";
@@ -165,6 +169,7 @@
             settings.storeName = document.getElementById('setting-storeName').value;
             settings.heroTitle = document.getElementById('setting-heroTitle').value;
             settings.heroSubtitle = document.getElementById('setting-heroSubtitle').value;
+            settings.animatedLogoUrl = document.getElementById('setting-animatedLogoUrl').value;
             settings.bgColor = document.getElementById('setting-bgColor').value;
             settings.panelBg = document.getElementById('setting-panelBg').value;
             settings.accentColor = document.getElementById('setting-accentColor').value;
@@ -173,7 +178,7 @@
             settings.heroImages = rawImgs.split(/[\n,]+/).map(s => s.trim()).filter(s => s.length > 0);
 
             localStorage.setItem('store_settings', JSON.stringify(settings));
-            alert("تم حفظ إعدادات المظهر والعناوين بنجاح!");
+            alert("تم حفظ إعدادات الشعار والمظهر بنجاح!");
         }
 
         function savePromoSettings() {
@@ -224,7 +229,7 @@
             document.getElementById('prod-imgs').value = '';
 
             renderProductsTable();
-            alert("تم حفظ المنتج بنجاح وسيظهر في المتجر فوراً!");
+            alert("تم حفظ المنتج بنجاح!");
         }
 
         function editProduct(id) {
