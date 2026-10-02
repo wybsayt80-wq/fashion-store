@@ -6,11 +6,12 @@
     <title id="page-title">كيان جينز - المعرض العالمي الفاخر</title>
     <style>
         :root {
-            --bg-color: #0d0d0d;
-            --panel-bg: #141414;
-            --accent-color: #d4af37;
-            --text-color: #ffffff;
-            --secondary-text: #aaaaaa;
+            --bg-color: #f8f9fa;
+            --panel-bg: #ffffff;
+            --accent-color: #c5a059;
+            --text-color: #1a1a1a;
+            --secondary-text: #666666;
+            --border-color: #e5e7eb;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; overflow-x: hidden; }
@@ -18,97 +19,101 @@
         /* شريط العروض المميزة في أعلى الشاشة */
         #top-promo-section {
             background: linear-gradient(135deg, var(--accent-color), #8a6f18);
-            color: #000;
+            color: #fff;
             padding: 15px 20px;
             text-align: center;
             position: sticky;
             top: 0;
             z-index: 2000;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.8);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
             display: none;
         }
         .promo-content { max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 10px; }
         .promo-title { font-size: 20px; font-weight: 900; text-transform: uppercase; }
         .promo-timer { font-size: 16px; background: rgba(0,0,0,0.2); padding: 5px 15px; border-radius: 20px; font-weight: bold; }
         .promo-images-grid { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 5px; }
-        .promo-img { width: 90px; height: 90px; object-fit: cover; border-radius: 8px; border: 2px solid #000; box-shadow: 0 4px 10px rgba(0,0,0,0.4); }
+        .promo-img { width: 90px; height: 90px; object-fit: cover; border-radius: 8px; border: 2px solid #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
 
-        /* الهيدر */
+        /* الهيدر الكلاسيكي الأبيض */
         header {
             background-color: var(--panel-bg);
-            padding: 18px 30px;
+            padding: 18px 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid #222;
+            border-bottom: 1px solid var(--border-color);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
         }
         .logo { font-size: 24px; font-weight: bold; color: var(--accent-color); letter-spacing: 1px; }
-        nav a { color: var(--secondary-text); text-decoration: none; margin-left: 20px; font-size: 15px; transition: 0.3s; }
+        nav a { color: var(--secondary-text); text-decoration: none; margin-left: 25px; font-size: 15px; transition: 0.3s; font-weight: 600; }
         nav a:hover { color: var(--accent-color); }
 
-        /* الواجهة الرئيسية */
+        /* الواجهة الرئيسية الفاخرة */
         .hero {
-            padding: 50px 20px;
+            padding: 60px 20px;
             text-align: center;
-            background: radial-gradient(circle, #1a1a1a 0%, var(--bg-color) 100%);
-            border-bottom: 1px solid #222;
+            background: linear-gradient(180deg, #ffffff 0%, var(--bg-color) 100%);
+            border-bottom: 1px solid var(--border-color);
         }
         .brand-title {
-            font-size: 46px;
+            font-size: 48px;
             font-weight: 900;
-            background: linear-gradient(45deg, #fff, var(--accent-color), #ffcc00);
+            background: linear-gradient(45deg, #111, var(--accent-color));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 15px;
             letter-spacing: 2px;
         }
-        .hero h1 { font-size: 24px; margin-bottom: 10px; color: var(--text-color); }
-        .hero p { color: var(--secondary-text); font-size: 15px; margin-bottom: 30px; max-width: 700px; margin-left: auto; margin-right: auto; }
+        .hero h1 { font-size: 26px; margin-bottom: 12px; color: var(--text-color); font-weight: 700; }
+        .hero p { color: var(--secondary-text); font-size: 16px; margin-bottom: 35px; max-width: 700px; margin-left: auto; margin-right: auto; }
         
-        /* الصورة الثابتة لكيان جينز */
-        .static-logo-container { max-width: 500px; margin: 20px auto; padding: 10px; }
-        .store-static-logo {
+        /* الشعار المتحرك بأجنحة بترفرف */
+        .animated-logo-container { max-width: 650px; margin: 20px auto; padding: 10px; }
+        .store-animated-logo {
             width: 100%;
             height: auto;
             border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 20px rgba(212, 175, 55, 0.2);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12), 0 0 20px rgba(197, 160, 89, 0.3);
             border: 2px solid var(--accent-color);
-            background: #111;
-            object-fit: cover;
+            background: #fff;
+            animation: wingFlapAndGlow 4s ease-in-out infinite;
+        }
+        @keyframes wingFlapAndGlow {
+            0% { transform: scale(1) rotate(0deg); filter: brightness(1); }
+            50% { transform: scale(1.02) rotate(0.3deg); filter: brightness(1.08) drop-shadow(0 0 15px rgba(197, 160, 89, 0.4)); }
+            100% { transform: scale(1) rotate(0deg); filter: brightness(1); }
         }
 
-        /* أزرار الأقسام الكبرى (صيفي / شتوي) */
+        /* أزرار الأقسام الرئيسية (صيفي / شتوي) */
         .main-categories {
             display: flex;
             justify-content: center;
-            gap: 20px;
+            gap: 25px;
             flex-wrap: wrap;
-            padding: 40px 20px;
-            background: var(--panel-bg);
-            border-bottom: 1px solid #222;
+            padding: 50px 20px;
         }
         .main-cat-card {
-            background: #1a1a1a;
+            background: #ffffff;
             border: 2px solid var(--accent-color);
-            padding: 25px 40px;
-            border-radius: 12px;
+            padding: 30px 50px;
+            border-radius: 14px;
             text-decoration: none;
             color: var(--text-color);
             font-size: 22px;
             font-weight: bold;
             transition: 0.3s;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.06);
             text-align: center;
-            min-width: 240px;
+            min-width: 260px;
         }
         .main-cat-card:hover {
             background-color: var(--accent-color);
-            color: #000;
+            color: #fff;
             transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
+            box-shadow: 0 12px 30px rgba(197, 160, 89, 0.35);
         }
 
-        footer { text-align: center; padding: 40px; background-color: var(--panel-bg); color: var(--secondary-text); border-top: 1px solid #222; margin-top: 40px; font-size: 15px; }
+        footer { text-align: center; padding: 40px; background-color: var(--panel-bg); color: var(--secondary-text); border-top: 1px solid var(--border-color); margin-top: 50px; font-size: 15px; }
     </style>
 </head>
 <body>
@@ -122,14 +127,13 @@
         </div>
     </div>
 
-    <!-- الهيدر -->
+    <!-- الهيدر (بدون زر لوحة التحكم) -->
     <header>
         <div class="logo" id="store-logo-text">كيان جينز</div>
         <nav>
             <a href="index.html" style="color: var(--accent-color);">الرئيسية</a>
             <a href="summer.html">صيفي</a>
             <a href="winter.html">شتوي</a>
-            <a href="admin.html">لوحة التحكم</a>
         </nav>
     </header>
 
@@ -139,9 +143,9 @@
         <h1 id="hero-title">ارتق بأناقتك مع تشكيلة رجالية فاخرة</h1>
         <p id="hero-subtitle">تسوق أحدث تشكيلات الملابس الصيفية والشتوية الكلاسيكية، البناطيل، التيشرتات، والجواكت الفاخرة.</p>
         
-        <!-- الصورة الثابتة لشعار كيان جينز -->
-        <div class="static-logo-container">
-            <img src="" id="main-static-logo" class="store-static-logo" alt="شعار كيان جينز">
+        <!-- الشعار المتحرك بأجنحة ترفرف -->
+        <div class="animated-logo-container">
+            <img src="1000843025.png" id="main-animated-logo" class="store-animated-logo" alt="شعار كيان جينز">
         </div>
     </section>
 
@@ -164,7 +168,7 @@
                 promoText: "🔥 عروض حصريّة لفترة محدودة!",
                 promoEndTime: new Date().getTime() + (24 * 60 * 60 * 1000),
                 promoImages: [],
-                animatedLogoUrl: ""
+                animatedLogoUrl: "1000843025.png"
             };
 
             document.getElementById('store-logo-text').innerText = settings.storeName;
@@ -173,8 +177,8 @@
             document.getElementById('hero-subtitle').innerText = settings.heroSubtitle;
             document.getElementById('footer-text').innerText = settings.footerText;
 
-            const logoImg = document.getElementById('main-static-logo');
-            logoImg.src = settings.animatedLogoUrl || "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800";
+            const logoImg = document.getElementById('main-animated-logo');
+            logoImg.src = settings.animatedLogoUrl || "1000843025.png";
 
             // عرض شريط العروض المميزة في الأعلى إذا كان مفعلاً
             const promoSection = document.getElementById('top-promo-section');
