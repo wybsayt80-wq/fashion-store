@@ -3,24 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة التحكم السحابية - كيان جينز</title>
+    <title>لوحة التحكم الملكية - كيان جينز</title>
     <!-- مكتبات Firebase السحابية الدائمة -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: #f4f6f9; color: #1a1a1a; padding: 20px; }
-        #auth-screen { max-width: 400px; margin: 100px auto; background: #ffffff; padding: 40px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; border: 1px solid #e5e7eb; }
+        body { background-color: #f8f9fa; color: #1a1a1a; padding: 20px; }
+        
+        /* شاشة تسجيل الدخول بكلمة المرور (1111) */
+        #auth-screen {
+            max-width: 400px;
+            margin: 100px auto;
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 14px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            text-align: center;
+            border: 1px solid #e5e7eb;
+        }
         #auth-screen h2 { color: #c5a059; margin-bottom: 20px; font-size: 22px; }
         #auth-screen input { width: 100%; padding: 12px; font-size: 18px; text-align: center; border: 1px solid #ccc; border-radius: 6px; margin-bottom: 15px; letter-spacing: 5px; }
         #auth-screen button { width: 100%; background: #c5a059; color: #fff; border: none; padding: 12px; font-weight: bold; border-radius: 6px; cursor: pointer; font-size: 16px; }
         .error-msg { color: #cc3333; font-size: 14px; margin-top: 10px; display: none; }
-        #admin-panel-content { display: none; max-width: 1000px; margin: 0 auto; background: #ffffff; padding: 35px; border-radius: 14px; border: 1px solid #e5e7eb; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
+
+        /* لوحة التحكم الكلاسيكية الفاخرة */
+        #admin-panel-content { display: none; max-width: 1000px; margin: 0 auto; background: #ffffff; padding: 35px; border-radius: 14px; border: 1px solid #e5e7eb; box-shadow: 0 10px 30px rgba(0,0,0,0.06); }
         h1, h2 { color: #c5a059; margin-bottom: 20px; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px; }
         .form-group { margin-bottom: 18px; }
         label { display: block; margin-bottom: 6px; color: #444; font-weight: 600; }
         input, select, textarea { width: 100%; padding: 12px; background: #fafafa; border: 1px solid #ddd; color: #111; border-radius: 6px; font-size: 15px; }
-        button.action-btn { background: #c5a059; color: #fff; border: none; padding: 12px 25px; font-weight: bold; border-radius: 6px; cursor: pointer; margin-top: 10px; font-size: 16px; }
+        input[type="file"] { background: #fff; cursor: pointer; padding: 10px; border: 2px dashed #c5a059; }
+        button.action-btn { background: #c5a059; color: #fff; border: none; padding: 12px 25px; font-weight: bold; border-radius: 6px; cursor: pointer; margin-top: 10px; font-size: 16px; transition: 0.3s; }
         button.action-btn:hover { background: #b08d48; }
         .back-link { display: inline-block; margin-bottom: 25px; color: #c5a059; text-decoration: none; font-weight: bold; }
         .section-box { margin-bottom: 45px; background: #fafafa; padding: 25px; border-radius: 10px; border: 1px solid #eee; }
@@ -28,12 +42,14 @@
         th, td { padding: 12px; border-bottom: 1px solid #ddd; text-align: right; font-size: 14px; }
         th { color: #c5a059; }
         .del-btn { background: #cc3333; color: #fff; padding: 6px 12px; border: none; border-radius: 4px; cursor: pointer; }
+        .preview-container { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+        .preview-container img { width: 60px; height: 60px; object-fit: cover; border-radius: 6px; border: 1px solid #c5a059; }
     </style>
 </head>
 <body>
 
     <div id="auth-screen">
-        <h2>🔒 لوحة التحكم السحابية</h2>
+        <h2>🔒 لوحة التحكم الملكية</h2>
         <p style="margin-bottom: 15px; color: #666; font-size: 14px;">أدخل كلمة المرور (1111)</p>
         <input type="password" id="admin-pass" placeholder="••••" maxlength="4">
         <button onclick="checkPassword()">دخول</button>
@@ -42,36 +58,40 @@
 
     <div id="admin-panel-content">
         <a href="index.html" class="back-link">← العودة إلى المتجر الرئيسي</a>
-        <h1>لوحة التحكم السحابية - كيان جينز</h1>
+        <h1>لوحة التحكم السحابية المباشرة - كيان جينز</h1>
 
+        <!-- إعدادات الشعار -->
         <div class="section-box">
-            <h2>إعدادات الشعار والواجهة</h2>
+            <h2>إعدادات الشعار المتحرك الرئيسي</h2>
             <div class="form-group">
                 <label>اسم المتجر:</label>
                 <input type="text" id="setting-storeName" value="كيان جينز">
             </div>
             <div class="form-group">
-                <label>اسم ملف الشعار المرفوع (مثل: 1000843025.png):</label>
-                <input type="text" id="setting-logoUrl" value="1000843025.png">
+                <label>اختر صورة الشعار (من الموبايل أو اللابتوب):</label>
+                <input type="file" id="setting-logoFile" accept="image/*" onchange="convertLogo(this)">
+                <div class="preview-container" id="logo-preview"></div>
             </div>
-            <button class="action-btn" onclick="saveSettingsToCloud()">حفظ الإعدادات سحابياً</button>
+            <button class="action-btn" onclick="saveSettingsToCloud()">حفظ الشعار والإعدادات سحابياً</button>
         </div>
 
+        <!-- إضافة منتج صيفي -->
         <div class="section-box">
-            <h2>☀️ إضافة منتج صيفي جديد (سحابي)</h2>
+            <h2>☀️ إضافة منتج صيفي جديد (مع دعم رفع صور متعددة)</h2>
             <div class="form-group">
                 <label>اسم المنتج الصيفي:</label>
-                <input type="text" id="summer-name" placeholder="مثال: بنطلون جينز صيفي فاخر">
+                <input type="text" id="summer-name" placeholder="مثال: بنطلون جينز صيفي كلاسيكي">
             </div>
             <div class="form-group">
                 <label>السعر (بالجنيه المصري):</label>
                 <input type="text" id="summer-price" placeholder="550">
             </div>
             <div class="form-group">
-                <label>اسم أو رابط صورة المنتج:</label>
-                <input type="text" id="summer-img" placeholder="1000843025.png">
+                <label>اختر صور المنتج الصيفي (يمكنك اختيار أكثر من 10 صور دفعة واحدة):</label>
+                <input type="file" id="summer-files" accept="image/*" multiple onchange="convertSummerImgs(this)">
+                <div class="preview-container" id="summer-preview"></div>
             </div>
-            <button class="action-btn" onclick="addCloudProduct('summer')">نشر المنتج الصيفي سحابياً</button>
+            <button class="action-btn" onclick="addProduct('summer')">نشر المنتج الصيفي سحابياً</button>
             
             <h3 style="margin-top: 25px; color: #c5a059;">المنتجات الصيفية الحالية</h3>
             <table>
@@ -80,21 +100,23 @@
             </table>
         </div>
 
+        <!-- إضافة منتج شتوي -->
         <div class="section-box">
-            <h2>❄️ إضافة منتج شتوي جديد (سحابي)</h2>
+            <h2>❄️ إضافة منتج شتوي جديد (مع دعم رفع صور متعددة)</h2>
             <div class="form-group">
                 <label>اسم المنتج الشتوي:</label>
-                <input type="text" id="winter-name" placeholder="مثال: جاكيت شتوي فاخر">
+                <input type="text" id="winter-name" placeholder="مثال: جاكيت شتوي كلاسيكي فاخر">
             </div>
             <div class="form-group">
                 <label>السعر (بالجنيه المصري):</label>
                 <input type="text" id="winter-price" placeholder="850">
             </div>
             <div class="form-group">
-                <label>اسم أو رابط صورة المنتج:</label>
-                <input type="text" id="winter-img" placeholder="1000843025.png">
+                <label>اختر صور المنتج الشتوي (يمكنك اختيار أكثر من 10 صور دفعة واحدة):</label>
+                <input type="file" id="winter-files" accept="image/*" multiple onchange="convertWinterImgs(this)">
+                <div class="preview-container" id="winter-preview"></div>
             </div>
-            <button class="action-btn" onclick="addCloudProduct('winter')">نشر المنتج الشتوي سحابياً</button>
+            <button class="action-btn" onclick="addProduct('winter')">نشر المنتج الشتوي سحابياً</button>
             
             <h3 style="margin-top: 25px; color: #c5a059;">المنتجات الشتوية الحالية</h3>
             <table>
@@ -105,7 +127,6 @@
     </div>
 
     <script>
-        // إعدادات الاتصال السحابي بقاعدة بيانات Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyD-YOUR_KEY_HERE",
             authDomain: "fashionstore-192b6.firebaseapp.com",
@@ -127,21 +148,63 @@
             }
         }
 
+        let tempLogoUrl = "1000843025.png";
+        let summerImgsArr = [];
+        let winterImgsArr = [];
+
+        function convertLogo(input) {
+            if(input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    tempLogoUrl = e.target.result;
+                    document.getElementById('logo-preview').innerHTML = `<img src="${tempLogoUrl}">`;
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function convertSummerImgs(input) {
+            summerImgsArr = [];
+            const container = document.getElementById('summer-preview');
+            container.innerHTML = '';
+            Array.from(input.files).forEach(file => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    summerImgsArr.push(e.target.result);
+                    container.innerHTML += `<img src="${e.target.result}">`;
+                }
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function convertWinterImgs(input) {
+            winterImgsArr = [];
+            const container = document.getElementById('winter-preview');
+            container.innerHTML = '';
+            Array.from(input.files).forEach(file => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    winterImgsArr.push(e.target.result);
+                    container.innerHTML += `<img src="${e.target.result}">`;
+                }
+                reader.readAsDataURL(file);
+            });
+        }
+
         async function saveSettingsToCloud() {
             const storeName = document.getElementById('setting-storeName').value;
-            const logoUrl = document.getElementById('setting-logoUrl').value;
             try {
-                await db.collection("settings").doc("storeInfo").set({ storeName, logoUrl });
-                alert("تم حفظ الإعدادات على السحابة بنجاح!");
+                await db.collection("settings").doc("storeInfo").set({ storeName, logoUrl: tempLogoUrl });
+                alert("تم حفظ الإعدادات والشعار على السحابة بنجاح!");
             } catch (e) {
                 alert("خطأ: " + e.message);
             }
         }
 
-        async function addCloudProduct(category) {
+        async function addProduct(category) {
             const name = document.getElementById(category + '-name').value;
             const price = document.getElementById(category + '-price').value;
-            const img = document.getElementById(category + '-img').value || "1000843025.png";
+            const imgs = category === 'summer' ? summerImgsArr : winterImgsArr;
 
             if (!name || !price) {
                 alert("الرجاء إدخال اسم المنتج والسعر!");
@@ -155,19 +218,21 @@
                     name,
                     price,
                     category,
-                    imgs: [img]
+                    imgs: imgs.length > 0 ? imgs : ["1000843025.png"]
                 });
-                alert("تم نشر المنتج سحابياً برقم: " + productId);
+                alert("تم نشر المنتج بنجاح برقم كود: " + productId);
                 document.getElementById(category + '-name').value = '';
                 document.getElementById(category + '-price').value = '';
+                if(category === 'summer') { summerImgsArr = []; document.getElementById('summer-preview').innerHTML = ''; }
+                else { winterImgsArr = []; document.getElementById('winter-preview').innerHTML = ''; }
                 loadCloudData();
             } catch (e) {
-                alert("خطأ أثناء النشر: " + e.message);
+                alert("خطأ أثناء النشر: حجم الصور كبير جداً، حاول تقليل عدد الصور قليلاً.");
             }
         }
 
-        async function deleteCloudProduct(id) {
-            if (confirm("هل تريد حذف هذا المنتج نهائياً من السحابة؟")) {
+        async function deleteProduct(id) {
+            if (confirm("هل تريد حذف هذا المنتج نهائياً؟")) {
                 await db.collection("products").doc(id).delete();
                 loadCloudData();
             }
@@ -182,7 +247,7 @@
             const snapshot = await db.collection("products").get();
             snapshot.forEach(doc => {
                 const p = doc.data();
-                const row = `<tr><td><strong>${p.id}</strong></td><td>${p.name}</td><td>${p.price} ج.م</td><td><button class="del-btn" onclick="deleteCloudProduct('${p.id}')">حذف</button></td></tr>`;
+                const row = `<tr><td><strong>${p.id}</strong></td><td>${p.name}</td><td>${p.price} ج.م</td><td><button class="del-btn" onclick="deleteProduct('${p.id}')">حذف</button></td></tr>`;
                 if (p.category === 'summer') summerTbody.innerHTML += row;
                 else winterTbody.innerHTML += row;
             });
