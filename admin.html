@@ -4,30 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>لوحة التحكم الملكية - كيان جينز</title>
-    <!-- مكتبات Firebase السحابية الدائمة -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background-color: #f8f9fa; color: #1a1a1a; padding: 20px; }
-        
-        /* شاشة تسجيل الدخول بكلمة المرور (1111) */
-        #auth-screen {
-            max-width: 400px;
-            margin: 100px auto;
-            background: #ffffff;
-            padding: 40px;
-            border-radius: 14px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-            text-align: center;
-            border: 1px solid #e5e7eb;
-        }
+        #auth-screen { max-width: 400px; margin: 100px auto; background: #ffffff; padding: 40px; border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); text-align: center; border: 1px solid #e5e7eb; }
         #auth-screen h2 { color: #c5a059; margin-bottom: 20px; font-size: 22px; }
         #auth-screen input { width: 100%; padding: 12px; font-size: 18px; text-align: center; border: 1px solid #ccc; border-radius: 6px; margin-bottom: 15px; letter-spacing: 5px; }
         #auth-screen button { width: 100%; background: #c5a059; color: #fff; border: none; padding: 12px; font-weight: bold; border-radius: 6px; cursor: pointer; font-size: 16px; }
         .error-msg { color: #cc3333; font-size: 14px; margin-top: 10px; display: none; }
-
-        /* لوحة التحكم الكلاسيكية الفاخرة */
         #admin-panel-content { display: none; max-width: 1000px; margin: 0 auto; background: #ffffff; padding: 35px; border-radius: 14px; border: 1px solid #e5e7eb; box-shadow: 0 10px 30px rgba(0,0,0,0.06); }
         h1, h2 { color: #c5a059; margin-bottom: 20px; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px; }
         .form-group { margin-bottom: 18px; }
@@ -68,16 +54,16 @@
                 <input type="text" id="setting-storeName" value="كيان جينز">
             </div>
             <div class="form-group">
-                <label>اختر صورة الشعار (من الموبايل أو اللابتوب):</label>
+                <label>اختر صورة الشعار من ملفات الجهاز (مثال: 1000843025.png):</label>
                 <input type="file" id="setting-logoFile" accept="image/*" onchange="convertLogo(this)">
-                <div class="preview-container" id="logo-preview"></div>
+                <div class="preview-container" id="logo-preview"><img src="1000843025.png" style="width:60px;height:60px;object-fit:cover;"></div>
             </div>
             <button class="action-btn" onclick="saveSettingsToCloud()">حفظ الشعار والإعدادات سحابياً</button>
         </div>
 
         <!-- إضافة منتج صيفي -->
         <div class="section-box">
-            <h2>☀️ إضافة منتج صيفي جديد (مع دعم رفع صور متعددة)</h2>
+            <h2>☀️ إضافة منتج صيفي جديد (رفع صور متعددة من الجهاز)</h2>
             <div class="form-group">
                 <label>اسم المنتج الصيفي:</label>
                 <input type="text" id="summer-name" placeholder="مثال: بنطلون جينز صيفي كلاسيكي">
@@ -87,7 +73,7 @@
                 <input type="text" id="summer-price" placeholder="550">
             </div>
             <div class="form-group">
-                <label>اختر صور المنتج الصيفي (يمكنك اختيار أكثر من 10 صور دفعة واحدة):</label>
+                <label>اختر صور المنتج (أكثر من 10 صور دفعة واحدة):</label>
                 <input type="file" id="summer-files" accept="image/*" multiple onchange="convertSummerImgs(this)">
                 <div class="preview-container" id="summer-preview"></div>
             </div>
@@ -102,7 +88,7 @@
 
         <!-- إضافة منتج شتوي -->
         <div class="section-box">
-            <h2>❄️ إضافة منتج شتوي جديد (مع دعم رفع صور متعددة)</h2>
+            <h2>❄️ إضافة منتج شتوي جديد (رفع صور متعددة من الجهاز)</h2>
             <div class="form-group">
                 <label>اسم المنتج الشتوي:</label>
                 <input type="text" id="winter-name" placeholder="مثال: جاكيت شتوي كلاسيكي فاخر">
@@ -112,7 +98,7 @@
                 <input type="text" id="winter-price" placeholder="850">
             </div>
             <div class="form-group">
-                <label>اختر صور المنتج الشتوي (يمكنك اختيار أكثر من 10 صور دفعة واحدة):</label>
+                <label>اختر صور المنتج (أكثر من 10 صور دفعة واحدة):</label>
                 <input type="file" id="winter-files" accept="image/*" multiple onchange="convertWinterImgs(this)">
                 <div class="preview-container" id="winter-preview"></div>
             </div>
@@ -227,7 +213,7 @@
                 else { winterImgsArr = []; document.getElementById('winter-preview').innerHTML = ''; }
                 loadCloudData();
             } catch (e) {
-                alert("خطأ أثناء النشر: حجم الصور كبير جداً، حاول تقليل عدد الصور قليلاً.");
+                alert("خطأ أثناء النشر: تأكد من حجم الصور أو قلل عددها قليلاً.");
             }
         }
 
