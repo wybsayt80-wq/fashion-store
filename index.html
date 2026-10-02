@@ -13,9 +13,9 @@
             --secondary-text: #aaaaaa;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; }
+        body { background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; overflow-x: hidden; }
         
-        /* شريط العروض المميزة في أعلى الشاشة تماماً */
+        /* شريط العروض المميزة في أعلى الشاشة */
         #top-promo-section {
             background: linear-gradient(135deg, var(--accent-color), #8a6f18);
             color: #000;
@@ -36,14 +36,14 @@
         /* الهيدر */
         header {
             background-color: var(--panel-bg);
-            padding: 18px 40px;
+            padding: 18px 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid #222;
         }
         .logo { font-size: 24px; font-weight: bold; color: var(--accent-color); letter-spacing: 1px; }
-        nav a { color: var(--secondary-text); text-decoration: none; margin-left: 25px; font-size: 15px; transition: 0.3s; }
+        nav a { color: var(--secondary-text); text-decoration: none; margin-left: 20px; font-size: 15px; transition: 0.3s; }
         nav a:hover { color: var(--accent-color); }
 
         /* الواجهة الرئيسية */
@@ -54,85 +54,61 @@
             border-bottom: 1px solid #222;
         }
         .brand-title {
-            font-size: 48px;
+            font-size: 46px;
             font-weight: 900;
             background: linear-gradient(45deg, #fff, var(--accent-color), #ffcc00);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             margin-bottom: 15px;
             letter-spacing: 2px;
-            text-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
         }
-        .hero h1 { font-size: 26px; margin-bottom: 10px; color: var(--text-color); }
-        .hero p { color: var(--secondary-text); font-size: 16px; margin-bottom: 25px; max-width: 700px; margin-left: auto; margin-right: auto; }
+        .hero h1 { font-size: 24px; margin-bottom: 10px; color: var(--text-color); }
+        .hero p { color: var(--secondary-text); font-size: 15px; margin-bottom: 30px; max-width: 700px; margin-left: auto; margin-right: auto; }
         
-        /* الشعار المتحرك بأجنحة */
-        .animated-logo-container { max-width: 650px; margin: 30px auto 20px auto; padding: 10px; }
-        .store-animated-logo {
+        /* الصورة الثابتة لكيان جينز */
+        .static-logo-container { max-width: 500px; margin: 20px auto; padding: 10px; }
+        .store-static-logo {
             width: 100%;
             height: auto;
             border-radius: 12px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.9), 0 0 25px rgba(212, 175, 55, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), 0 0 20px rgba(212, 175, 55, 0.2);
             border: 2px solid var(--accent-color);
             background: #111;
-            animation: wingFlapAndGlow 4s ease-in-out infinite;
-        }
-        @keyframes wingFlapAndGlow {
-            0% { transform: scale(1) rotate(0deg); filter: brightness(1); }
-            50% { transform: scale(1.02) rotate(0.5deg); filter: brightness(1.15) drop-shadow(0 0 15px rgba(255,255,255,0.4)); }
-            100% { transform: scale(1) rotate(0deg); filter: brightness(1); }
+            object-fit: cover;
         }
 
-        /* أزرار الأقسام السريعة */
-        .categories-nav {
+        /* أزرار الأقسام الكبرى (صيفي / شتوي) */
+        .main-categories {
             display: flex;
             justify-content: center;
-            gap: 15px;
+            gap: 20px;
             flex-wrap: wrap;
-            padding: 25px;
+            padding: 40px 20px;
             background: var(--panel-bg);
             border-bottom: 1px solid #222;
         }
-        .cat-btn {
-            background-color: #1a1a1a;
-            color: var(--text-color);
-            border: 1px solid #333;
-            padding: 12px 28px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: 0.3s;
-            text-decoration: none;
-            font-weight: 600;
-        }
-        .cat-btn:hover { background-color: var(--accent-color); color: #000; border-color: var(--accent-color); transform: translateY(-2px); }
-
-        /* الأقسام المتسلسلة تحت بعضها */
-        .section-container { max-width: 1200px; margin: 50px auto; padding: 0 20px; }
-        .section-title { font-size: 26px; color: var(--accent-color); margin-bottom: 25px; border-right: 5px solid var(--accent-color); padding-right: 15px; }
-        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
-        .product-card {
-            background-color: var(--panel-bg);
-            border: 1px solid #262626;
+        .main-cat-card {
+            background: #1a1a1a;
+            border: 2px solid var(--accent-color);
+            padding: 25px 40px;
             border-radius: 12px;
-            overflow: hidden;
+            text-decoration: none;
+            color: var(--text-color);
+            font-size: 22px;
+            font-weight: bold;
             transition: 0.3s;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+            text-align: center;
+            min-width: 240px;
         }
-        .product-card:hover { transform: translateY(-8px); border-color: var(--accent-color); box-shadow: 0 10px 25px rgba(212, 175, 55, 0.2); }
-        .product-img-container { width: 100%; height: 220px; background-color: #222; position: relative; overflow: hidden; }
-        .product-img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
-        .product-card:hover .product-img { transform: scale(1.05); }
-        .product-info { padding: 18px; }
-        .product-name { font-size: 19px; margin-bottom: 8px; font-weight: bold; }
-        .product-price { color: var(--accent-color); font-size: 18px; font-weight: bold; margin-bottom: 15px; }
-        .buy-btn {
-            display: block; width: 100%; padding: 12px; background-color: var(--accent-color); color: #000;
-            text-align: center; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 16px; transition: 0.3s;
+        .main-cat-card:hover {
+            background-color: var(--accent-color);
+            color: #000;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.4);
         }
-        .buy-btn:hover { background-color: #b8972b; }
 
-        footer { text-align: center; padding: 40px; background-color: var(--panel-bg); color: var(--secondary-text); border-top: 1px solid #222; margin-top: 60px; font-size: 15px; }
+        footer { text-align: center; padding: 40px; background-color: var(--panel-bg); color: var(--secondary-text); border-top: 1px solid #222; margin-top: 40px; font-size: 15px; }
     </style>
 </head>
 <body>
@@ -150,10 +126,10 @@
     <header>
         <div class="logo" id="store-logo-text">كيان جينز</div>
         <nav>
-            <a href="#all-products">المنتجات</a>
-            <a href="#suits-section">بدلات وكلاسيك</a>
-            <a href="#pants-section">بناطل</a>
-            <a href="#shoes-section">كوتشيات وأحذية</a>
+            <a href="index.html" style="color: var(--accent-color);">الرئيسية</a>
+            <a href="summer.html">صيفي</a>
+            <a href="winter.html">شتوي</a>
+            <a href="admin.html">لوحة التحكم</a>
         </nav>
     </header>
 
@@ -161,41 +137,18 @@
     <section class="hero">
         <div class="brand-title">كيان جينز</div>
         <h1 id="hero-title">ارتق بأناقتك مع تشكيلة رجالية فاخرة</h1>
-        <p id="hero-subtitle">تسوق أحدث صيحات الموضة الرجالية الكلاسيكية، البناطل العصرية، والأحذية والكوتشيات الفاخرة.</p>
+        <p id="hero-subtitle">تسوق أحدث تشكيلات الملابس الصيفية والشتوية الكلاسيكية، البناطيل، التيشرتات، والجواكت الفاخرة.</p>
         
-        <!-- الشعار المتحرك -->
-        <div class="animated-logo-container">
-            <img src="" id="main-animated-logo" class="store-animated-logo" alt="شعار كيان جينز">
+        <!-- الصورة الثابتة لشعار كيان جينز -->
+        <div class="static-logo-container">
+            <img src="" id="main-static-logo" class="store-static-logo" alt="شعار كيان جينز">
         </div>
     </section>
 
-    <!-- أزرار الأقسام السريعة -->
-    <div class="categories-nav">
-        <a href="#all-products" class="cat-btn">كل المنتجات</a>
-        <a href="#suits-section" class="cat-btn">بدلات وكلاسيك</a>
-        <a href="#pants-section" class="cat-btn">بناطل</a>
-        <a href="#shoes-section" class="cat-btn">كوتشيات وأحذية</a>
-    </div>
-
-    <!-- الأقسام المتسلسلة -->
-    <div class="section-container" id="suits-section">
-        <h2 class="section-title">بدلات وكلاسيك</h2>
-        <div class="products-grid" id="suits-grid"></div>
-    </div>
-
-    <div class="section-container" id="pants-section">
-        <h2 class="section-title">بناطل</h2>
-        <div class="products-grid" id="pants-grid"></div>
-    </div>
-
-    <div class="section-container" id="shoes-section">
-        <h2 class="section-title">كوتشيات والأحذية</h2>
-        <div class="products-grid" id="shoes-grid"></div>
-    </div>
-
-    <div class="section-container" id="all-products">
-        <h2 class="section-title">تشكيلة المنتجات الكاملة</h2>
-        <div class="products-grid" id="all-grid"></div>
+    <!-- أزرار الأقسام (صيفي / شتوي) -->
+    <div class="main-categories">
+        <a href="summer.html" class="main-cat-card">☀️ قسم الصيف</a>
+        <a href="winter.html" class="main-cat-card">❄️ قسم الشتاء</a>
     </div>
 
     <footer id="footer-text">جميع الحقوق محفوظة © كيان جينز 2026</footer>
@@ -205,10 +158,10 @@
             const settings = JSON.parse(localStorage.getItem('cloud_store_settings')) || {
                 storeName: "كيان جينز",
                 heroTitle: "ارتق بأناقتك مع تشكيلة رجالية فاخرة",
-                heroSubtitle: "تسوق أحدث صيحات الموضة الرجالية الكلاسيكية، البناطل العصرية، والأحذية والكوتشيات الفاخرة.",
+                heroSubtitle: "تسوق أحدث تشكيلات الملابس الصيفية والشتوية الكلاسيكية.",
                 footerText: "جميع الحقوق محفوظة © كيان جينز 2026",
-                promoActive: true,
-                promoText: "🔥 خصم حصري على كافة المنتجات لفترة محدودة!",
+                promoActive: false,
+                promoText: "🔥 عروض حصريّة لفترة محدودة!",
                 promoEndTime: new Date().getTime() + (24 * 60 * 60 * 1000),
                 promoImages: [],
                 animatedLogoUrl: ""
@@ -220,10 +173,10 @@
             document.getElementById('hero-subtitle').innerText = settings.heroSubtitle;
             document.getElementById('footer-text').innerText = settings.footerText;
 
-            const logoImg = document.getElementById('main-animated-logo');
+            const logoImg = document.getElementById('main-static-logo');
             logoImg.src = settings.animatedLogoUrl || "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800";
 
-            // عرض شريط العروض المميزة في الأعلى
+            // عرض شريط العروض المميزة في الأعلى إذا كان مفعلاً
             const promoSection = document.getElementById('top-promo-section');
             if (settings.promoActive) {
                 promoSection.style.display = 'block';
@@ -253,37 +206,6 @@
             } else {
                 promoSection.style.display = 'none';
             }
-
-            // عرض المنتجات
-            const products = JSON.parse(localStorage.getItem('cloud_store_products')) || [];
-
-            const suitsGrid = document.getElementById('suits-grid');
-            const pantsGrid = document.getElementById('pants-grid');
-            const shoesGrid = document.getElementById('shoes-grid');
-            const allGrid = document.getElementById('all-grid');
-
-            suitsGrid.innerHTML = ''; pantsGrid.innerHTML = ''; shoesGrid.innerHTML = ''; allGrid.innerHTML = '';
-
-            products.forEach(p => {
-                const mainImg = (p.imgs && p.imgs.length > 0) ? p.imgs[0] : 'https://via.placeholder.com/500';
-                const cardHTML = `
-                    <div class="product-card">
-                        <div class="product-img-container">
-                            <img src="${mainImg}" class="product-img" alt="${p.name}">
-                        </div>
-                        <div class="product-info">
-                            <div class="product-name">${p.name}</div>
-                            <div class="product-price">${p.price}</div>
-                            <a href="https://wa.me/?text=مرحباً، أود طلب هذا المنتج: ${encodeURIComponent(p.name)} بسعر ${encodeURIComponent(p.price)}" target="_blank" class="buy-btn">اطلب عبر واتساب</a>
-                        </div>
-                    </div>
-                `;
-
-                allGrid.innerHTML += cardHTML;
-                if (p.category === 'suits') suitsGrid.innerHTML += cardHTML;
-                if (p.category === 'pants') pantsGrid.innerHTML += cardHTML;
-                if (p.category === 'shoes') shoesGrid.innerHTML += cardHTML;
-            });
         });
     </script>
 </body>
