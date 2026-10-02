@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="page-title">كيان جينز - المعرض العالمي الفاخر</title>
+    <!-- مكتبات Firebase السحابية -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
     <style>
         :root {
             --bg-color: #f8f9fa;
@@ -16,25 +19,6 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; overflow-x: hidden; }
         
-        /* شريط العروض المميزة في أعلى الشاشة */
-        #top-promo-section {
-            background: linear-gradient(135deg, var(--accent-color), #8a6f18);
-            color: #fff;
-            padding: 15px 20px;
-            text-align: center;
-            position: sticky;
-            top: 0;
-            z-index: 2000;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-            display: none;
-        }
-        .promo-content { max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 10px; }
-        .promo-title { font-size: 20px; font-weight: 900; text-transform: uppercase; }
-        .promo-timer { font-size: 16px; background: rgba(0,0,0,0.2); padding: 5px 15px; border-radius: 20px; font-weight: bold; }
-        .promo-images-grid { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 5px; }
-        .promo-img { width: 90px; height: 90px; object-fit: cover; border-radius: 8px; border: 2px solid #fff; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
-
-        /* الهيدر الكلاسيكي الأبيض */
         header {
             background-color: var(--panel-bg);
             padding: 18px 40px;
@@ -48,7 +32,6 @@
         nav a { color: var(--secondary-text); text-decoration: none; margin-left: 25px; font-size: 15px; transition: 0.3s; font-weight: 600; }
         nav a:hover { color: var(--accent-color); }
 
-        /* الواجهة الرئيسية الفاخرة */
         .hero {
             padding: 60px 20px;
             text-align: center;
@@ -67,7 +50,6 @@
         .hero h1 { font-size: 26px; margin-bottom: 12px; color: var(--text-color); font-weight: 700; }
         .hero p { color: var(--secondary-text); font-size: 16px; margin-bottom: 35px; max-width: 700px; margin-left: auto; margin-right: auto; }
         
-        /* الشعار المتحرك بأجنحة بترفرف */
         .animated-logo-container { max-width: 650px; margin: 20px auto; padding: 10px; }
         .store-animated-logo {
             width: 100%;
@@ -84,7 +66,6 @@
             100% { transform: scale(1) rotate(0deg); filter: brightness(1); }
         }
 
-        /* أزرار الأقسام الرئيسية (صيفي / شتوي) */
         .main-categories {
             display: flex;
             justify-content: center;
@@ -118,16 +99,6 @@
 </head>
 <body>
 
-    <!-- شريط العروض المميزة العلوي -->
-    <div id="top-promo-section">
-        <div class="promo-content">
-            <div class="promo-title" id="promo-banner-text">🔥 عروض كيان جينز الحصرية</div>
-            <div class="promo-timer" id="promo-countdown">ينتهي خلال: 00:00:00</div>
-            <div class="promo-images-grid" id="promo-images-container"></div>
-        </div>
-    </div>
-
-    <!-- الهيدر -->
     <header>
         <div class="logo" id="store-logo-text">كيان جينز</div>
         <nav>
@@ -137,80 +108,41 @@
         </nav>
     </header>
 
-    <!-- الواجهة الرئيسية -->
     <section class="hero">
         <div class="brand-title">كيان جينز</div>
         <h1 id="hero-title">ارتق بأناقتك مع تشكيلة رجالية فاخرة</h1>
-        <p id="hero-subtitle">تسوق أحدث تشكيلات الملابس الصيفية والشتوية الكلاسيكية، البناطيل، التيشرتات، والجواكت الفاخرة.</p>
+        <p id="hero-subtitle">تسوق أحدث تشكيلات الملابس الصيفية والشتوية الكلاسيكية.</p>
         
-        <!-- الشعار الثابت الذي يرفرف بأجنحة -->
         <div class="animated-logo-container">
-            <img src="1000843025.png" id="main-animated-logo" class="store-animated-logo" alt="شعار كيان جينز" onerror="this.src='https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800'">
+            <img src="1000843025.png" id="main-animated-logo" class="store-animated-logo" alt="شعار كيان جينز">
         </div>
     </section>
 
-    <!-- أزرار الأقسام (صيفي / شتوي) -->
     <div class="main-categories">
         <a href="summer.html" class="main-cat-card">☀️ قسم الصيف</a>
         <a href="winter.html" class="main-cat-card">❄️ قسم الشتاء</a>
     </div>
 
-    <footer id="footer-text">جميع الحقوق محفوظة © كيان جينز 2026</footer>
+    <footer>جميع الحقوق محفوظة © كيان جينز 2026</footer>
 
     <script>
-        window.addEventListener('DOMContentLoaded', () => {
-            const settings = JSON.parse(localStorage.getItem('cloud_store_settings')) || {
-                storeName: "كيان جينز",
-                heroTitle: "ارتق بأناقتك مع تشكيلة رجالية فاخرة",
-                heroSubtitle: "تسوق أحدث تشكيلات الملابس الصيفية والشتوية الكلاسيكية.",
-                footerText: "جميع الحقوق محفوظة © كيان جينز 2026",
-                promoActive: false,
-                promoText: "🔥 عروض حصريّة لفترة محدودة!",
-                promoEndTime: new Date().getTime() + (24 * 60 * 60 * 1000),
-                promoImages: [],
-                animatedLogoUrl: "1000843025.png"
-            };
+        const firebaseConfig = {
+            apiKey: "AIzaSyD-YOUR_KEY_HERE",
+            authDomain: "fashionstore-192b6.firebaseapp.com",
+            projectId: "fashionstore-192b6",
+            storageBucket: "fashionstore-192b6.appspot.com",
+            messagingSenderId: "123456789",
+            appId: "1:123:web:abc"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
 
-            document.getElementById('store-logo-text').innerText = settings.storeName;
-            document.getElementById('page-title').innerText = settings.storeName;
-            document.getElementById('hero-title').innerText = settings.heroTitle;
-            document.getElementById('hero-subtitle').innerText = settings.heroSubtitle;
-            document.getElementById('footer-text').innerText = settings.footerText;
-
-            const logoImg = document.getElementById('main-animated-logo');
-            if (settings.animatedLogoUrl) {
-                logoImg.src = settings.animatedLogoUrl;
-            }
-
-            // عرض شريط العروض المميزة في الأعلى إذا كان مفعلاً
-            const promoSection = document.getElementById('top-promo-section');
-            if (settings.promoActive) {
-                promoSection.style.display = 'block';
-                document.getElementById('promo-banner-text').innerText = settings.promoText;
-                
-                const promoImgsContainer = document.getElementById('promo-images-container');
-                promoImgsContainer.innerHTML = '';
-                if (settings.promoImages && settings.promoImages.length > 0) {
-                    settings.promoImages.forEach(imgData => {
-                        promoImgsContainer.innerHTML += `<img src="${imgData}" class="promo-img" alt="عرض">`;
-                    });
-                }
-
-                const endTime = new Date(settings.promoEndTime).getTime();
-                setInterval(() => {
-                    const now = new Date().getTime();
-                    const distance = endTime - now;
-                    if (distance < 0) {
-                        document.getElementById('promo-countdown').innerText = "انتهى العرض";
-                    } else {
-                        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-                        document.getElementById('promo-countdown').innerText = `ينتهي خلال: ${hours}س : ${minutes}د : ${seconds}ث`;
-                    }
-                }, 1000);
-            } else {
-                promoSection.style.display = 'none';
+        db.collection("settings").doc("storeInfo").get().then(doc => {
+            if (doc.exists) {
+                const data = doc.data();
+                document.getElementById('store-logo-text').innerText = data.storeName;
+                document.getElementById('page-title').innerText = data.storeName;
+                if(data.logoUrl) document.getElementById('main-animated-logo').src = data.logoUrl;
             }
         });
     </script>
