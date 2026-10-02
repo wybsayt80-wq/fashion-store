@@ -8,7 +8,7 @@
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background-color: #f4f6f9; color: #1a1a1a; padding: 20px; }
         
-        /* شاشة تسجيل الدخول بكلمة المرور */
+        /* شاشة تسجيل الدخول بكلمة المرور (1111) */
         #auth-screen {
             max-width: 400px;
             margin: 100px auto;
@@ -62,7 +62,7 @@
         <a href="index.html" class="back-link">← العودة إلى المتجر الرئيسي</a>
         <h1>لوحة التحكم المباشرة - كيان جينز</h1>
 
-        <!-- 1. إعدادات الشعار المتحرك -->
+        <!-- 1. إعدادات الشعار -->
         <div class="section-box">
             <h2>إعدادات الشعار الرئيسي للمتجر</h2>
             <div class="form-group">
@@ -78,82 +78,133 @@
                 <textarea id="setting-heroSubtitle" rows="3"></textarea>
             </div>
             <div class="form-group">
-                <label>اختر صورة الشعار المتحرك (أو اتركها للشعار الأساسي):</label>
+                <label>اختر صورة الشعار:</label>
                 <input type="file" id="setting-animatedLogoFile" accept="image/*" onchange="convertLogoFile(this)">
                 <div class="preview-imgs" id="logo-preview"></div>
             </div>
             <button class="action-btn" onclick="saveSettings()">حفظ الشعار والإعدادات</button>
         </div>
 
-        <!-- 2. إدارة شريط العروض المميزة -->
+        <!-- 2. إدارة شريط العروض الصيفية -->
         <div class="section-box">
-            <h2>إدارة شريط العروض المميزة في قمة الشاشة</h2>
+            <h2>☀️ إدارة شريط العروض (القسم الصيفي)</h2>
             <div class="form-group">
-                <label>تفعيل الشريط:</label>
-                <select id="setting-promoActive">
-                    <option value="true">مفعل (يظهر في القمة)</option>
+                <label>حالة الشريط الصيفي:</label>
+                <select id="summer-promoActive">
+                    <option value="true">مفعل (يظهر في قمة صفحة الصيف)</option>
                     <option value="false">مخفي</option>
                 </select>
             </div>
             <div class="form-group">
-                <label>نص العرض:</label>
-                <input type="text" id="setting-promoText" value="🔥 خصم حصري لفترة محدودة!">
+                <label>نص العرض الصيفي:</label>
+                <input type="text" id="summer-promoText" value="🔥 عروض الصيف الحصرية لفترة محدودة!">
             </div>
             <div class="form-group">
-                <label>وقت انتهاء العرض:</label>
-                <input type="datetime-local" id="setting-promoEndTime">
+                <label>وقت انتهاء العرض الصيفي:</label>
+                <input type="datetime-local" id="summer-promoEndTime">
             </div>
             <div class="form-group">
-                <label>اختر صور العرض:</label>
-                <input type="file" id="setting-promoFiles" accept="image/*" multiple onchange="convertPromoFiles(this)">
-                <div class="preview-imgs" id="promo-preview-container"></div>
+                <label>صور العروض الصيفية (يمكنك اختيار عدة صور):</label>
+                <input type="file" id="summer-promoFiles" accept="image/*" multiple onchange="convertSummerPromoFiles(this)">
+                <div class="preview-imgs" id="summer-promo-preview"></div>
             </div>
-            <button class="action-btn" onclick="savePromoSettings()">حفظ وتفعيل شريط العروض</button>
+            <button class="action-btn" onclick="saveSummerPromo()">حفظ عروض الصيف</button>
         </div>
 
-        <!-- 3. إضافة منتج جديد -->
+        <!-- 3. إدارة شريط العروض الشتوية -->
         <div class="section-box">
-            <h2 id="form-heading">إضافة منتج جديد</h2>
-            <input type="hidden" id="edit-product-id" value="">
+            <h2>❄️ إدارة شريط العروض (القسم الشتوي)</h2>
             <div class="form-group">
-                <label>اسم المنتج:</label>
-                <input type="text" id="prod-name" placeholder="مثال: بنطلون جينز / جاكيت شتوي فاخر">
-            </div>
-            <div class="form-group">
-                <label>السعر (بالجنيه المصري):</label>
-                <input type="text" id="prod-price" placeholder="مثال: 550">
-            </div>
-            <div class="form-group">
-                <label>القسم:</label>
-                <select id="prod-category">
-                    <option value="summer">قسم الصيف (بناطيل، قمصان، تيشرتات، خفيف)</option>
-                    <option value="winter">قسم الشتاء (جواكت، سويتشيرتات، ثقيل)</option>
+                <label>حالة الشريط الشتوي:</label>
+                <select id="winter-promoActive">
+                    <option value="true">مفعل (يظهر في قمة صفحة الشتاء)</option>
+                    <option value="false">مخفي</option>
                 </select>
             </div>
             <div class="form-group">
-                <label>اختر صور المنتج:</label>
-                <input type="file" id="prod-files" accept="image/*" multiple onchange="convertProdFiles(this)">
-                <div class="preview-imgs" id="prod-preview-container"></div>
+                <label>نص العرض الشتوي:</label>
+                <input type="text" id="winter-promoText" value="🔥 عروض الشتاء الحصرية لفترة محدودة!">
             </div>
-            <button class="action-btn" onclick="saveProduct()" id="save-prod-btn">إضافة المنتج للمتجر</button>
+            <div class="form-group">
+                <label>وقت انتهاء العرض الشتوي:</label>
+                <input type="datetime-local" id="winter-promoEndTime">
+            </div>
+            <div class="form-group">
+                <label>صور العروض الشتوية (يمكنك اختيار عدة صور):</label>
+                <input type="file" id="winter-promoFiles" accept="image/*" multiple onchange="convertWinterPromoFiles(this)">
+                <div class="preview-imgs" id="winter-promo-preview"></div>
+            </div>
+            <button class="action-btn" onclick="saveWinterPromo()">حفظ عروض الشتاء</button>
+        </div>
 
-            <h2>المنتجات الحالية</h2>
+        <!-- 4. إضافة منتج صيفي جديد -->
+        <div class="section-box" id="summer-product-section">
+            <h2 id="summer-form-heading">☀️ إضافة منتج صيفي جديد</h2>
+            <input type="hidden" id="edit-summer-id" value="">
+            <div class="form-group">
+                <label>اسم المنتج الصيفي:</label>
+                <input type="text" id="summer-name" placeholder="مثال: بنطلون جينز صيفي فاخر">
+            </div>
+            <div class="form-group">
+                <label>السعر (بالجنيه المصري):</label>
+                <input type="text" id="summer-price" placeholder="مثال: 550">
+            </div>
+            <div class="form-group">
+                <label>صور المنتج الصيفي (حتى 15 صورة):</label>
+                <input type="file" id="summer-files" accept="image/*" multiple onchange="convertSummerProdFiles(this)">
+                <div class="preview-imgs" id="summer-prod-preview"></div>
+            </div>
+            <button class="action-btn" onclick="saveSummerProduct()" id="save-summer-btn">إضافة المنتج الصيفي</button>
+
+            <h3 style="margin-top: 30px; color: #c5a059;">المنتجات الصيفية الحالية</h3>
             <table>
                 <thead>
                     <tr>
-                        <th>اسم المنتج</th>
+                        <th>رقم المنتج</th>
+                        <th>الاسم</th>
                         <th>السعر</th>
-                        <th>القسم</th>
-                        <th>إجراءات</th>
+                        <th>الإجراءات</th>
                     </tr>
                 </thead>
-                <tbody id="products-table-body"></tbody>
+                <tbody id="summer-table-body"></tbody>
+            </table>
+        </div>
+
+        <!-- 5. إضافة منتج شتوي جديد -->
+        <div class="section-box" id="winter-product-section">
+            <h2 id="winter-form-heading">❄️ إضافة منتج شتوي جديد</h2>
+            <input type="hidden" id="edit-winter-id" value="">
+            <div class="form-group">
+                <label>اسم المنتج الشتوي:</label>
+                <input type="text" id="winter-name" placeholder="مثال: جاكيت شتوي ثقيل فاخر">
+            </div>
+            <div class="form-group">
+                <label>السعر (بالجنيه المصري):</label>
+                <input type="text" id="winter-price" placeholder="مثال: 850">
+            </div>
+            <div class="form-group">
+                <label>صور المنتج الشتوي (حتى 15 صورة):</label>
+                <input type="file" id="winter-files" accept="image/*" multiple onchange="convertWinterProdFiles(this)">
+                <div class="preview-imgs" id="winter-prod-preview"></div>
+            </div>
+            <button class="action-btn" onclick="saveWinterProduct()" id="save-winter-btn">إضافة المنتج الشتوي</button>
+
+            <h3 style="margin-top: 30px; color: #c5a059;">المنتجات الشتوية الحالية</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>رقم المنتج</th>
+                        <th>الاسم</th>
+                        <th>السعر</th>
+                        <th>الإجراءات</th>
+                    </tr>
+                </thead>
+                <tbody id="winter-table-body"></tbody>
             </table>
         </div>
     </div>
 
     <script>
-        // التحقق من كلمة المرور (1111)
         function checkPassword() {
             const pass = document.getElementById('admin-pass').value;
             if (pass === "1111") {
@@ -165,36 +216,44 @@
             }
         }
 
-        let tempPromoImages = [];
-        let tempProdImages = [];
-        let tempLogoUrl = "";
+        let tempLogoUrl = "1000843025.png";
+        let summerPromoImgs = [];
+        let winterPromoImgs = [];
+        let summerProdImgs = [];
+        let winterProdImgs = [];
 
         function initAdmin() {
             const settings = JSON.parse(localStorage.getItem('cloud_store_settings')) || {
                 storeName: "كيان جينز",
                 heroTitle: "ارتق بأناقتك مع تشكيلة رجالية فاخرة",
                 heroSubtitle: "تسوق أحدث تشكيلات الملابس الصيفية والشتوية الكلاسيكية.",
-                promoActive: false,
-                promoText: "🔥 خصم حصري على كافة المنتجات لفترة محدودة!",
-                promoImages: [],
-                animatedLogoUrl: "1000843025.png"
+                animatedLogoUrl: "1000843025.png",
+                summerPromo: { active: false, text: "", endTime: 0, images: [] },
+                winterPromo: { active: false, text: "", endTime: 0, images: [] }
             };
 
-            document.getElementById('setting-storeName').value = settings.storeName;
-            document.getElementById('setting-heroTitle').value = settings.heroTitle;
-            document.getElementById('setting-heroSubtitle').value = settings.heroSubtitle;
-            document.getElementById('setting-promoActive').value = settings.promoActive ? "true" : "false";
-            document.getElementById('setting-promoText').value = settings.promoText;
+            document.getElementById('setting-storeName').value = settings.storeName || "كيان جينز";
+            document.getElementById('setting-heroTitle').value = settings.heroTitle || "";
+            document.getElementById('setting-heroSubtitle').value = settings.heroSubtitle || "";
             
             tempLogoUrl = settings.animatedLogoUrl || "1000843025.png";
-            if(tempLogoUrl) {
-                document.getElementById('logo-preview').innerHTML = `<img src="${tempLogoUrl}">`;
+            document.getElementById('logo-preview').innerHTML = `<img src="${tempLogoUrl}">`;
+
+            if (settings.summerPromo) {
+                document.getElementById('summer-promoActive').value = settings.summerPromo.active ? "true" : "false";
+                document.getElementById('summer-promoText').value = settings.summerPromo.text || "";
+                summerPromoImgs = settings.summerPromo.images || [];
+                renderPreviews('summer-promo-preview', summerPromoImgs);
             }
 
-            tempPromoImages = settings.promoImages || [];
-            renderPreviews('promo-preview-container', tempPromoImages);
+            if (settings.winterPromo) {
+                document.getElementById('winter-promoActive').value = settings.winterPromo.active ? "true" : "false";
+                document.getElementById('winter-promoText').value = settings.winterPromo.text || "";
+                winterPromoImgs = settings.winterPromo.images || [];
+                renderPreviews('winter-promo-preview', winterPromoImgs);
+            }
 
-            renderProductsTable();
+            renderTables();
         }
 
         function convertLogoFile(input) {
@@ -208,28 +267,56 @@
             }
         }
 
-        function convertPromoFiles(input) {
-            tempPromoImages = [];
-            const container = document.getElementById('promo-preview-container');
+        function convertSummerPromoFiles(input) {
+            summerPromoImgs = [];
+            const container = document.getElementById('summer-promo-preview');
             container.innerHTML = '';
             Array.from(input.files).forEach(file => {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    tempPromoImages.push(e.target.result);
+                    summerPromoImgs.push(e.target.result);
                     container.innerHTML += `<img src="${e.target.result}">`;
                 }
                 reader.readAsDataURL(file);
             });
         }
 
-        function convertProdFiles(input) {
-            tempProdImages = [];
-            const container = document.getElementById('prod-preview-container');
+        function convertWinterPromoFiles(input) {
+            winterPromoImgs = [];
+            const container = document.getElementById('winter-promo-preview');
             container.innerHTML = '';
             Array.from(input.files).forEach(file => {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    tempProdImages.push(e.target.result);
+                    winterPromoImgs.push(e.target.result);
+                    container.innerHTML += `<img src="${e.target.result}">`;
+                }
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function convertSummerProdFiles(input) {
+            summerProdImgs = [];
+            const container = document.getElementById('summer-prod-preview');
+            container.innerHTML = '';
+            Array.from(input.files).forEach(file => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    summerProdImgs.push(e.target.result);
+                    container.innerHTML += `<img src="${e.target.result}">`;
+                }
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function convertWinterProdFiles(input) {
+            winterProdImgs = [];
+            const container = document.getElementById('winter-prod-preview');
+            container.innerHTML = '';
+            Array.from(input.files).forEach(file => {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    winterProdImgs.push(e.target.result);
                     container.innerHTML += `<img src="${e.target.result}">`;
                 }
                 reader.readAsDataURL(file);
@@ -250,31 +337,40 @@
             settings.heroTitle = document.getElementById('setting-heroTitle').value;
             settings.heroSubtitle = document.getElementById('setting-heroSubtitle').value;
             settings.animatedLogoUrl = tempLogoUrl;
-            
             localStorage.setItem('cloud_store_settings', JSON.stringify(settings));
             alert("تم حفظ الشعار والإعدادات بنجاح!");
         }
 
-        function savePromoSettings() {
+        function saveSummerPromo() {
             const settings = JSON.parse(localStorage.getItem('cloud_store_settings')) || {};
-            settings.promoActive = document.getElementById('setting-promoActive').value === "true";
-            settings.promoText = document.getElementById('setting-promoText').value;
-            settings.promoImages = tempPromoImages;
-            
-            const datetimeInput = document.getElementById('setting-promoEndTime').value;
-            if (datetimeInput) {
-                settings.promoEndTime = new Date(datetimeInput).getTime();
-            }
-            
+            const datetimeInput = document.getElementById('summer-promoEndTime').value;
+            settings.summerPromo = {
+                active: document.getElementById('summer-promoActive').value === "true",
+                text: document.getElementById('summer-promoText').value,
+                endTime: datetimeInput ? new Date(datetimeInput).getTime() : new Date().getTime() + 86400000,
+                images: summerPromoImgs
+            };
             localStorage.setItem('cloud_store_settings', JSON.stringify(settings));
-            alert("تم تحديث شريط العروض في قمة الشاشة بنجاح!");
+            alert("تم حفظ وتشغيل عروض الصيف بنجاح!");
         }
 
-        function saveProduct() {
-            const editId = document.getElementById('edit-product-id').value;
-            const name = document.getElementById('prod-name').value;
-            const price = document.getElementById('prod-price').value;
-            const category = document.getElementById('prod-category').value;
+        function saveWinterPromo() {
+            const settings = JSON.parse(localStorage.getItem('cloud_store_settings')) || {};
+            const datetimeInput = document.getElementById('winter-promoEndTime').value;
+            settings.winterPromo = {
+                active: document.getElementById('winter-promoActive').value === "true",
+                text: document.getElementById('winter-promoText').value,
+                endTime: datetimeInput ? new Date(datetimeInput).getTime() : new Date().getTime() + 86400000,
+                images: winterPromoImgs
+            };
+            localStorage.setItem('cloud_store_settings', JSON.stringify(settings));
+            alert("تم حفظ وتشغيل عروض الشتاء بنجاح!");
+        }
+
+        function saveSummerProduct() {
+            const editId = document.getElementById('edit-summer-id').value;
+            const name = document.getElementById('summer-name').value;
+            const price = document.getElementById('summer-price').value;
 
             if (!name || !price) {
                 alert("الرجاء إدخال اسم المنتج والسعر!");
@@ -286,48 +382,100 @@
             if (editId) {
                 products = products.map(p => {
                     if (p.id == editId) {
-                        return { 
-                            id: Number(editId), 
-                            name, 
-                            price, 
-                            category, 
-                            imgs: tempProdImages.length > 0 ? tempProdImages : p.imgs 
+                        return {
+                            id: Number(editId),
+                            name,
+                            price,
+                            category: 'summer',
+                            imgs: summerProdImgs.length > 0 ? summerProdImgs : p.imgs
                         };
                     }
                     return p;
                 });
-                document.getElementById('edit-product-id').value = '';
-                document.getElementById('form-heading').innerText = "إضافة منتج جديد";
-                document.getElementById('save-prod-btn').innerText = "إضافة المنتج للمتجر";
+                document.getElementById('edit-summer-id').value = '';
+                document.getElementById('summer-form-heading').innerText = "☀️ إضافة منتج صيفي جديد";
+                document.getElementById('save-summer-btn').innerText = "إضافة المنتج الصيفي";
             } else {
-                products.push({ id: Date.now(), name, price, category, imgs: tempProdImages });
+                const newId = 'SUM-' + Math.floor(1000 + Math.random() * 9000);
+                products.push({ id: newId, name, price, category: 'summer', imgs: summerProdImgs });
             }
 
             localStorage.setItem('cloud_store_products', JSON.stringify(products));
+            document.getElementById('summer-name').value = '';
+            document.getElementById('summer-price').value = '';
+            document.getElementById('summer-files').value = '';
+            summerProdImgs = [];
+            document.getElementById('summer-prod-preview').innerHTML = '';
+            renderTables();
+            alert("تم حفظ ونشر المنتج الصيفي بنجاح!");
+        }
 
-            document.getElementById('prod-name').value = '';
-            document.getElementById('prod-price').value = '';
-            document.getElementById('prod-files').value = '';
-            tempProdImages = [];
-            document.getElementById('prod-preview-container').innerHTML = '';
+        function saveWinterProduct() {
+            const editId = document.getElementById('edit-winter-id').value;
+            const name = document.getElementById('winter-name').value;
+            const price = document.getElementById('winter-price').value;
 
-            renderProductsTable();
-            alert("تم حفظ ونشر المنتج بنجاح!");
+            if (!name || !price) {
+                alert("الرجاء إدخال اسم المنتج والسعر!");
+                return;
+            }
+
+            let products = JSON.parse(localStorage.getItem('cloud_store_products')) || [];
+
+            if (editId) {
+                products = products.map(p => {
+                    if (p.id == editId) {
+                        return {
+                            id: Number(editId),
+                            name,
+                            price,
+                            category: 'winter',
+                            imgs: winterProdImgs.length > 0 ? winterProdImgs : p.imgs
+                        };
+                    }
+                    return p;
+                });
+                document.getElementById('edit-winter-id').value = '';
+                document.getElementById('winter-form-heading').innerText = "❄️ إضافة منتج شتوي جديد";
+                document.getElementById('save-winter-btn').innerText = "إضافة المنتج الشتوي";
+            } else {
+                const newId = 'WIN-' + Math.floor(1000 + Math.random() * 9000);
+                products.push({ id: newId, name, price, category: 'winter', imgs: winterProdImgs });
+            }
+
+            localStorage.setItem('cloud_store_products', JSON.stringify(products));
+            document.getElementById('winter-name').value = '';
+            document.getElementById('winter-price').value = '';
+            document.getElementById('winter-files').value = '';
+            winterProdImgs = [];
+            document.getElementById('winter-prod-preview').innerHTML = '';
+            renderTables();
+            alert("تم حفظ ونشر المنتج الشتوي بنجاح!");
         }
 
         function editProduct(id) {
             const products = JSON.parse(localStorage.getItem('cloud_store_products')) || [];
             const p = products.find(item => item.id == id);
             if (p) {
-                document.getElementById('edit-product-id').value = p.id;
-                document.getElementById('prod-name').value = p.name;
-                document.getElementById('prod-price').value = p.price;
-                document.getElementById('prod-category').value = p.category;
-                tempProdImages = p.imgs || [];
-                renderPreviews('prod-preview-container', tempProdImages);
-                document.getElementById('form-heading').innerText = "تعديل المنتج الحالي";
-                document.getElementById('save-prod-btn').innerText = "حفظ التعديلات";
-                window.scrollTo({ top: document.getElementById('form-heading').offsetTop, behavior: 'smooth' });
+                if (p.category === 'summer') {
+                    document.getElementById('edit-summer-id').value = p.id;
+                    document.getElementById('summer-name').value = p.name;
+                    document.getElementById('summer-price').value = p.price;
+                    summerProdImgs = p.imgs || [];
+                    renderPreviews('summer-prod-preview', summerProdImgs);
+                    document.getElementById('summer-form-heading').innerText = "تعديل المنتج الصيفي (رقم: " + p.id + ")";
+                    document.getElementById('save-summer-btn').innerText = "حفظ التعديلات";
+                    window.scrollTo({ top: document.getElementById('summer-product-section').offsetTop, behavior: 'smooth' });
+                } else {
+                    document.getElementById('edit-winter-id').value = p.id;
+                    document.getElementById('winter-name').value = p.name;
+                    document.getElementById('winter-price').value = p.price;
+                    winterProdImgs = p.imgs || [];
+                    renderPreviews('winter-prod-preview', winterProdImgs);
+                    document.getElementById('winter-form-heading').innerText = "تعديل المنتج الشتوي (رقم: " + p.id + ")";
+                    document.getElementById('save-winter-btn').innerText = "حفظ التعديلات";
+                    window.scrollTo({ top: document.getElementById('winter-product-section').offsetTop, behavior: 'smooth' });
+                }
             }
         }
 
@@ -335,29 +483,35 @@
             let products = JSON.parse(localStorage.getItem('cloud_store_products')) || [];
             products = products.filter(p => p.id !== id);
             localStorage.setItem('cloud_store_products', JSON.stringify(products));
-            renderProductsTable();
+            renderTables();
         }
 
-        function renderProductsTable() {
+        function renderTables() {
             const products = JSON.parse(localStorage.getItem('cloud_store_products')) || [];
-            const tbody = document.getElementById('products-table-body');
-            tbody.innerHTML = '';
+            const summerTbody = document.getElementById('summer-table-body');
+            const winterTbody = document.getElementById('winter-table-body');
+            summerTbody.innerHTML = '';
+            winterTbody.innerHTML = '';
 
             products.forEach(p => {
-                const catName = p.category === 'summer' ? 'صيفي' : 'شتوي';
-                tbody.innerHTML += `
+                const rowHTML = `
                     <tr>
+                        <td><strong>${p.id}</strong></td>
                         <td>${p.name}</td>
                         <td>${p.price} ج.م</td>
-                        <td>${catName}</td>
                         <td>
                             <div class="action-btns">
-                                <button class="edit-btn" onclick="editProduct(${p.id})">تعديل</button>
-                                <button class="del-btn" onclick="deleteProduct(${p.id})">حذف</button>
+                                <button class="edit-btn" onclick="editProduct('${p.id}')">تعديل</button>
+                                <button class="del-btn" onclick="deleteProduct('${p.id}')">حذف</button>
                             </div>
                         </td>
                     </tr>
                 `;
+                if (p.category === 'summer') {
+                    summerTbody.innerHTML += rowHTML;
+                } else {
+                    winterTbody.innerHTML += rowHTML;
+                }
             });
         }
     </script>
