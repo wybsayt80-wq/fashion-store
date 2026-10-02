@@ -78,7 +78,7 @@
                 <textarea id="setting-heroSubtitle" rows="3"></textarea>
             </div>
             <div class="form-group">
-                <label>اختر صورة الشعار المتحرك:</label>
+                <label>اختر صورة الشعار المتحرك (أو اتركها للشعار الأساسي):</label>
                 <input type="file" id="setting-animatedLogoFile" accept="image/*" onchange="convertLogoFile(this)">
                 <div class="preview-imgs" id="logo-preview"></div>
             </div>
@@ -153,6 +153,7 @@
     </div>
 
     <script>
+        // التحقق من كلمة المرور (1111)
         function checkPassword() {
             const pass = document.getElementById('admin-pass').value;
             if (pass === "1111") {
