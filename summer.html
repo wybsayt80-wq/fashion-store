@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تشكيلة الصيف - كيان جينز</title>
+    <style>
+        :root {
+            --bg-color: #0d0d0d;
+            --panel-bg: #141414;
+            --accent-color: #d4af37;
+            --text-color: #ffffff;
+            --secondary-text: #aaaaaa;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; overflow-x: hidden; }
+        
+        /* شريط العروض المميزة العلوي */
+        #top-promo-section {
+            background: linear-gradient(135deg, var(--accent-color), #8a6f18);
+            color: #000;
+            padding: 15px 20px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 2000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.8);
+            display: none;
+        }
+        .promo-content { max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+        .promo-title { font-size: 20px; font-weight: 900; text-transform: uppercase; }
+        .promo-timer { font-size: 16px; background: rgba(0,0,0,0.2); padding: 5px 15px; border-radius: 20px; font-weight: bold; }
+        .promo-images-grid { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 5px; }
+        .promo-img { width: 90px; height: 90px; object-fit: cover; border-radius: 8px; border: 2px solid #000; box-shadow: 0 4px 10px rgba(0,0,0,0.4); }
+
+        /* الهيدر */
+        header {
+            background-color: var(--panel-bg);
+            padding: 18px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #222;
+        }
+        .logo { font-size: 22px; font-weight: bold; color: var(--accent-color); letter-spacing: 1px; }
+        nav a { color: var(--secondary-text); text-decoration: none; margin-left: 15px; font-size: 14px; transition: 0.3s; }
+        nav a:hover { color: var(--accent-color); }
+
+        /* الواجهة */
+        .hero {
+            padding: 40px 20px;
+            text-align: center;
+            background: radial-gradient(circle, #1a1a1a 0%, var(--bg-color) 100%);
+            border-bottom: 1px solid #222;
+        }
+        .brand-title {
+            font-size: 38px;
+            font-weight: 900;
+            background: linear-gradient(45deg, #fff, var(--accent-color), #ffcc00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+        .hero h1 { font-size: 22px; margin-bottom: 8px; color: var(--text-color); }
+        .hero p { color: var(--secondary-text); font-size: 14px; max-width: 600px; margin: 0 auto; }
+
+        /* الأقسام والمنتجات */
+        .section-container { max-width: 1200px; margin: 40px auto; padding: 0 15px; }
+        .section-title { font-size: 24px; color: var(--accent-color); margin-bottom: 20px; border-right: 5px solid var(--accent-color); padding-right: 12px; }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
+        .product-card {
+            background-color: var(--panel-bg);
+            border: 1px solid #262626;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.4);
+        }
+        .product-img-container { width: 100%; height: 210px; background-color: #222; overflow: hidden; }
+        .product-img { width: 100%; height: 100%; object-fit: cover; }
+        .product-info { padding: 15px; }
+        .product-name { font-size: 18px; margin-bottom: 6px; font-weight: bold; }
+        .product-price { color: var(--accent-color); font-size: 17px; font-weight: bold; margin-bottom: 12px; }
+        .buy-btn {
+            display: block; width: 100%; padding: 11px; background-color: var(--accent-color); color: #000;
+            text-align: center; border-radius: 6px; text-decoration: none; font-weight: bold; font-size: 15px;
+        }
+        footer { text-align: center; padding: 30px; background-color: var(--panel-bg); color: var(--secondary-text); border-top: 1px solid #222; margin-top: 40px; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+    <!-- شريط العروض المميزة العلوي -->
+    <div id="top-promo-section">
+        <div class="promo-content">
+            <div class="promo-title" id="promo-banner-text">🔥 عروض الصيف الحصرية</div>
+            <div class="promo-timer" id="promo-countdown">ينتهي خلال: 00:00:00</div>
+            <div class="promo-images-grid" id="promo-images-container"></div>
+        </div>
+    </div>
+
+    <!-- الهيدر -->
+    <header>
+        <div class="logo">كيان جينز - صيفي</div>
+        <nav>
+            <a href="index.html">الرئيسية</a>
+            <a href="summer.html" style="color: var(--accent-color);">صيفي</a>
+            <a href="winter.html">شتوي</a>
+        </nav>
+    </header>
+
+    <!-- الواجهة -->
+    <section class="hero">
+        <div class="brand-title">تشكيلة الصيف الفاخرة</div>
+        <h1>بناطيل، قمصان، وتيشرتات صيفية عصرية</h1>
+        <p>اكتشف أحدث صيحات الموضة الصيفية المصممة بعناية لراحة وأناقة لا نظير لها.</p>
+    </section>
+
+    <!-- عرض المنتجات الصيفية -->
+    <div class="section-container">
+        <h2 class="section-title">منتجات الصيف المتاحة</h2>
+        <div class="products-grid" id="summer-products-grid"></div>
+    </div>
+
+    <footer>جميع الحقوق محفوظة © كيان جينز 2026</footer>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            const settings = JSON.parse(localStorage.getItem('cloud_store_settings')) || {
+                promoActive: false,
+                promoText: "🔥 عروض الصيف الحصرية",
+                promoEndTime: new Date().getTime() + (24 * 60 * 60 * 1000),
+                promoImages: []
+            };
+
+            // تشغيل شريط العروض
+            const promoSection = document.getElementById('top-promo-section');
+            if (settings.promoActive) {
+                promoSection.style.display = 'block';
+                document.getElementById('promo-banner-text').innerText = settings.promoText;
+                
+                const promoImgsContainer = document.getElementById('promo-images-container');
+                promoImgsContainer.innerHTML = '';
+                if (settings.promoImages && settings.promoImages.length > 0) {
+                    settings.promoImages.forEach(imgData => {
+                        promoImgsContainer.innerHTML += `<img src="${imgData}" class="promo-img" alt="عرض">`;
+                    });
+                }
+
+                const endTime = new Date(settings.promoEndTime).getTime();
+                setInterval(() => {
+                    const now = new Date().getTime();
+                    const distance = endTime - now;
+                    if (distance < 0) {
+                        document.getElementById('promo-countdown').innerText = "انتهى العرض";
+                    } else {
+                        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                        document.getElementById('promo-countdown').innerText = `ينتهي خلال: ${hours}س : ${minutes}د : ${seconds}ث`;
+                    }
+                }, 1000);
+            }
+
+            // جلب وعرض منتجات الصيف فقط (التصنيفات الصيفية أو العامة)
+            const products = JSON.parse(localStorage.getItem('cloud_store_products')) || [];
+            const grid = document.getElementById('summer-products-grid');
+            grid.innerHTML = '';
+
+            products.forEach(p => {
+                // إذا كان القسم صيفي أو يخص البناطيل والقمصان والتشيرتات
+                if (p.category === 'summer' || p.category === 'pants' || p.category === 'shirts' || p.category === 'tshirts') {
+                    const mainImg = (p.imgs && p.imgs.length > 0) ? p.imgs[0] : 'https://via.placeholder.com/500';
+                    grid.innerHTML += `
+                        <div class="product-card">
+                            <div class="product-img-container">
+                                <img src="${mainImg}" class="product-img" alt="${p.name}">
+                            </div>
+                            <div class="product-info">
+                                <div class="product-name">${p.name}</div>
+                                <div class="product-price">${p.price} ج.م</div>
+                                <a href="https://wa.me/?text=مرحباً، أود طلب هذا المنتج الصيفي: ${encodeURIComponent(p.name)} بسعر ${encodeURIComponent(p.price)} ج.م" target="_blank" class="buy-btn">اطلب عبر واتساب</a>
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+        });
+    </script>
+</body>
+</html>
