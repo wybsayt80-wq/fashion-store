@@ -127,7 +127,7 @@
         </div>
     </div>
 
-    <!-- الهيدر (بدون زر لوحة التحكم) -->
+    <!-- الهيدر -->
     <header>
         <div class="logo" id="store-logo-text">كيان جينز</div>
         <nav>
@@ -143,9 +143,9 @@
         <h1 id="hero-title">ارتق بأناقتك مع تشكيلة رجالية فاخرة</h1>
         <p id="hero-subtitle">تسوق أحدث تشكيلات الملابس الصيفية والشتوية الكلاسيكية، البناطيل، التيشرتات، والجواكت الفاخرة.</p>
         
-        <!-- الشعار المتحرك بأجنحة ترفرف -->
+        <!-- الشعار الثابت الذي يرفرف بأجنحة -->
         <div class="animated-logo-container">
-            <img src="1000843025.png" id="main-animated-logo" class="store-animated-logo" alt="شعار كيان جينز">
+            <img src="1000843025.png" id="main-animated-logo" class="store-animated-logo" alt="شعار كيان جينز" onerror="this.src='https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800'">
         </div>
     </section>
 
@@ -178,7 +178,9 @@
             document.getElementById('footer-text').innerText = settings.footerText;
 
             const logoImg = document.getElementById('main-animated-logo');
-            logoImg.src = settings.animatedLogoUrl || "1000843025.png";
+            if (settings.animatedLogoUrl) {
+                logoImg.src = settings.animatedLogoUrl;
+            }
 
             // عرض شريط العروض المميزة في الأعلى إذا كان مفعلاً
             const promoSection = document.getElementById('top-promo-section');
