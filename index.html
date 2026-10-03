@@ -61,6 +61,23 @@
         .btn-outline { background: transparent; color: #000; border: 2px solid #000; padding: 12px 24px; border-radius: 30px; text-decoration: none; font-weight: bold; font-size: 14px; transition: 0.3s; }
         .btn-outline:hover { background: #000; color: #fff; }
 
+        /* قسم وسائل التواصل الاجتماعي في المنتصف مع عبارات تليق بالبراند */
+        .social-section-center {
+            text-align: center;
+            background: #fafafa;
+            border: 1px solid var(--border-color);
+            border-radius: 14px;
+            padding: 30px 20px;
+            margin: 40px auto;
+            max-width: 700px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.03);
+        }
+        .social-section-center h3 { color: var(--accent-color); font-size: 20px; margin-bottom: 8px; font-weight: bold; }
+        .social-section-center p { color: var(--secondary-text); font-size: 14px; margin-bottom: 20px; }
+        .social-icons-row { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
+        .social-icon-btn { display: inline-flex; align-items: center; gap: 8px; padding: 12px 22px; background: #000; color: #fff; border-radius: 30px; text-decoration: none; font-size: 14px; font-weight: 600; transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .social-icon-btn:hover { background: var(--accent-color); color: #000; transform: translateY(-2px); }
+
         .features-bar {
             display: flex;
             justify-content: space-around;
@@ -151,9 +168,6 @@
         .footer-col h4 { color: var(--accent-color); margin-bottom: 15px; font-size: 16px; }
         .footer-col p, .footer-col a { color: #aaa; text-decoration: none; display: block; margin-bottom: 8px; font-size: 13px; }
         .footer-col a:hover { color: #fff; }
-        .social-links { display: flex; gap: 12px; margin-top: 12px; }
-        .social-links a { display: inline-flex; justify-content: center; align-items: center; width: 34px; height: 34px; background: rgba(255,255,255,0.1); color: #fff; border-radius: 50%; transition: 0.3s; font-size: 15px; }
-        .social-links a:hover { background: var(--accent-color); color: #000; transform: translateY(-2px); }
         .copyright { text-align: center; border-top: 1px solid #222; margin-top: 30px; padding-top: 15px; color: #777; font-size: 12px; }
     </style>
 </head>
@@ -188,6 +202,17 @@
             </div>
         </div>
     </section>
+
+    <!-- قسم وسائل التواصل الاجتماعي في المنتصف بعبارات تليق بالبراند -->
+    <div class="social-section-center">
+        <h3>✨ انضم إلى عالم الفخامة والأناقة</h3>
+        <p>تابع صفحاتنا الرسمية لتكن أول من يعلم بأحدث الإصدارات والعروض الحصرية</p>
+        <div class="social-icons-row">
+            <a href="https://www.facebook.com/share/1FVYzJMfVF/" target="_blank" class="social-icon-btn"><i class="fa-brands fa-facebook-f" style="color:#1877f2;"></i> تابعنا على الفيسبوك</a>
+            <a href="https://www.tiktok.com/@user86700746112525?_r=1&_t=ZS-9AFtGblWrEC" target="_blank" class="social-icon-btn"><i class="fa-brands fa-tiktok"></i> شاهد عروضنا على التيك توك</a>
+            <a href="https://wa.me/201101100491" target="_blank" class="social-icon-btn"><i class="fa-brands fa-whatsapp" style="color:#25d366;"></i> تواصل عبر الواتساب</a>
+        </div>
+    </div>
 
     <div class="features-bar">
         <div class="feature-item"><i class="fa-solid fa-shield-halved"></i> دفع آمن ومضمون</div>
@@ -224,12 +249,7 @@
             <div class="footer-col">
                 <h4 id="footer-logo-title">كيان جينز</h4>
                 <p>العلامة التجارية الأولى للملابس والأحذية الفاخرة.</p>
-                <p style="margin-top: 10px; color: var(--accent-color); font-weight: bold;"><i class="fa-solid fa-phone"></i> 0110 110 0491</p>
-                <div class="social-links">
-                    <a href="https://www.facebook.com/share/1FVYzJMfVF/" target="_blank" title="صفحة الفيسبوك الرسمية"><i class="fa-brands fa-facebook-f"></i></a>
-                    <a href="https://www.tiktok.com/@user86700746112525?_r=1&_t=ZS-9AFtGblWrEC" target="_blank" title="حساب التيك توك الرسمي"><i class="fa-brands fa-tiktok"></i></a>
-                    <a href="https://wa.me/201101100491" target="_blank" title="تواصل واتساب"><i class="fa-brands fa-whatsapp"></i></a>
-                </div>
+                <p style="margin-top: 10px; color: var(--accent-color); font-weight: bold;"><i class="fa-solid fa-phone"></i> 01101100491</p>
             </div>
             <div class="footer-col">
                 <h4>روابط سريعة</h4>
