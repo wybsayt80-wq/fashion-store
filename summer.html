@@ -6,40 +6,81 @@
     <title>تشكيلة الصيف - كيان جينز</title>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root { --bg-color: #f8f9fa; --panel-bg: #ffffff; --accent-color: #c5a059; --text-color: #1a1a1a; --secondary-text: #666666; --border-color: #e5e7eb; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; }
-        header { background-color: var(--panel-bg); padding: 18px 30px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); }
+        header { background-color: var(--panel-bg); padding: 18px 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 100; }
+        .logo-area { display: flex; align-items: center; gap: 12px; }
+        .logo-area img { width: 45px; height: 45px; object-fit: cover; border-radius: 50%; border: 2px solid var(--accent-color); }
         .logo { font-size: 22px; font-weight: bold; color: var(--accent-color); }
-        nav a { color: var(--secondary-text); text-decoration: none; margin-left: 15px; font-size: 14px; font-weight: 600; }
-        .hero { padding: 40px 20px; text-align: center; background: #fff; border-bottom: 1px solid var(--border-color); }
-        .hero h1 { font-size: 26px; color: var(--accent-color); margin-bottom: 10px; }
-        .section-container { max-width: 1200px; margin: 40px auto; padding: 0 15px; }
-        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
-        .product-card { background-color: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.04); }
-        .product-img-container { width: 100%; height: 210px; background-color: #eee; }
-        .product-img { width: 100%; height: 100%; object-fit: cover; }
-        .product-info { padding: 15px; }
-        .product-id { font-size: 12px; color: #888; margin-bottom: 4px; }
-        .product-name { font-size: 18px; margin-bottom: 6px; font-weight: bold; }
-        .product-price { color: var(--accent-color); font-size: 17px; font-weight: bold; margin-bottom: 12px; }
-        .buy-btn { display: block; width: 100%; padding: 11px; background-color: var(--accent-color); color: #fff; text-align: center; border-radius: 6px; text-decoration: none; font-weight: bold; }
-        footer { text-align: center; padding: 30px; background-color: var(--panel-bg); color: var(--secondary-text); border-top: 1px solid var(--border-color); margin-top: 40px; }
+        nav a { color: var(--secondary-text); text-decoration: none; margin-left: 20px; font-size: 14px; font-weight: 600; transition: 0.3s; }
+        nav a:hover { color: var(--accent-color); }
+        .hero { padding: 50px 20px; text-align: center; background: #fff; border-bottom: 1px solid var(--border-color); }
+        .hero h1 { font-size: 32px; color: var(--accent-color); margin-bottom: 10px; font-weight: 900; }
+        .section-container { max-width: 1250px; margin: 40px auto; padding: 0 20px; }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
+        .product-card { background-color: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 14px; overflow: hidden; box-shadow: 0 5px 20px rgba(0,0,0,0.05); transition: 0.3s; }
+        .product-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .product-img-container { width: 100%; height: 260px; background-color: #f0f0f0; position: relative; cursor: pointer; overflow: hidden; }
+        .product-img { width: 100%; height: 100%; object-fit: cover; transition: 0.4s; }
+        .product-img:hover { transform: scale(1.03); }
+        .product-info { padding: 20px; }
+        .product-id { font-size: 12px; color: #888; margin-bottom: 5px; font-weight: bold; }
+        .product-name { font-size: 19px; margin-bottom: 8px; font-weight: bold; }
+        .price-box { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+        .old-price { text-decoration: line-through; color: #888; font-size: 16px; }
+        .new-price { color: var(--accent-color); font-size: 20px; font-weight: bold; }
+        .sizes-badge { font-size: 13px; color: #555; background: #f4f4f4; padding: 5px 10px; border-radius: 6px; margin-bottom: 15px; display: inline-block; font-weight: 600; }
+        .buy-btn { display: block; width: 100%; padding: 12px; background-color: var(--accent-color); color: #fff; text-align: center; border-radius: 8px; text-decoration: none; font-weight: bold; transition: 0.3s; }
+        .buy-btn:hover { background: #b08d48; }
+
+        /* نافذة العرض المكبر للصور (Lightbox) */
+        #lightbox-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 99999; justify-content: center; align-items: center; }
+        #lightbox-content { position: relative; max-width: 90%; max-height: 90%; display: flex; justify-content: center; align-items: center; }
+        #lightbox-img { max-width: 80vw; max-height: 80vh; border-radius: 10px; object-fit: contain; }
+        .lightbox-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.2); color: #fff; border: none; font-size: 28px; padding: 15px 20px; cursor: pointer; border-radius: 50%; transition: 0.3s; }
+        .lightbox-arrow:hover { background: var(--accent-color); color: #000; }
+        #lightbox-prev { right: -70px; }
+        #lightbox-next { left: -70px; }
+        .lightbox-close { position: absolute; top: -50px; right: 0; color: #fff; font-size: 35px; cursor: pointer; border: none; background: none; }
+
+        footer { text-align: center; padding: 35px; background-color: var(--panel-bg); color: var(--secondary-text); border-top: 1px solid var(--border-color); margin-top: 50px; }
     </style>
 </head>
 <body>
     <header>
-        <div class="logo">كيان جينز - صيفي</div>
-        <nav><a href="index.html">الرئيسية</a><a href="summer.html" style="color: var(--accent-color);">صيفي</a><a href="winter.html">شتوي</a></nav>
+        <div class="logo-area">
+            <img src="1000843025.png" alt="شعار كيان جينز" id="header-logo-img">
+            <div class="logo">كيان جينز - صيفي</div>
+        </div>
+        <nav>
+            <a href="index.html">الرئيسية</a>
+            <a href="summer.html" style="color: var(--accent-color);">صيفي</a>
+            <a href="winter.html">شتوي</a>
+        </nav>
     </header>
+
     <section class="hero">
         <h1>تشكيلة الصيف الفاخرة</h1>
         <p>أرقى الأزياء الصيفية العصرية والمصممة خصيصاً لأناقتك.</p>
     </section>
+
     <div class="section-container">
         <div class="products-grid" id="summer-grid"></div>
     </div>
+
+    <!-- نافذة Lightbox للتنقل بين الصور -->
+    <div id="lightbox-modal">
+        <div id="lightbox-content">
+            <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+            <button class="lightbox-arrow" id="lightbox-prev" onclick="changeLightboxImg(-1)"><i class="fa-solid fa-chevron-right"></i></button>
+            <img id="lightbox-img" src="" alt="عرض مكبر">
+            <button class="lightbox-arrow" id="lightbox-next" onclick="changeLightboxImg(1)"><i class="fa-solid fa-chevron-left"></i></button>
+        </div>
+    </div>
+
     <footer>جميع الحقوق محفوظة © كيان جينز 2026</footer>
 
     <script>
@@ -55,20 +96,56 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
+        let currentImgsList = [];
+        let currentImgIdx = 0;
+
+        function openLightbox(imgsJsonStr, idx) {
+            currentImgsList = JSON.parse(decodeURIComponent(imgsJsonStr));
+            currentImgIdx = idx;
+            document.getElementById('lightbox-img').src = currentImgsList[currentImgIdx];
+            document.getElementById('lightbox-modal').style.display = 'flex';
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox-modal').style.display = 'none';
+        }
+
+        function changeLightboxImg(direction) {
+            currentImgIdx += direction;
+            if(currentImgIdx >= currentImgsList.length) currentImgIdx = 0;
+            if(currentImgIdx < 0) currentImgIdx = currentImgsList.length - 1;
+            document.getElementById('lightbox-img').src = currentImgsList[currentImgIdx];
+        }
+
+        // جلب إعدادات الشعار واسم المتجر
+        db.collection("settings").doc("storeInfo").get().then(doc => {
+            if (doc.exists) {
+                const data = doc.data();
+                if(data.logoUrl) document.getElementById('header-logo-img').src = data.logoUrl;
+            }
+        });
+
         db.collection("products").where("category", "==", "summer").get().then(snapshot => {
             const grid = document.getElementById('summer-grid');
             grid.innerHTML = '';
             snapshot.forEach(doc => {
                 const p = doc.data();
-                const img = (p.imgs && p.imgs[0]) ? p.imgs[0] : '1000843025.png';
+                const imgs = (p.imgs && p.imgs.length > 0) ? p.imgs : ['1000843025.png'];
+                const imgsJsonStr = encodeURIComponent(JSON.stringify(imgs));
+                const sizesList = p.sizes ? p.sizes.join(', ') : 'متاح جميع المقاسات';
+                const priceHtml = p.oldPrice ? `<div class="price-box"><span class="old-price">${p.oldPrice} ج.م</span><span class="new-price">${p.price} ج.م</span></div>` : `<div class="price-box"><span class="new-price">${p.price} ج.م</span></div>`;
+
                 grid.innerHTML += `
                     <div class="product-card">
-                        <div class="product-img-container"><img src="${img}" class="product-img"></div>
+                        <div class="product-img-container" onclick="openLightbox('${imgsJsonStr}', 0)">
+                            <img src="${imgs[0]}" class="product-img" alt="${p.name}">
+                        </div>
                         <div class="product-info">
                             <div class="product-id">كود المنتج: ${p.id}</div>
                             <div class="product-name">${p.name}</div>
-                            <div class="product-price">${p.price} ج.م</div>
-                            <a href="https://wa.me/?text=أود طلب المنتج رقم (${p.id}): ${encodeURIComponent(p.name)} بسعر ${p.price} ج.م" target="_blank" class="buy-btn">اطلب عبر واتساب</a>
+                            ${priceHtml}
+                            <div class="sizes-badge"><i class="fa-solid fa-ruler"></i> المقاسات: ${sizesList}</div>
+                            <a href="https://wa.me/201124793700?text=أود طلب المنتج الصيفي رقم (${p.id}): ${encodeURIComponent(p.name)} بسعر ${p.price} ج.م" target="_blank" class="buy-btn"><i class="fa-brands fa-whatsapp"></i> اطلب عبر واتساب</a>
                         </div>
                     </div>
                 `;
