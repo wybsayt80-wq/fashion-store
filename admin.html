@@ -8,45 +8,60 @@
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: #f8f9fa; color: #1a1a1a; padding: 20px; }
-        #auth-screen { max-width: 400px; margin: 100px auto; background: #ffffff; padding: 40px; border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); text-align: center; border: 1px solid #e5e7eb; }
+        body { background-color: #f8f9fa; color: #1a1a1a; padding: 15px; }
+        
+        #auth-screen { max-width: 400px; width: 100%; margin: 80px auto; background: #ffffff; padding: 30px 20px; border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); text-align: center; border: 1px solid #e5e7eb; }
         #auth-screen h2 { color: #c5a059; margin-bottom: 20px; font-size: 22px; }
         #auth-screen input { width: 100%; padding: 12px; font-size: 18px; text-align: center; border: 1px solid #ccc; border-radius: 6px; margin-bottom: 15px; letter-spacing: 5px; -webkit-text-security: disc; }
         #auth-screen button { width: 100%; background: #c5a059; color: #fff; border: none; padding: 12px; font-weight: bold; border-radius: 6px; cursor: pointer; font-size: 16px; }
         .error-msg { color: #cc3333; font-size: 14px; margin-top: 10px; display: none; }
         
-        #admin-panel-content { display: none; max-width: 1100px; margin: 0 auto; background: #ffffff; padding: 35px; border-radius: 14px; border: 1px solid #e5e7eb; box-shadow: 0 10px 30px rgba(0,0,0,0.06); }
-        h1 { color: #c5a059; margin-bottom: 20px; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px; }
+        #admin-panel-content { display: none; max-width: 1100px; width: 100%; margin: 0 auto; background: #ffffff; padding: 20px; border-radius: 14px; border: 1px solid #e5e7eb; box-shadow: 0 10px 30px rgba(0,0,0,0.06); }
+        h1 { color: #c5a059; margin-bottom: 20px; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px; font-size: 22px; }
         
-        /* شريط التنقل بين الأقسام داخل لوحة التحكم */
-        .admin-nav-tabs { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 30px; background: #eee; padding: 10px; border-radius: 10px; }
-        .admin-nav-tabs button { flex: 1; min-width: 140px; padding: 12px; background: #fff; border: none; font-weight: bold; color: #333; border-radius: 6px; cursor: pointer; transition: 0.3s; font-size: 14px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        /* شريط التنقل بين الأقسام داخل لوحة التحكم (متجاوب مع الهواتف) */
+        .admin-nav-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 25px; background: #eee; padding: 8px; border-radius: 10px; }
+        .admin-nav-tabs button { flex: 1; min-width: 110px; padding: 10px 8px; background: #fff; border: none; font-weight: bold; color: #333; border-radius: 6px; cursor: pointer; transition: 0.3s; font-size: 13px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); text-align: center; }
         .admin-nav-tabs button:hover, .admin-nav-tabs button.active { background: #c5a059; color: #fff; }
 
         .tab-section { display: none; }
         .tab-section.active-tab { display: block; }
 
-        h2 { color: #c5a059; margin-bottom: 20px; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px; font-size: 20px; }
-        .form-group { margin-bottom: 18px; }
-        label { display: block; margin-bottom: 6px; color: #444; font-weight: 600; }
-        input, select, textarea { width: 100%; padding: 12px; background: #fafafa; border: 1px solid #ddd; color: #111; border-radius: 6px; font-size: 15px; text-align: right; }
-        input[type="file"] { background: #fff; cursor: pointer; padding: 10px; border: 2px dashed #c5a059; }
-        button.action-btn { background: #c5a059; color: #fff; border: none; padding: 12px 25px; font-weight: bold; border-radius: 6px; cursor: pointer; margin-top: 10px; font-size: 16px; transition: 0.3s; }
+        h2 { color: #c5a059; margin-bottom: 20px; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px; font-size: 18px; }
+        .form-group { margin-bottom: 16px; }
+        label { display: block; margin-bottom: 6px; color: #444; font-weight: 600; font-size: 14px; }
+        input, select, textarea { width: 100%; padding: 10px 12px; background: #fafafa; border: 1px solid #ddd; color: #111; border-radius: 6px; font-size: 14px; text-align: right; }
+        input[type="file"] { background: #fff; cursor: pointer; padding: 8px; border: 2px dashed #c5a059; font-size: 13px; }
+        button.action-btn { background: #c5a059; color: #fff; border: none; padding: 12px 20px; font-weight: bold; border-radius: 6px; cursor: pointer; margin-top: 10px; font-size: 15px; transition: 0.3s; width: 100%; }
         button.action-btn:hover { background: #b08d48; }
-        .back-link { display: inline-block; margin-bottom: 25px; color: #c5a059; text-decoration: none; font-weight: bold; }
-        .section-box { margin-bottom: 25px; background: #fafafa; padding: 25px; border-radius: 10px; border: 1px solid #eee; }
-        table { width: 100%; margin-top: 20px; border-collapse: collapse; }
-        th, td { padding: 12px; border-bottom: 1px solid #ddd; text-align: right; font-size: 14px; }
+        .back-link { display: inline-block; margin-bottom: 20px; color: #c5a059; text-decoration: none; font-weight: bold; font-size: 14px; }
+        .section-box { margin-bottom: 20px; background: #fafafa; padding: 15px; border-radius: 10px; border: 1px solid #eee; overflow-x: auto; }
+        
+        /* جعل الجداول قابلة للتمرير الأفقي على الموبايل لحماية التنسيق */
+        .table-responsive { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        table { width: 100%; min-width: 600px; margin-top: 15px; border-collapse: collapse; }
+        th, td { padding: 10px; border-bottom: 1px solid #ddd; text-align: right; font-size: 13px; }
         th { color: #c5a059; }
-        .del-btn { background: #cc3333; color: #fff; padding: 6px 12px; border: none; border-radius: 4px; cursor: pointer; margin-left: 5px; }
-        .edit-btn { background: #25d366; color: #fff; padding: 6px 12px; border: none; border-radius: 4px; cursor: pointer; }
+        .del-btn { background: #cc3333; color: #fff; padding: 6px 10px; border: none; border-radius: 4px; cursor: pointer; margin-left: 4px; font-size: 12px; }
+        .edit-btn { background: #25d366; color: #fff; padding: 6px 10px; border: none; border-radius: 4px; cursor: pointer; font-size: 12px; }
+        
         .preview-container { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
-        .preview-container img { width: 60px; height: 60px; object-fit: cover; border-radius: 6px; border: 1px solid #c5a059; }
-        .table-img { width: 45px; height: 45px; object-fit: cover; border-radius: 5px; border: 1px solid #ddd; }
-        .sizes-container { display: flex; gap: 12px; flex-wrap: wrap; background: #fff; padding: 12px; border: 1px solid #ddd; border-radius: 6px; }
-        .sizes-container label { display: flex; align-items: center; gap: 5px; font-weight: normal; cursor: pointer; }
-        .inline-edit-box { background: #fffdf5; border: 2px solid #c5a059; padding: 20px; border-radius: 8px; margin-top: 10px; margin-bottom: 15px; display: none; }
-        .search-box input { border: 2px solid #c5a059; background: #fff; font-weight: bold; font-size: 16px; text-align: left; direction: ltr; }
+        .preview-container img { width: 50px; height: 50px; object-fit: cover; border-radius: 6px; border: 1px solid #c5a059; }
+        .table-img { width: 40px; height: 40px; object-fit: cover; border-radius: 5px; border: 1px solid #ddd; }
+        
+        .sizes-container { display: flex; gap: 10px; flex-wrap: wrap; background: #fff; padding: 10px; border: 1px solid #ddd; border-radius: 6px; }
+        .sizes-container label { display: flex; align-items: center; gap: 5px; font-weight: normal; cursor: pointer; font-size: 13px; }
+        
+        .inline-edit-box { background: #fffdf5; border: 2px solid #c5a059; padding: 15px; border-radius: 8px; margin-top: 10px; margin-bottom: 15px; display: none; }
+        .search-box input { border: 2px solid #c5a059; background: #fff; font-weight: bold; font-size: 15px; text-align: left; direction: ltr; }
+
+        @media(min-width: 768px) {
+            body { padding: 25px; }
+            #admin-panel-content { padding: 35px; }
+            h1 { font-size: 26px; }
+            button.action-btn { width: auto; }
+            .section-box { padding: 25px; }
+        }
     </style>
 </head>
 <body>
@@ -77,15 +92,15 @@
         <div id="tab-settings" class="tab-section active-tab section-box">
             <h2>إعدادات المتجر وأرقام التواصل والواجهة</h2>
             <div class="form-group"><label>اسم المتجر:</label><input type="text" id="setting-storeName" value="كيان جينز"></div>
-            <div class="form-group"><label>رقم خدمة العملاء:</label><input type="text" id="setting-customerService" value="01124793700"></div>
-            <div class="form-group"><label>رقم الطلبات:</label><input type="text" id="setting-ordersPhone" value="01124793700"></div>
+            <div class="form-group"><label>رقم خدمة العملاء:</label><input type="text" id="setting-customerService" value="01101100491"></div>
+            <div class="form-group"><label>رقم الطلبات:</label><input type="text" id="setting-ordersPhone" value="01101100491"></div>
             <div class="form-group"><label>العنوان الرئيسي:</label><input type="text" id="setting-heroTitle" value="ارتق بأناقتك الملكية"></div>
             <div class="form-group"><label>الوصف الترويجي:</label><textarea id="setting-heroSubtitle" rows="2">تشكيلة رجالية فاخرة ومصممة خصيصاً لتمنحك الثقة والأناقة الكلاسيكية.</textarea></div>
             <div class="form-group"><label>اللون العام الأساسي للموقع:</label><input type="color" id="setting-accentColor" value="#c5a059" style="height: 45px; cursor: pointer;"></div>
             <div class="form-group">
                 <label>اختر صورة الشعار المتحرك:</label>
                 <input type="file" id="setting-logoFile" accept="image/*" onchange="convertLogo(this)">
-                <div class="preview-container" id="logo-preview"><img src="1000843025.png" style="width:60px;height:60px;object-fit:cover;"></div>
+                <div class="preview-container" id="logo-preview"><img src="1000843025.png" style="width:50px;height:50px;object-fit:cover;"></div>
             </div>
             <button class="action-btn" onclick="saveSettingsToCloud()">حفظ إعدادات الواجهة والأرقام سحابياً</button>
         </div>
@@ -112,11 +127,13 @@
             <div class="form-group"><label>تاريخ ووقت انتهاء العرض:</label><input type="datetime-local" id="offer-endtime"></div>
             <button class="action-btn" onclick="saveOfferSettings()">نشر وحفظ إعلان العرض الجديد</button>
             
-            <h3 style="margin-top: 25px; color: #c5a059;">العروض الحالية المفعلة</h3>
-            <table>
-                <thead><tr><th>الصورة الرئيسية</th><th>كود العرض</th><th>العنوان</th><th>النوع</th><th>الأسعار</th><th>الإجراء</th></tr></thead>
-                <tbody id="offers-table-body"></tbody>
-            </table>
+            <h3 style="margin-top: 25px; color: #c5a059; font-size: 16px;">العروض الحالية المفعلة</h3>
+            <div class="table-responsive">
+                <table>
+                    <thead><tr><th>الصورة الرئيسية</th><th>كود العرض</th><th>العنوان</th><th>النوع</th><th>الأسعار</th><th>الإجراء</th></tr></thead>
+                    <tbody id="offers-table-body"></tbody>
+                </table>
+            </div>
         </div>
 
         <!-- 3. قسم البحث السريع -->
@@ -154,11 +171,13 @@
             </div>
             <button class="action-btn" onclick="addProduct('summer')">نشر المنتج الصيفي سحابياً</button>
             
-            <h3 style="margin-top: 25px; color: #c5a059;">المنتجات الصيفية الحالية</h3>
-            <table>
-                <thead><tr><th>الصورة</th><th>رقم المنتج</th><th>الاسم</th><th>الأسعار</th><th>المقاسات</th><th>الإجراءات</th></tr></thead>
-                <tbody id="summer-table-body"></tbody>
-            </table>
+            <h3 style="margin-top: 25px; color: #c5a059; font-size: 16px;">المنتجات الصيفية الحالية</h3>
+            <div class="table-responsive">
+                <table>
+                    <thead><tr><th>الصورة</th><th>رقم المنتج</th><th>الاسم</th><th>الأسعار</th><th>المقاسات</th><th>الإجراءات</th></tr></thead>
+                    <tbody id="summer-table-body"></tbody>
+                </table>
+            </div>
         </div>
 
         <!-- 5. القسم الشتوي -->
@@ -187,14 +206,16 @@
             </div>
             <button class="action-btn" onclick="addProduct('winter')">نشر المنتج الشتوي سحابياً</button>
             
-            <h3 style="margin-top: 25px; color: #c5a059;">المنتجات الشتوية الحالية</h3>
-            <table>
-                <thead><tr><th>الصورة</th><th>رقم المنتج</th><th>الاسم</th><th>الأسعار</th><th>المقاسات</th><th>الإجراءات</th></tr></thead>
-                <tbody id="winter-table-body"></tbody>
-            </table>
+            <h3 style="margin-top: 25px; color: #c5a059; font-size: 16px;">المنتجات الشتوية الحالية</h3>
+            <div class="table-responsive">
+                <table>
+                    <thead><tr><th>الصورة</th><th>رقم المنتج</th><th>الاسم</th><th>الأسعار</th><th>المقاسات</th><th>الإجراءات</th></tr></thead>
+                    <tbody id="winter-table-body"></tbody>
+                </table>
+            </div>
         </div>
 
-        <!-- 6. قسم الأحذية الجديد -->
+        <!-- 6. قسم الأحذية -->
         <div id="tab-shoes" class="tab-section section-box">
             <h2>👞 إدارة قسم الأحذية</h2>
             <div class="form-group"><label>اسم الحذاء:</label><input type="text" id="shoes-name" placeholder="حذاء كلاسيكي فخم"></div>
@@ -219,11 +240,13 @@
             </div>
             <button class="action-btn" onclick="addProduct('shoes')">نشر الحذاء سحابياً</button>
             
-            <h3 style="margin-top: 25px; color: #c5a059;">الأحذية الحالية</h3>
-            <table>
-                <thead><tr><th>الصورة</th><th>رقم المنتج</th><th>الاسم</th><th>الأسعار</th><th>المقاسات</th><th>الإجراءات</th></tr></thead>
-                <tbody id="shoes-table-body"></tbody>
-            </table>
+            <h3 style="margin-top: 25px; color: #c5a059; font-size: 16px;">الأحذية الحالية</h3>
+            <div class="table-responsive">
+                <table>
+                    <thead><tr><th>الصورة</th><th>رقم المنتج</th><th>الاسم</th><th>الأسعار</th><th>المقاسات</th><th>الإجراءات</th></tr></thead>
+                    <tbody id="shoes-table-body"></tbody>
+                </table>
+            </div>
         </div>
     </div>
 
@@ -240,7 +263,6 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
-        // وظيفة تبديل الأقسام (Tabs) بسلاسة
         function switchTab(tabId) {
             document.querySelectorAll('.tab-section').forEach(sec => sec.classList.remove('active-tab'));
             document.querySelectorAll('.admin-nav-tabs button').forEach(btn => btn.classList.remove('active'));
@@ -468,7 +490,7 @@
 
             let imgsHtml = '';
             editImgsCache.forEach((imgSrc, idx) => {
-                imgsHtml += `<div style="position:relative; display:inline-block;"><img src="${imgSrc}" style="width:55px;height:55px;object-fit:cover;border-radius:5px;border:1px solid #ccc;"><button type="button" onclick="removeEditImg(${idx}, '${id}')" style="position:absolute;top:-5px;right:-5px;background:red;color:#fff;border:none;border-radius:50%;width:18px;height:18px;font-size:10px;cursor:pointer;">×</button></div>`;
+                imgsHtml += `<div style="position:relative; display:inline-block;"><img src="${imgSrc}" style="width:50px;height:50px;object-fit:cover;border-radius:5px;border:1px solid #ccc;"><button type="button" onclick="removeEditImg(${idx}, '${id}')" style="position:absolute;top:-5px;right:-5px;background:red;color:#fff;border:none;border-radius:50%;width:18px;height:18px;font-size:10px;cursor:pointer;">×</button></div>`;
             });
 
             const allSizesOpts = category === 'shoes' ? ["متاح جميع المقاسات", "مقاس 40", "مقاس 41", "مقاس 42", "مقاس 43", "مقاس 44", "مقاس 45"] : ["متاح جميع المقاسات", "Large", "X-Large", "2XL", "3XL", "4XL", "5XL", "6XL"];
@@ -480,7 +502,7 @@
             sizesHtml += `</div>`;
 
             box.innerHTML = `
-                <h4 style="color:#c5a059; margin-bottom:10px;">تعديل الإعلان (${id})</h4>
+                <h4 style="color:#c5a059; margin-bottom:10px; font-size:16px;">تعديل الإعلان (${id})</h4>
                 <div class="form-group"><label>اسم المنتج:</label><input type="text" id="edit-name-${id}" value="${name}"></div>
                 <div class="form-group"><label>السعر الحالي:</label><input type="text" id="edit-price-${id}" value="${price}"></div>
                 <div class="form-group"><label>السعر الأصلي (المشطوب):</label><input type="text" id="edit-oldprice-${id}" value="${oldPrice}"></div>
@@ -488,7 +510,7 @@
                 <div class="form-group"><label>صور المنتج الحالية:</label><div class="preview-container" id="edit-imgs-preview-${id}">${imgsHtml}</div></div>
                 <div class="form-group"><label>إضافة صور جديدة:</label><input type="file" id="edit-files-${id}" accept="image/*" multiple onchange="addNewEditImgs('${id}', this)"></div>
                 <button class="action-btn" onclick="saveInlineEdit('${id}', '${category}')">حفظ تعديلات الإعلان</button>
-                <button class="action-btn" style="background:#666; margin-right:8px;" onclick="document.getElementById('edit-box-' + '${id}').style.display='none'">إلغاء</button>
+                <button class="action-btn" style="background:#666; margin-top:8px;" onclick="document.getElementById('edit-box-' + '${id}').style.display='none'">إلغاء</button>
             `;
             box.style.display = 'block';
         }
@@ -497,7 +519,7 @@
             editImgsCache.splice(idx, 1);
             let imgsHtml = '';
             editImgsCache.forEach((imgSrc, i) => {
-                imgsHtml += `<div style="position:relative; display:inline-block;"><img src="${imgSrc}" style="width:55px;height:55px;object-fit:cover;border-radius:5px;border:1px solid #ccc;"><button type="button" onclick="removeEditImg(${i}, '${id}')" style="position:absolute;top:-5px;right:-5px;background:red;color:#fff;border:none;border-radius:50%;width:18px;height:18px;font-size:10px;cursor:pointer;">×</button></div>`;
+                imgsHtml += `<div style="position:relative; display:inline-block;"><img src="${imgSrc}" style="width:50px;height:50px;object-fit:cover;border-radius:5px;border:1px solid #ccc;"><button type="button" onclick="removeEditImg(${i}, '${id}')" style="position:absolute;top:-5px;right:-5px;background:red;color:#fff;border:none;border-radius:50%;width:18px;height:18px;font-size:10px;cursor:pointer;">×</button></div>`;
             });
             document.getElementById('edit-imgs-preview-' + id).innerHTML = imgsHtml;
         }
@@ -509,7 +531,7 @@
                         editImgsCache.push(compressedUrl);
                         let imgsHtml = '';
                         editImgsCache.forEach((imgSrc, i) => {
-                            imgsHtml += `<div style="position:relative; display:inline-block;"><img src="${imgSrc}" style="width:55px;height:55px;object-fit:cover;border-radius:5px;border:1px solid #ccc;"><button type="button" onclick="removeEditImg(${i}, '${id}')" style="position:absolute;top:-5px;right:-5px;background:red;color:#fff;border:none;border-radius:50%;width:18px;height:18px;font-size:10px;cursor:pointer;">×</button></div>`;
+                            imgsHtml += `<div style="position:relative; display:inline-block;"><img src="${imgSrc}" style="width:50px;height:50px;object-fit:cover;border-radius:5px;border:1px solid #ccc;"><button type="button" onclick="removeEditImg(${i}, '${id}')" style="position:absolute;top:-5px;right:-5px;background:red;color:#fff;border:none;border-radius:50%;width:18px;height:18px;font-size:10px;cursor:pointer;">×</button></div>`;
                         });
                         document.getElementById('edit-imgs-preview-' + id).innerHTML = imgsHtml;
                     });
@@ -608,7 +630,7 @@
             productsList.forEach(p => {
                 const thumb = (p.imgs && p.imgs[0]) ? p.imgs[0] : '1000843025.png';
                 const sizesList = p.sizes ? p.sizes.join(', ') : 'متاح جميع المقاسات';
-                const priceDisplay = p.oldPrice ? `<span style="text-decoration:line-through;color:#888;font-size:12px;margin-left:5px;">${p.oldPrice} ج.م</span><strong style="color:#c5a059;">${p.price} ج.م</strong>` : `<strong>${p.price} ج.م</strong>`;
+                const priceDisplay = p.oldPrice ? `<span style="text-decoration:line-through;color:#888;font-size:11px;margin-left:4px;">${p.oldPrice} ج.م</span><strong style="color:#c5a059;">${p.price} ج.م</strong>` : `<strong>${p.price} ج.م</strong>`;
                 const imgsJsonStr = encodeURIComponent(JSON.stringify(p.imgs || [thumb]));
 
                 const row = `<tr>
