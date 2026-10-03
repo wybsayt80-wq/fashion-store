@@ -59,8 +59,9 @@
         .btn-outline { background: transparent; color: #000; border: 2px solid #000; padding: 14px 28px; border-radius: 30px; text-decoration: none; font-weight: bold; transition: 0.3s; }
         .btn-outline:hover { background: #000; color: #fff; transform: translateY(-2px); }
 
+        /* تعديل صندوق اللوجو ليظهر كاملاً ومرفرفاً وبدقة طبيعية بدون دوائر */
         .hero-image-box { flex: 1; display: flex; justify-content: center; min-width: 300px; }
-        .hero-image-box img { width: 100%; max-width: 450px; border-radius: 200px 200px 20px 20px; object-fit: cover; box-shadow: 0 20px 40px rgba(0,0,0,0.1); border: 2px solid var(--accent-color); }
+        .hero-image-box img { width: 100%; max-width: 480px; height: auto; object-fit: contain; background: transparent; border: none; box-shadow: none; border-radius: 0; }
 
         .features-bar {
             display: flex;
