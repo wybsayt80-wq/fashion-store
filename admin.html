@@ -19,7 +19,7 @@
         #admin-panel-content { display: none; max-width: 1100px; width: 100%; margin: 0 auto; background: #ffffff; padding: 20px; border-radius: 14px; border: 1px solid #e5e7eb; box-shadow: 0 10px 30px rgba(0,0,0,0.06); }
         h1 { color: #c5a059; margin-bottom: 20px; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px; font-size: 22px; }
         
-        /* شريط التنقل بين الأقسام داخل لوحة التحكم (متجاوب مع الهواتف) */
+        /* شريط التنقل بين الأقسام داخل لوحة التحكم */
         .admin-nav-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 25px; background: #eee; padding: 8px; border-radius: 10px; }
         .admin-nav-tabs button { flex: 1; min-width: 110px; padding: 10px 8px; background: #fff; border: none; font-weight: bold; color: #333; border-radius: 6px; cursor: pointer; transition: 0.3s; font-size: 13px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); text-align: center; }
         .admin-nav-tabs button:hover, .admin-nav-tabs button.active { background: #c5a059; color: #fff; }
@@ -35,13 +35,14 @@
         button.action-btn { background: #c5a059; color: #fff; border: none; padding: 12px 20px; font-weight: bold; border-radius: 6px; cursor: pointer; margin-top: 10px; font-size: 15px; transition: 0.3s; width: 100%; }
         button.action-btn:hover { background: #b08d48; }
         .back-link { display: inline-block; margin-bottom: 20px; color: #c5a059; text-decoration: none; font-weight: bold; font-size: 14px; }
-        .section-box { margin-bottom: 20px; background: #fafafa; padding: 15px; border-radius: 10px; border: 1px solid #eee; overflow-x: auto; }
+        .section-box { margin-bottom: 20px; background: #fafafa; padding: 15px; border-radius: 10px; border: 1px solid #eee; }
         
-        /* جعل الجداول قابلة للتمرير الأفقي على الموبايل لحماية التنسيق */
+        /* ضبط ظهور المنشورات مع تمرير عمودي سلس ونظيف لأكثر من 4 منشورات */
+        .table-container-scroll { max-height: 450px; overflow-y: auto; border: 1px solid #ddd; border-radius: 8px; background: #fff; margin-top: 15px; }
         .table-responsive { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-        table { width: 100%; min-width: 600px; margin-top: 15px; border-collapse: collapse; }
-        th, td { padding: 10px; border-bottom: 1px solid #ddd; text-align: right; font-size: 13px; }
-        th { color: #c5a059; }
+        table { width: 100%; min-width: 600px; border-collapse: collapse; }
+        th, td { padding: 10px 12px; border-bottom: 1px solid #ddd; text-align: right; font-size: 13px; }
+        th { color: #c5a059; background: #fdfbf7; position: sticky; top: 0; z-index: 10; }
         .del-btn { background: #cc3333; color: #fff; padding: 6px 10px; border: none; border-radius: 4px; cursor: pointer; margin-left: 4px; font-size: 12px; }
         .edit-btn { background: #25d366; color: #fff; padding: 6px 10px; border: none; border-radius: 4px; cursor: pointer; font-size: 12px; }
         
@@ -53,7 +54,9 @@
         .sizes-container label { display: flex; align-items: center; gap: 5px; font-weight: normal; cursor: pointer; font-size: 13px; }
         
         .inline-edit-box { background: #fffdf5; border: 2px solid #c5a059; padding: 15px; border-radius: 8px; margin-top: 10px; margin-bottom: 15px; display: none; }
-        .search-box input { border: 2px solid #c5a059; background: #fff; font-weight: bold; font-size: 15px; text-align: left; direction: ltr; }
+        
+        /* شريط البحث الخاص بكل قسم */
+        .section-search-bar { width: 100%; padding: 10px 14px; border: 2px solid #c5a059; border-radius: 8px; background: #fff; font-size: 14px; margin-bottom: 15px; }
 
         @media(min-width: 768px) {
             body { padding: 25px; }
@@ -82,7 +85,7 @@
         <div class="admin-nav-tabs">
             <button onclick="switchTab('tab-settings')" id="btn-tab-settings" class="active">⚙️ إعدادات المتجر</button>
             <button onclick="switchTab('tab-offers')" id="btn-tab-offers">🔥 إدارة العروض</button>
-            <button onclick="switchTab('tab-search')" id="btn-tab-search">🔍 البحث السريع</button>
+            <button onclick="switchTab('tab-search')" id="btn-tab-search">🔍 البحث الشامل</button>
             <button onclick="switchTab('tab-summer')" id="btn-tab-summer">☀️ القسم الصيفي</button>
             <button onclick="switchTab('tab-winter')" id="btn-tab-winter">❄️ القسم الشتوي</button>
             <button onclick="switchTab('tab-shoes')" id="btn-tab-shoes">👞 قسم الأحذية</button>
@@ -128,20 +131,30 @@
             <button class="action-btn" onclick="saveOfferSettings()">نشر وحفظ إعلان العرض الجديد</button>
             
             <h3 style="margin-top: 25px; color: #c5a059; font-size: 16px;">العروض الحالية المفعلة</h3>
-            <div class="table-responsive">
-                <table>
-                    <thead><tr><th>الصورة الرئيسية</th><th>كود العرض</th><th>العنوان</th><th>النوع</th><th>الأسعار</th><th>الإجراء</th></tr></thead>
-                    <tbody id="offers-table-body"></tbody>
-                </table>
+            <div class="table-container-scroll">
+                <div class="table-responsive">
+                    <table>
+                        <thead><tr><th>الصورة الرئيسية</th><th>كود العرض</th><th>العنوان</th><th>النوع</th><th>الأسعار</th><th>الإجراء</th></tr></thead>
+                        <tbody id="offers-table-body"></tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
-        <!-- 3. قسم البحث السريع -->
-        <div id="tab-search" class="tab-section section-box search-box">
-            <h2>🔍 البحث الفوري عن المنتجات (بالكود، الاسم، أو السعر)</h2>
+        <!-- 3. قسم البحث الشامل -->
+        <div id="tab-search" class="tab-section section-box">
+            <h2>🔍 البحث الشامل عن المنتجات (بالكود، الاسم، أو السعر)</h2>
             <div class="form-group" style="margin-bottom:0;">
-                <label>اكتب الكود هنا (مثل SUM, WIN, SHO):</label>
-                <input type="text" id="search-input" placeholder="SUM-XXXX / SHO-XXXX" oninput="filterProductsTable()">
+                <label>ابحث في جميع المنتجات:</label>
+                <input type="text" id="search-input" class="section-search-bar" placeholder="ابحث بالكود (مثل SUM) أو الاسم أو السعر..." oninput="filterGlobalSearch()" style="text-align:right; direction:rtl;">
+            </div>
+            <div class="table-container-scroll" style="margin-top:20px;">
+                <div class="table-responsive">
+                    <table>
+                        <thead><tr><th>الصورة</th><th>رقم المنتج</th><th>الاسم</th><th>الأسعار</th><th>المقاسات</th><th>الإجراءات</th></tr></thead>
+                        <tbody id="global-search-table-body"></tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
@@ -172,11 +185,14 @@
             <button class="action-btn" onclick="addProduct('summer')">نشر المنتج الصيفي سحابياً</button>
             
             <h3 style="margin-top: 25px; color: #c5a059; font-size: 16px;">المنتجات الصيفية الحالية</h3>
-            <div class="table-responsive">
-                <table>
-                    <thead><tr><th>الصورة</th><th>رقم المنتج</th><th>الاسم</th><th>الأسعار</th><th>المقاسات</th><th>الإجراءات</th></tr></thead>
-                    <tbody id="summer-table-body"></tbody>
-                </table>
+            <input type="text" id="search-summer" class="section-search-bar" placeholder="🔍 ابحث في القسم الصيفي (بالكود، الاسم، أو السعر)..." oninput="filterSection('summer')" style="margin-top:12px;">
+            <div class="table-container-scroll">
+                <div class="table-responsive">
+                    <table>
+                        <thead><tr><th>الصورة</th><th>رقم المنتج</th><th>الاسم</th><th>الأسعار</th><th>المقاسات</th><th>الإجراءات</th></tr></thead>
+                        <tbody id="summer-table-body"></tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
@@ -207,11 +223,14 @@
             <button class="action-btn" onclick="addProduct('winter')">نشر المنتج الشتوي سحابياً</button>
             
             <h3 style="margin-top: 25px; color: #c5a059; font-size: 16px;">المنتجات الشتوية الحالية</h3>
-            <div class="table-responsive">
-                <table>
-                    <thead><tr><th>الصورة</th><th>رقم المنتج</th><th>الاسم</th><th>الأسعار</th><th>المقاسات</th><th>الإجراءات</th></tr></thead>
-                    <tbody id="winter-table-body"></tbody>
-                </table>
+            <input type="text" id="search-winter" class="section-search-bar" placeholder="🔍 ابحث في القسم الشتوي (بالكود، الاسم، أو السعر)..." oninput="filterSection('winter')" style="margin-top:12px;">
+            <div class="table-container-scroll">
+                <div class="table-responsive">
+                    <table>
+                        <thead><tr><th>الصورة</th><th>رقم المنتج</th><th>الاسم</th><th>الأسعار</th><th>المقاسات</th><th>الإجراءات</th></tr></thead>
+                        <tbody id="winter-table-body"></tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
@@ -241,11 +260,14 @@
             <button class="action-btn" onclick="addProduct('shoes')">نشر الحذاء سحابياً</button>
             
             <h3 style="margin-top: 25px; color: #c5a059; font-size: 16px;">الأحذية الحالية</h3>
-            <div class="table-responsive">
-                <table>
-                    <thead><tr><th>الصورة</th><th>رقم المنتج</th><th>الاسم</th><th>الأسعار</th><th>المقاسات</th><th>الإجراءات</th></tr></thead>
-                    <tbody id="shoes-table-body"></tbody>
-                </table>
+            <input type="text" id="search-shoes" class="section-search-bar" placeholder="🔍 ابحث في قسم الأحذية (بالكود، الاسم، أو السعر)..." oninput="filterSection('shoes')" style="margin-top:12px;">
+            <div class="table-container-scroll">
+                <div class="table-responsive">
+                    <table>
+                        <thead><tr><th>الصورة</th><th>رقم المنتج</th><th>الاسم</th><th>الأسعار</th><th>المقاسات</th><th>الإجراءات</th></tr></thead>
+                        <tbody id="shoes-table-body"></tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -613,21 +635,31 @@
                     allProductsCache.push(doc.data());
                 });
 
-                renderProductsTables(allProductsCache);
+                renderAllTables();
             } catch (e) {
                 console.log(e);
             }
         }
 
-        function renderProductsTables(productsList) {
-            const summerTbody = document.getElementById('summer-table-body');
-            const winterTbody = document.getElementById('winter-table-body');
-            const shoesTbody = document.getElementById('shoes-table-body');
-            summerTbody.innerHTML = '';
-            winterTbody.innerHTML = '';
-            if(shoesTbody) shoesTbody.innerHTML = '';
+        function renderAllTables() {
+            renderTableForCategory('summer', allProductsCache.filter(p => p.category === 'summer'));
+            renderTableForCategory('winter', allProductsCache.filter(p => p.category === 'winter'));
+            renderTableForCategory('shoes', allProductsCache.filter(p => p.category === 'shoes'));
+            renderTableForCategory('global', allProductsCache);
+        }
 
-            productsList.forEach(p => {
+        function renderTableForCategory(cat, list) {
+            let tbodyId = '';
+            if(cat === 'summer') tbodyId = 'summer-table-body';
+            else if(cat === 'winter') tbodyId = 'winter-table-body';
+            else if(cat === 'shoes') tbodyId = 'shoes-table-body';
+            else if(cat === 'global') tbodyId = 'global-search-table-body';
+
+            const tbody = document.getElementById(tbodyId);
+            if(!tbody) return;
+            tbody.innerHTML = '';
+
+            list.forEach(p => {
                 const thumb = (p.imgs && p.imgs[0]) ? p.imgs[0] : '1000843025.png';
                 const sizesList = p.sizes ? p.sizes.join(', ') : 'متاح جميع المقاسات';
                 const priceDisplay = p.oldPrice ? `<span style="text-decoration:line-through;color:#888;font-size:11px;margin-left:4px;">${p.oldPrice} ج.م</span><strong style="color:#c5a059;">${p.price} ج.م</strong>` : `<strong>${p.price} ج.م</strong>`;
@@ -646,16 +678,27 @@
                 </tr>
                 <tr><td colspan="6"><div id="edit-box-${p.id}" class="inline-edit-box"></div></td></tr>`;
 
-                if (p.category === 'summer') summerTbody.innerHTML += row;
-                else if (p.category === 'winter') winterTbody.innerHTML += row;
-                else if (p.category === 'shoes' && shoesTbody) shoesTbody.innerHTML += row;
+                tbody.innerHTML += row;
             });
         }
 
-        function filterProductsTable() {
+        function filterSection(category) {
+            const query = document.getElementById('search-' + category).value.toLowerCase().trim();
+            const filtered = allProductsCache.filter(p => {
+                if (p.category !== category) return false;
+                const pId = (p.id || '').toLowerCase();
+                const pName = (p.name || '').toLowerCase();
+                const pPrice = (p.price || '').toLowerCase();
+                const pOldPrice = (p.oldPrice || '').toLowerCase();
+                return pId.includes(query) || pName.includes(query) || pPrice.includes(query) || pOldPrice.includes(query);
+            });
+            renderTableForCategory(category, filtered);
+        }
+
+        function filterGlobalSearch() {
             const query = document.getElementById('search-input').value.toLowerCase().trim();
             if (!query) {
-                renderProductsTables(allProductsCache);
+                renderTableForCategory('global', allProductsCache);
                 return;
             }
             const filtered = allProductsCache.filter(p => {
@@ -665,7 +708,7 @@
                 const pOldPrice = (p.oldPrice || '').toLowerCase();
                 return pId.includes(query) || pName.includes(query) || pPrice.includes(query) || pOldPrice.includes(query);
             });
-            renderProductsTables(filtered);
+            renderTableForCategory('global', filtered);
         }
     </script>
 </body>
