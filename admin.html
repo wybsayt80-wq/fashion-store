@@ -18,7 +18,7 @@
         h1, h2 { color: #c5a059; margin-bottom: 20px; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px; }
         .form-group { margin-bottom: 18px; }
         label { display: block; margin-bottom: 6px; color: #444; font-weight: 600; }
-        input, select, textarea { width: 100%; padding: 12px; background: #fafafa; border: 1px solid #ddd; color: #111; border-radius: 6px; font-size: 15px; text-align: right; direction: rtl; }
+        input, select, textarea { width: 100%; padding: 12px; background: #fafafa; border: 1px solid #ddd; color: #111; border-radius: 6px; font-size: 15px; text-align: right; }
         input[type="file"] { background: #fff; cursor: pointer; padding: 10px; border: 2px dashed #c5a059; }
         button.action-btn { background: #c5a059; color: #fff; border: none; padding: 12px 25px; font-weight: bold; border-radius: 6px; cursor: pointer; margin-top: 10px; font-size: 16px; transition: 0.3s; }
         button.action-btn:hover { background: #b08d48; }
@@ -36,7 +36,7 @@
         .sizes-container label { display: flex; align-items: center; gap: 5px; font-weight: normal; cursor: pointer; }
         .inline-edit-box { background: #fffdf5; border: 2px solid #c5a059; padding: 20px; border-radius: 8px; margin-top: 10px; margin-bottom: 15px; display: none; }
         .search-box { margin-bottom: 20px; }
-        .search-box input { border: 2px solid #c5a059; background: #fff; font-weight: bold; text-align: right; direction: rtl; }
+        .search-box input { border: 2px solid #c5a059; background: #fff; font-weight: bold; font-size: 16px; text-align: left; direction: ltr; }
     </style>
 </head>
 <body>
@@ -127,12 +127,12 @@
             </table>
         </div>
 
-        <!-- أداة البحث السريع الفورية في المنتجات -->
+        <!-- أداة البحث السريع الفورية في المنتجات (تدعم الأكواد والأرقام بدقة) -->
         <div class="section-box search-box">
-            <h2>🔍 البحث الفوري عن المنتجات</h2>
+            <h2>🔍 البحث الفوري عن المنتجات (بالكود، الاسم، أو السعر)</h2>
             <div class="form-group" style="margin-bottom:0;">
-                <label>ابحث باسم المنتج، الكود، أو السعر:</label>
-                <input type="text" id="search-input" placeholder="اكتب هنا للبحث الفوري..." oninput="filterProductsTable()">
+                <label>اكتب الكود هنا (مثل SUM-1234 أو WIN-5678):</label>
+                <input type="text" id="search-input" placeholder="SUM-XXXXX" oninput="filterProductsTable()">
             </div>
         </div>
 
@@ -594,8 +594,8 @@
                 return;
             }
             const filtered = allProductsCache.filter(p => {
-                return (p.name && p.name.toLowerCase().includes(query)) ||
-                       (p.id && p.id.toLowerCase().includes(query)) ||
+                return (p.id && p.id.toLowerCase().includes(query)) ||
+                       (p.name && p.name.toLowerCase().includes(query)) ||
                        (p.price && p.price.toLowerCase().includes(query)) ||
                        (p.oldPrice && p.oldPrice.toLowerCase().includes(query));
             });
