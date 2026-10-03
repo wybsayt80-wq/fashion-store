@@ -208,7 +208,6 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
-        // سحب الإعدادات والتصميم والألوان من السحابة
         db.collection("settings").doc("storeInfo").get().then(doc => {
             if (doc.exists) {
                 const data = doc.data();
@@ -226,7 +225,6 @@
             }
         });
 
-        // جلب عروض المتجر التوقيتية (صيفي أو شتوي) وعرضها مع العداد التنازلي
         db.collection("settings").doc("offerInfo").get().then(doc => {
             if (doc.exists) {
                 const offer = doc.data();
@@ -236,11 +234,10 @@
                     document.getElementById('offer-card-title').innerText = offer.title;
                     document.getElementById('offer-card-old').innerText = offer.oldPrice + " ج.م";
                     document.getElementById('offer-card-new').innerText = offer.newPrice + " ج.م";
-                    document.getElementById('offer-badge-label').innerText = offer.type === 'summer' ? "☀️️ عروض صيفية متاحة الآن" : "❄️ عروض شتوية متاحة الآن";
+                    document.getElementById('offer-badge-label').innerText = offer.type === 'summer' ? "🔥 عروض صيفية متاحة الآن" : "🔥 عروض شتوية متاحة الآن";
                     document.getElementById('offer-link-btn').href = offer.type === 'summer' ? "summer.html" : "winter.html";
                     if(offer.imgUrl) document.getElementById('offer-card-img').src = offer.imgUrl;
 
-                    // العداد التنازلي
                     const endTime = offer.endTime;
                     setInterval(() => {
                         const now = new Date().getTime();
@@ -251,7 +248,7 @@
                             document.getElementById('mins-box').innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
                             document.getElementById('secs-box').innerText = Math.floor((distance % (1000 * 60)) / 1000);
                         } else {
-                            section.style.display = 'none'; // ينتهي العرض تلقائياً بعد انتهاء الوقت
+                            section.style.display = 'none';
                         }
                     }, 1000);
                 }
