@@ -41,7 +41,7 @@
 
     <div id="auth-screen">
         <h2>🔒 لوحة التحكم الملكية</h2>
-        <p style="margin-bottom: 15px; color: #666; font-size: 14px;">أدخل كلمة المرور (1111)</p>
+        <p style="margin-bottom: 15px; color: #666; font-size: 14px;">أدخل كلمة المرور</p>
         <input type="password" id="admin-pass" placeholder="••••" maxlength="4">
         <button onclick="checkPassword()">دخول</button>
         <div class="error-msg" id="error-msg">كلمة المرور غير صحيحة!</div>
@@ -85,8 +85,9 @@
             <button class="action-btn" onclick="saveSettingsToCloud()">حفظ إعدادات الواجهة والأرقام سحابياً</button>
         </div>
 
+        <!-- إدارة عروض المتجر (تم إتاحة رفع عدة صور بحرية) -->
         <div class="section-box">
-            <h2>إدارة عروض المتجر (توقيت ونظام الخصم)</h2>
+            <h2>إدارة عروض المتجر (توقيت ونظام الخصم والصور المتعددة)</h2>
             <div class="form-group">
                 <label>عنوان إعلان العرض:</label>
                 <input type="text" id="offer-title" placeholder="عرض حرق الأسعار الكلاسيكي">
@@ -107,8 +108,8 @@
                 <input type="text" id="offer-new-price" placeholder="399">
             </div>
             <div class="form-group">
-                <label>اختر صورة إعلان العرض:</label>
-                <input type="file" id="offer-img-file" accept="image/*" onchange="convertOfferImg(this)">
+                <label>اختر صور إعلان العرض (يمكنك اختيار عدة صور بحرية):</label>
+                <input type="file" id="offer-img-file" accept="image/*" multiple onchange="convertOfferImgs(this)">
                 <div class="preview-container" id="offer-img-preview"></div>
             </div>
             <div class="form-group">
@@ -227,7 +228,7 @@
         }
 
         let tempLogoUrl = "1000843025.png";
-        let tempOfferImgUrl = "1000843025.png";
+        let offerImgsArr = [];
         let summerImgsArr = [];
         let winterImgsArr = [];
 
@@ -266,13 +267,16 @@
             }
         }
 
-        function convertOfferImg(input) {
-            if(input.files && input.files[0]) {
-                compressImage(input.files[0], (compressedUrl) => {
-                    tempOfferImgUrl = compressedUrl;
-                    document.getElementById('offer-img-preview').innerHTML = `<img src="${tempOfferImgUrl}">`;
+        function convertOfferImgs(input) {
+            offerImgsArr = [];
+            const container = document.getElementById('offer-img-preview');
+            container.innerHTML = '';
+            Array.from(input.files).forEach(file => {
+                compressImage(file, (compressedUrl) => {
+                    offerImgsArr.push(compressedUrl);
+                    container.innerHTML += `<img src="${compressedUrl}">`;
                 });
-            }
+            });
         }
 
         function convertSummerImgs(input) {
@@ -341,11 +345,12 @@
                 const newPrice = document.getElementById('offer-new-price').value;
                 const endtimeInput = document.getElementById('offer-endtime').value;
                 const endTime = endtimeInput ? new Date(endtimeInput).getTime() : new Date().getTime() + 86400000;
+                const imgs = offerImgsArr.length > 0 ? offerImgsArr : ["1000843025.png"];
                 
                 await db.collection("settings").doc("offerInfo").set({
-                    title, type, oldPrice, newPrice, endTime, imgUrl: tempOfferImgUrl, active: true
+                    title, type, oldPrice, newPrice, endTime, imgs, imgUrl: imgs[0], active: true
                 });
-                alert("تم نشر إعلان العرض بنجاح!");
+                alert("تم نشر إعلان العرض بنجاح مع الصور المتعددة!");
             } catch (e) {
                 alert("خطأ: " + e.message);
             }
