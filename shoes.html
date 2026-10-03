@@ -3,239 +3,161 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="page-title">كيان جينز - المتجر العالمي الفاخر</title>
+    <title>تشكيلة الأحذية - كيان جينز</title>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --bg-color: #ffffff;
-            --text-color: #111111;
-            --secondary-text: #666666;
-            --accent-color: #c5a059;
-            --border-color: #e5e7eb;
-            --dark-bg: #0d0d0d;
-        }
+        :root { --bg-color: #f8f9fa; --panel-bg: #ffffff; --accent-color: #c5a059; --text-color: #1a1a1a; --secondary-text: #666666; --border-color: #e5e7eb; --dark-bg: #0d0d0d; }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; overflow-x: hidden; }
+        body { background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; }
+        header { background-color: var(--panel-bg); padding: 18px 40px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); position: sticky; top: 0; z-index: 100; }
+        .logo-area { display: flex; align-items: center; gap: 12px; }
+        .logo-area img { width: 45px; height: 45px; object-fit: cover; border-radius: 50%; border: 2px solid var(--accent-color); }
+        .logo { font-size: 22px; font-weight: bold; color: var(--accent-color); }
+        .nav-right { display: flex; align-items: center; gap: 20px; }
+        nav a { color: var(--secondary-text); text-decoration: none; font-size: 14px; font-weight: 600; transition: 0.3s; }
+        nav a:hover { color: var(--accent-color); }
 
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 50px;
-            border-bottom: 1px solid var(--border-color);
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-        .logo { font-size: 24px; font-weight: 900; letter-spacing: 1px; color: var(--text-color); text-transform: uppercase; }
-        nav { display: flex; gap: 25px; }
-        nav a { color: var(--text-color); text-decoration: none; font-size: 15px; font-weight: 600; transition: 0.3s; position: relative; }
-        nav a::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -4px; right: 0; background-color: var(--accent-color); transition: 0.3s; }
-        nav a:hover::after { width: 100%; }
-        nav a:hover, nav a.active { color: var(--accent-color); }
-        .buy-now-btn { background: #000; color: #fff; padding: 10px 22px; border-radius: 30px; text-decoration: none; font-weight: bold; font-size: 14px; transition: 0.3s; }
-        .buy-now-btn:hover { background: var(--accent-color); transform: translateY(-2px); }
+        /* زر السلة العلوي */
+        .cart-icon-btn { position: relative; background: #000; color: #fff; border: none; padding: 10px 18px; border-radius: 30px; cursor: pointer; font-weight: bold; font-size: 14px; display: flex; align-items: center; gap: 8px; transition: 0.3s; }
+        .cart-icon-btn:hover { background: var(--accent-color); color: #000; }
+        .cart-counter { background: var(--accent-color); color: #000; font-size: 11px; padding: 2px 6px; border-radius: 50%; font-weight: 900; }
 
-        .hero {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 90px 50px;
-            max-width: 1300px;
-            margin: 0 auto;
-            flex-wrap: wrap;
-            gap: 40px;
-        }
-        .hero-content { flex: 1; min-width: 300px; }
-        .hero-content h1 { font-size: 56px; font-weight: 900; line-height: 1.1; margin-bottom: 20px; }
-        .hero-content p { color: var(--secondary-text); font-size: 18px; margin-bottom: 30px; max-width: 500px; }
-        .hero-btns { display: flex; gap: 15px; flex-wrap: wrap; }
-        .btn-black { background: #000; color: #fff; padding: 14px 28px; border-radius: 30px; text-decoration: none; font-weight: bold; transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .btn-black:hover { background: var(--accent-color); transform: translateY(-2px); }
-        .btn-outline { background: transparent; color: #000; border: 2px solid #000; padding: 14px 28px; border-radius: 30px; text-decoration: none; font-weight: bold; transition: 0.3s; }
-        .btn-outline:hover { background: #000; color: #fff; transform: translateY(-2px); }
+        .hero { padding: 50px 20px; text-align: center; background: #fff; border-bottom: 1px solid var(--border-color); }
+        .hero h1 { font-size: 32px; color: var(--accent-color); margin-bottom: 10px; font-weight: 900; }
+        .section-container { max-width: 1250px; margin: 40px auto; padding: 0 20px; }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 25px; }
+        .product-card { background-color: var(--panel-bg); border: 1px solid var(--border-color); border-radius: 14px; overflow: hidden; box-shadow: 0 5px 20px rgba(0,0,0,0.05); transition: 0.3s; display: flex; flex-direction: column; }
+        .product-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .product-img-container { width: 100%; height: 260px; background-color: #f0f0f0; position: relative; cursor: pointer; overflow: hidden; }
+        .product-img { width: 100%; height: 100%; object-fit: cover; transition: 0.4s; }
+        .product-img:hover { transform: scale(1.03); }
+        .product-info { padding: 20px; display: flex; flex-direction: column; flex-grow: 1; }
+        .product-id { font-size: 12px; color: #888; margin-bottom: 5px; font-weight: bold; }
+        .product-name { font-size: 19px; margin-bottom: 8px; font-weight: bold; }
+        .price-box { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+        .old-price { text-decoration: line-through; color: #888; font-size: 16px; }
+        .new-price { color: var(--accent-color); font-size: 20px; font-weight: bold; }
+        .sizes-badge { font-size: 13px; color: #555; background: #f4f4f4; padding: 5px 10px; border-radius: 6px; margin-bottom: 15px; display: inline-block; font-weight: 600; }
+        .buy-btn { margin-top: auto; display: block; width: 100%; padding: 12px; background-color: var(--accent-color); color: #fff; text-align: center; border-radius: 8px; border: none; text-decoration: none; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        .buy-btn:hover { background: #b08d48; }
 
-        /* تعديل صندوق اللوجو ليظهر كاملاً ومرفرفاً وبدقة طبيعية بدون دوائر */
-        .hero-image-box { flex: 1; display: flex; justify-content: center; min-width: 300px; }
-        .hero-image-box img { width: 100%; max-width: 480px; height: auto; object-fit: contain; background: transparent; border: none; box-shadow: none; border-radius: 0; }
+        /* نافذة سلة المشتريات (Cart Modal) */
+        #cart-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 99999; justify-content: center; align-items: center; }
+        .cart-content-box { background: #fff; width: 90%; max-width: 500px; border-radius: 14px; padding: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.2); max-height: 85vh; display: flex; flex-direction: column; }
+        .cart-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 15px; margin-bottom: 15px; }
+        .cart-header h3 { color: var(--accent-color); font-size: 20px; }
+        .cart-close-btn { background: none; border: none; font-size: 24px; cursor: pointer; color: #333; }
+        .cart-items-list { overflow-y: auto; max-height: 40vh; margin-bottom: 15px; display: flex; flex-direction: column; gap: 12px; }
+        .cart-item-row { display: flex; justify-content: space-between; align-items: center; background: #fafafa; padding: 10px 15px; border-radius: 8px; border: 1px solid #eee; font-size: 14px; }
+        .cart-total-box { font-size: 18px; font-weight: bold; text-align: left; margin-bottom: 20px; border-top: 1px solid #eee; padding-top: 15px; }
+        .whatsapp-checkout-btn { background: #25d366; color: #fff; border: none; width: 100%; padding: 14px; border-radius: 8px; font-weight: bold; font-size: 16px; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 10px; transition: 0.3s; text-decoration: none; text-align: center; }
+        .whatsapp-checkout-btn:hover { background: #20ba5a; }
 
-        .features-bar {
-            display: flex;
-            justify-content: space-around;
-            padding: 30px 20px;
-            border-top: 1px solid var(--border-color);
-            border-bottom: 1px solid var(--border-color);
-            background: #fafafa;
-            flex-wrap: wrap;
-            gap: 20px;
-            text-align: center;
-        }
-        .feature-item { font-size: 14px; font-weight: 600; color: #333; display: flex; align-items: center; gap: 8px; }
-        .feature-item i { color: var(--accent-color); }
+        /* نافذة العرض المكبر للصور (Lightbox) */
+        #lightbox-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 99999; justify-content: center; align-items: center; }
+        #lightbox-content { position: relative; max-width: 90%; max-height: 90%; display: flex; justify-content: center; align-items: center; }
+        #lightbox-img { max-width: 80vw; max-height: 80vh; border-radius: 10px; object-fit: contain; }
+        .lightbox-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255,255,255,0.2); color: #fff; border: none; font-size: 28px; padding: 15px 20px; cursor: pointer; border-radius: 50%; transition: 0.3s; }
+        .lightbox-arrow:hover { background: var(--accent-color); color: #000; }
+        #lightbox-prev { right: -70px; }
+        #lightbox-next { left: -70px; }
+        .lightbox-close { position: absolute; top: -50px; right: 0; color: #fff; font-size: 35px; cursor: pointer; border: none; background: none; }
 
-        .offers-wrapper {
-            max-width: 1300px;
-            margin: 60px auto;
-            padding: 0 50px;
-            display: flex;
-            flex-direction: column;
-            gap: 40px;
-        }
-
-        .offer-section {
-            background: #111;
-            color: #fff;
-            padding: 50px;
-            border-radius: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 40px;
-            border: 2px solid var(--accent-color);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-        }
-        .offer-content { flex: 1; min-width: 300px; }
-        .offer-badge { background: var(--accent-color); color: #000; padding: 6px 15px; border-radius: 20px; font-weight: bold; font-size: 13px; display: inline-block; margin-bottom: 15px; }
-        .offer-content h2 { font-size: 32px; font-weight: 900; margin-bottom: 15px; }
-        .price-box { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; font-size: 24px; font-weight: bold; }
-        .old-price { text-decoration: line-through; color: #888; font-size: 20px; }
-        .new-price { color: var(--accent-color); font-size: 30px; }
-        .timer-box { display: flex; gap: 15px; margin-bottom: 30px; }
-        .timer-unit { background: rgba(255,255,255,0.1); padding: 10px 18px; border-radius: 10px; text-align: center; }
-        .timer-unit span { display: block; font-size: 20px; font-weight: bold; }
-        .timer-unit small { font-size: 11px; color: #aaa; }
-        
-        .offer-img-container { flex: 1; min-width: 300px; display: flex; justify-content: center; position: relative; }
-        .offer-img-container img { width: 100%; max-width: 380px; height: 350px; border-radius: 15px; object-fit: cover; border: 2px solid var(--accent-color); }
-        .slider-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.6); color: #fff; border: none; font-size: 22px; padding: 12px 16px; cursor: pointer; border-radius: 50%; transition: 0.3s; z-index: 10; }
-        .slider-arrow:hover { background: var(--accent-color); color: #000; }
-        .slider-prev { right: 15px; }
-        .slider-next { left: 15px; }
-
-        .categories-section { max-width: 1300px; margin: 90px auto; padding: 0 50px; }
-        .section-title { font-size: 38px; font-weight: 900; margin-bottom: 40px; text-align: center; letter-spacing: -0.5px; }
-        .categories-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
-        .cat-card { position: relative; border-radius: 20px; overflow: hidden; height: 400px; text-decoration: none; color: #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.12); display: flex; flex-direction: column; justify-content: flex-end; padding: 35px; background-size: cover; background-position: center; transition: 0.5s; }
-        .cat-card:hover { transform: translateY(-6px) scale(1.01); }
-        .cat-card::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.85), rgba(0,0,0,0.2), transparent); z-index: 1; }
-        .cat-card h3, .cat-card span, .cat-card .explore-badge { position: relative; z-index: 2; }
-        .cat-card h3 { font-size: 26px; font-weight: 800; margin-bottom: 8px; }
-        .cat-card span { font-size: 14px; color: #ddd; margin-bottom: 15px; display: block; }
-        .explore-badge { font-size: 14px; font-weight: bold; color: var(--accent-color); display: flex; align-items: center; gap: 8px; }
-
-        .float-whatsapp {
-            position: fixed;
-            bottom: 30px;
-            left: 30px;
-            background-color: #25d366;
-            color: #fff;
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 32px;
-            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
-            z-index: 9999;
-            text-decoration: none;
-            transition: 0.4s;
-        }
-        .float-whatsapp:hover { transform: scale(1.1) rotate(10deg); }
-
-        footer { background: var(--dark-bg); color: #fff; padding: 70px 50px 30px; margin-top: 100px; }
-        .footer-container { max-width: 1300px; margin: 0 auto; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 40px; }
-        .footer-col h4 { color: var(--accent-color); margin-bottom: 20px; font-size: 18px; }
-        .footer-col p, .footer-col a { color: #aaa; text-decoration: none; display: block; margin-bottom: 10px; font-size: 14px; }
-        .copyright { text-align: center; border-top: 1px solid #222; margin-top: 40px; padding-top: 20px; color: #777; font-size: 13px; }
+        /* اللوحة السوداء (الفوتر) */
+        footer { background: var(--dark-bg); color: #fff; padding: 60px 20px 25px; margin-top: 80px; border-top: 3px solid var(--accent-color); }
+        .footer-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 40px; }
+        .footer-col { flex: 1; min-width: 260px; }
+        .footer-col h4 { color: var(--accent-color); margin-bottom: 15px; font-size: 18px; font-weight: bold; }
+        .footer-col p, .footer-col a { color: #b5b5b5; text-decoration: none; display: block; margin-bottom: 10px; font-size: 14px; line-height: 1.8; }
+        .footer-col a:hover { color: var(--accent-color); }
+        .social-footer-links { display: flex; gap: 12px; margin-top: 15px; }
+        .social-footer-links a { display: inline-flex; justify-content: center; align-items: center; width: 38px; height: 38px; background: rgba(255,255,255,0.08); color: #fff; border-radius: 50%; transition: 0.3s; font-size: 16px; border: 1px solid rgba(255,255,255,0.1); }
+        .social-footer-links a:hover { background: var(--accent-color); color: #000; transform: translateY(-3px); }
+        .copyright { text-align: center; border-top: 1px solid #222; margin-top: 40px; padding-top: 20px; color: #888; font-size: 13px; }
     </style>
 </head>
 <body>
-
-    <a href="https://wa.me/201124793700?text=مرحباً، أود الاستفسار عن منتجات كيان جينز" target="_blank" class="float-whatsapp">
-        <i class="fa-brands fa-whatsapp"></i>
-    </a>
-
     <header>
-        <div class="logo" id="store-logo-name">كيان جينز</div>
-        <nav>
-            <a href="index.html" class="active">الرئيسية</a>
-            <a href="summer.html">صيفي</a>
-            <a href="winter.html">شتوي</a>
-            <a href="shoes.html">أحذية</a>
-        </nav>
-        <a href="https://wa.me/201124793700?text=أهلاً، أود إتمام طلب جديد من متجر كيان جينز" target="_blank" class="buy-now-btn">تواصل للطلب</a>
+        <div class="logo-area">
+            <img src="1000843025.png" alt="شعار كيان جينز" id="header-logo-img">
+            <div class="logo">كيان جينز - أحذية</div>
+        </div>
+        <div class="nav-right">
+            <nav>
+                <a href="index.html">الرئيسية</a>
+                <a href="summer.html">صيفي</a>
+                <a href="winter.html">شتوي</a>
+                <a href="shoes.html" style="color: var(--accent-color);">أحذية</a>
+            </nav>
+            <button class="cart-icon-btn" onclick="openCartModal()">
+                <i class="fa-solid fa-cart-shopping"></i> السلة <span class="cart-counter" id="cart-count">0</span>
+            </button>
+        </div>
     </header>
 
     <section class="hero">
-        <div class="hero-content">
-            <h1 id="hero-title-text">ارتق بأناقتك الملكية</h1>
-            <p id="hero-subtitle-text">تشكيلة رجالية فاخرة ومصممة خصيصاً لتمنحك الثقة والأناقة الكلاسيكية بلا حدود.</p>
-            <div class="hero-btns">
-                <a href="summer.html" class="btn-black">قسم الصيف</a>
-                <a href="winter.html" class="btn-outline">قسم الشتاء</a>
-                <a href="shoes.html" class="btn-black" style="background: var(--accent-color); color: #000;">قسم الأحذية</a>
-            </div>
-        </div>
-        <div class="hero-image-box">
-            <img src="1000843025.png" id="main-hero-logo" alt="شعار كيان جينز">
-        </div>
+        <h1>تشكيلة الأحذية الفاخرة</h1>
+        <p>أرقى تصميمات الأحذية الجلدية والكلاسيكية لتكتمل إطلالتك الملكية.</p>
     </section>
 
-    <div class="features-bar">
-        <div class="feature-item"><i class="fa-solid fa-shield-halved"></i> دفع آمن ومضمون 100%</div>
-        <div class="feature-item"><i class="fa-solid fa-truck-fast"></i> شحن سريع لجميع المحافظات</div>
-        <div class="feature-item"><i class="fa-solid fa-headset"></i> خدمة عملاء 01124793700</div>
-        <div class="feature-item"><i class="fa-solid fa-rotate-left"></i> استبدال واسترجاع سريع</div>
+    <div class="section-container">
+        <div class="products-grid" id="shoes-grid"></div>
     </div>
 
-    <!-- حاوية العروض المتعددة (صيفي، شتوي، وأحذية) -->
-    <div class="offers-wrapper" id="offers-container"></div>
-
-    <section class="categories-section">
-        <h2 class="section-title">الأقسام الرئيسية</h2>
-        <div class="categories-grid">
-            <a href="summer.html" class="cat-card" style="background-image: url('https://images.unsplash.com/photo-1516257984-b1b4d707412e?w=800');">
-                <h3>☀️ قسم الصيف</h3>
-                <span>أحدث تشكيلات البناطيل والتيشرتات الخفيفة</span>
-                <div class="explore-badge">استكشف التشكيلة <i class="fa-solid fa-arrow-left"></i></div>
-            </a>
-            <a href="winter.html" class="cat-card" style="background-image: url('https://images.unsplash.com/photo-1495105787522-5334e3ffa0ef?w=800');">
-                <h3>❄️ قسم الشتاء</h3>
-                <span>جواكت وسويتشيرتات شتوية ثقيلة وفاخرة</span>
-                <div class="explore-badge">استكشف التشكيلة <i class="fa-solid fa-arrow-left"></i></div>
-            </a>
-            <a href="shoes.html" class="cat-card" style="background-image: url('https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800');">
-                <h3>👞 قسم الأحذية</h3>
-                <span>أرقى تصميمات الأحذية الجلدية والكلاسيكية</span>
-                <div class="explore-badge">استكشف التشكيلة <i class="fa-solid fa-arrow-left"></i></div>
-            </a>
+    <!-- نافذة سلة المشتريات (Cart Modal) -->
+    <div id="cart-modal">
+        <div class="cart-content-box">
+            <div class="cart-header">
+                <h3>🛒 سلة المشتريات الخاصة بك</h3>
+                <button class="cart-close-btn" onclick="closeCartModal()">&times;</button>
+            </div>
+            <div class="cart-items-list" id="cart-items-container">
+                <p style="text-align: center; color: #777;">السلة فارغة حالياً</p>
+            </div>
+            <div class="cart-total-box">
+                الإجمالي الكلي: <span id="cart-total-price" style="color: var(--accent-color);">0</span> ج.م
+            </div>
+            <button class="whatsapp-checkout-btn" onclick="checkoutToWhatsApp()">
+                <i class="fa-brands fa-whatsapp" style="font-size: 20px;"></i> إتمام الطلب عبر واتساب
+            </button>
         </div>
-    </section>
+    </div>
+
+    <!-- نافذة Lightbox للتنقل بين الصور -->
+    <div id="lightbox-modal">
+        <div id="lightbox-content">
+            <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+            <button class="lightbox-arrow" id="lightbox-prev" onclick="changeLightboxImg(-1)"><i class="fa-solid fa-chevron-right"></i></button>
+            <img id="lightbox-img" src="" alt="عرض مكبر">
+            <button class="lightbox-arrow" id="lightbox-next" onclick="changeLightboxImg(1)"><i class="fa-solid fa-chevron-left"></i></button>
+        </div>
+    </div>
 
     <footer>
         <div class="footer-container">
             <div class="footer-col">
                 <h4 id="footer-logo-title">كيان جينز</h4>
-                <p>العلامة التجارية الأولى للملابس والأحذية الفاخرة.</p>
-                <p style="margin-top: 12px; color: var(--accent-color); font-weight: bold;"><i class="fa-solid fa-phone"></i> 01124793700</p>
+                <p>العلامة التجارية الأولى للملابس والأحذية الفاخرة. لقد بذلنا جهداً استثنائياً وتعبنا كثيراً لنصنع هذا البراند من قلب الشغف لنقدم لكم "العظمة" والفخامة الحقيقية اللائقة بكم.</p>
+                <p style="margin-top: 10px; color: var(--accent-color); font-weight: bold;"><i class="fa-solid fa-phone"></i> 01101100491</p>
+                <div class="social-footer-links">
+                    <a href="https://www.facebook.com/share/1FVYzJMfVF/" target="_blank" title="الفيسبوك"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="https://www.tiktok.com/@user86700746112525?_r=1&_t=ZS-9AFtGblWrEC" target="_blank" title="التيك توك"><i class="fa-brands fa-tiktok"></i></a>
+                    <a href="https://wa.me/201101100491" target="_blank" title="الواتساب"><i class="fa-brands fa-whatsapp"></i></a>
+                </div>
             </div>
             <div class="footer-col">
                 <h4>روابط سريعة</h4>
                 <p><a href="index.html">الرئيسية</a></p>
-                <p><a href="summer.html">صيفي</a></p>
-                <p><a href="winter.html">شتوي</a></p>
-                <p><a href="shoes.html">أحذية</a></p>
+                <p><a href="summer.html">قسم الصيف</a></p>
+                <p><a href="winter.html">قسم الشتاء</a></p>
+                <p><a href="shoes.html">قسم الأحذية</a></p>
             </div>
             <div class="footer-col">
-                <h4>تواصل معنا</h4>
-                <p style="color: var(--accent-color); font-weight: bold;">متاح الشحن والتوصيل لجميع أنحاء جمهورية مصر العربية</p>
-                <p><a href="https://wa.me/201124793700" target="_blank" style="color: #25d366;"><i class="fa-brands fa-whatsapp"></i> خدمة العملاء (واتساب)</a></p>
+                <h4>رؤيتنا وتوسعاتنا</h4>
+                <p>بفضل ثقتكم ودعمكم المستمر الذي نعتز به، نحن قادمون على توسعات ضخمة ومتطورة لنلبي كافة تطلعاتكم. بيكو ومعكم نستمر في التطور والنمو لنصنع المستقبل معاً!</p>
+                <p style="margin-top: 10px; color: #25d366; font-weight: bold;"><i class="fa-solid fa-headset"></i> خدمة العملاء متاحة دائماً لخدمتكم</p>
             </div>
         </div>
         <div class="copyright">جميع الحقوق محفوظة © كيان جينز 2026</div>
@@ -254,101 +176,142 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
+        let cart = JSON.parse(localStorage.getItem('kyan_cart')) || [];
+
+        function updateCartUI() {
+            document.getElementById('cart-count').innerText = cart.length;
+            localStorage.setItem('kyan_cart', JSON.stringify(cart));
+            
+            const container = document.getElementById('cart-items-container');
+            const totalEl = document.getElementById('cart-total-price');
+            container.innerHTML = '';
+
+            if (cart.length === 0) {
+                container.innerHTML = `<p style="text-align: center; color: #777; padding: 20px;">السلة فارغة حالياً</p>`;
+                totalEl.innerText = '0';
+                return;
+            }
+
+            let total = 0;
+            cart.forEach((item, index) => {
+                total += parseFloat(item.price);
+                container.innerHTML += `
+                    <div class="cart-item-row">
+                        <div>
+                            <strong>${item.name}</strong><br>
+                            <small style="color:#666;">الكود: ${item.id} | السعر: ${item.price} ج.م</small>
+                        </div>
+                        <button onclick="removeFromCart(${index})" style="background:none; border:none; color:red; cursor:pointer; font-size:16px;" title="حذف"><i class="fa-solid fa-trash"></i></button>
+                    </div>
+                `;
+            });
+            totalEl.innerText = total;
+        }
+
+        function addToCart(id, name, price) {
+            cart.push({ id, name, price });
+            updateCartUI();
+            alert("تم إضافة المنتج إلى السلة بنجاح! 🛒");
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartUI();
+        }
+
+        function openCartModal() {
+            document.getElementById('cart-modal').style.display = 'flex';
+        }
+
+        function closeCartModal() {
+            document.getElementById('cart-modal').style.display = 'none';
+        }
+
+        function checkoutToWhatsApp() {
+            if (cart.length === 0) {
+                alert("السلة فارغة! يرجى إضافة منتجات أولاً.");
+                return;
+            }
+
+            let message = `مرحباً، أود إتمام طلب جديد من متجر كيان جينز:\n\n`;
+            let total = 0;
+
+            cart.forEach((item, idx) => {
+                message += `🔹 *المنتج (${idx + 1}):* ${item.name}\n`;
+                message += `   • الكود: ${item.id}\n`;
+                message += `   • السعر: ${item.price} ج.م\n\n`;
+                total += parseFloat(item.price);
+            });
+
+            message += `💰 *الإجمالي الكلي:* ${total} ج.م\n\nيرجى تأكيد الطلب وترتيب الشحن. شكراً جزيلاً!`;
+
+            const encodedMessage = encodeURIComponent(message);
+            window.open(`https://wa.me/201101100491?text=${encodedMessage}`, '_blank');
+
+            // تفريغ السلة تلقائياً بعد إتمام الطلب
+            cart = [];
+            updateCartUI();
+            closeCartModal();
+        }
+
+        let currentImgsList = [];
+        let currentImgIdx = 0;
+
+        function openLightbox(imgsJsonStr, idx) {
+            currentImgsList = JSON.parse(decodeURIComponent(imgsJsonStr));
+            currentImgIdx = idx;
+            document.getElementById('lightbox-img').src = currentImgsList[currentImgIdx];
+            document.getElementById('lightbox-modal').style.display = 'flex';
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox-modal').style.display = 'none';
+        }
+
+        function changeLightboxImg(direction) {
+            currentImgIdx += direction;
+            if(currentImgIdx >= currentImgsList.length) currentImgIdx = 0;
+            if(currentImgIdx < 0) currentImgIdx = currentImgsList.length - 1;
+            document.getElementById('lightbox-img').src = currentImgsList[currentImgIdx];
+        }
+
         db.collection("settings").doc("storeInfo").get().then(doc => {
             if (doc.exists) {
                 const data = doc.data();
-                if(data.storeName) {
-                    document.getElementById('store-logo-name').innerText = data.storeName;
-                    document.getElementById('footer-logo-title').innerText = data.storeName;
-                    document.getElementById('page-title').innerText = data.storeName;
-                }
-                if(data.heroTitle) document.getElementById('hero-title-text').innerText = data.heroTitle;
-                if(data.heroSubtitle) document.getElementById('hero-subtitle-text').innerText = data.heroSubtitle;
-                if(data.logoUrl) document.getElementById('main-hero-logo').src = data.logoUrl;
-                if(data.accentColor) {
-                    document.documentElement.style.setProperty('--accent-color', data.accentColor);
-                }
+                if(data.logoUrl) document.getElementById('header-logo-img').src = data.logoUrl;
             }
         });
 
-        window.offerSliders = {};
-
-        function changeOfferSlide(offerKey, direction) {
-            if (!window.offerSliders[offerKey]) return;
-            let slider = window.offerSliders[offerKey];
-            slider.idx += direction;
-            if (slider.idx >= slider.imgs.length) slider.idx = 0;
-            if (slider.idx < 0) slider.idx = slider.imgs.length - 1;
-            document.getElementById('img-el-' + offerKey).src = slider.imgs[slider.idx];
-        }
-
-        db.collection("offers").get().then(snapshot => {
-            const container = document.getElementById('offers-container');
-            container.innerHTML = '';
-            
+        db.collection("products").where("category", "==", "shoes").get().then(snapshot => {
+            const grid = document.getElementById('shoes-grid');
+            grid.innerHTML = '';
             snapshot.forEach(doc => {
-                const offer = doc.data();
-                if (offer.active && new Date().getTime() < offer.endTime) {
-                    let imgsArr = offer.imgs && offer.imgs.length > 0 ? offer.imgs : [offer.imgUrl || "1000843025.png"];
-                    let offerKey = offer.id || ('offer_' + Math.random());
-                    window.offerSliders[offerKey] = { imgs: imgsArr, idx: 0 };
+                const p = doc.data();
+                const imgs = (p.imgs && p.imgs.length > 0) ? p.imgs : ['1000843025.png'];
+                const imgsJsonStr = encodeURIComponent(JSON.stringify(imgs));
+                const sizesList = p.sizes ? p.sizes.join(', ') : 'متاح جميع المقاسات';
+                const priceHtml = p.oldPrice ? `<div class="price-box"><span class="old-price">${p.oldPrice} ج.م</span><span class="new-price">${p.price} ج.م</span></div>` : `<div class="price-box"><span class="new-price">${p.price} ج.م</span></div>`;
 
-                    let badgeText = "🔥 عروض متاحة الآن";
-                    let linkPage = "summer.html";
-                    if(offer.type === 'summer') { badgeText = "🔥 عروض صيفية متاحة الآن"; linkPage = "summer.html"; }
-                    else if(offer.type === 'winter') { badgeText = "🔥 عروض شتوية متاحة الآن"; linkPage = "winter.html"; }
-                    else if(offer.type === 'shoes') { badgeText = "👞 عروض أحذية متاحة الآن"; linkPage = "shoes.html"; }
-                    
-                    let arrowsHtml = imgsArr.length > 1 ? `
-                        <button class="slider-arrow slider-prev" onclick="changeOfferSlide('${offerKey}', -1)"><i class="fa-solid fa-chevron-right"></i></button>
-                        <button class="slider-arrow slider-next" onclick="changeOfferSlide('${offerKey}', 1)"><i class="fa-solid fa-chevron-left"></i></button>
-                    ` : '';
+                const safeName = p.name.replace(/'/g, "\\'");
 
-                    container.innerHTML += `
-                        <section class="offer-section">
-                            <div class="offer-content">
-                                <span class="offer-badge">${badgeText}</span>
-                                <h2>${offer.title}</h2>
-                                <div class="price-box">
-                                    <span class="old-price">${offer.oldPrice} ج.م</span>
-                                    <span class="new-price">${offer.newPrice} ج.م</span>
-                                </div>
-                                <div class="timer-box" id="timer-${offerKey}">
-                                    <div class="timer-unit"><span id="days-${offerKey}">00</span><small>يوم</small></div>
-                                    <div class="timer-unit"><span id="hours-${offerKey}">00</span><small>ساعة</small></div>
-                                    <div class="timer-unit"><span id="mins-${offerKey}">00</span><small>دقيقة</small></div>
-                                    <div class="timer-unit"><span id="secs-${offerKey}">00</span><small>ثانية</small></div>
-                                </div>
-                                <a href="${linkPage}" class="btn-black" style="background: var(--accent-color); color: #000;">تسوق العرض الآن</a>
-                            </div>
-                            <div class="offer-img-container">
-                                <img src="${imgsArr[0]}" id="img-el-${offerKey}" alt="صورة العرض">
-                                ${arrowsHtml}
-                            </div>
-                        </section>
-                    `;
-
-                    const endTime = offer.endTime;
-                    setInterval(() => {
-                        const now = new Date().getTime();
-                        const distance = endTime - now;
-                        if (distance > 0) {
-                            const dEl = document.getElementById(`days-${offerKey}`);
-                            const hEl = document.getElementById(`hours-${offerKey}`);
-                            const mEl = document.getElementById(`mins-${offerKey}`);
-                            const sEl = document.getElementById(`secs-${offerKey}`);
-                            if(dEl) dEl.innerText = Math.floor(distance / (1000 * 60 * 60 * 24));
-                            if(hEl) hEl.innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                            if(mEl) mEl.innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                            if(sEl) sEl.innerText = Math.floor((distance % (1000 * 60)) / 1000);
-                        } else {
-                            const timerBox = document.getElementById(`timer-${offerKey}`);
-                            if(timerBox) timerBox.innerHTML = "<span style='color:red;font-weight:bold;'>انتهى العرض</span>";
-                        }
-                    }, 1000);
-                }
+                grid.innerHTML += `
+                    <div class="product-card">
+                        <div class="product-img-container" onclick="openLightbox('${imgsJsonStr}', 0)">
+                            <img src="${imgs[0]}" class="product-img" alt="${p.name}">
+                        </div>
+                        <div class="product-info">
+                            <div class="product-id">كود المنتج: ${p.id}</div>
+                            <div class="product-name">${p.name}</div>
+                            ${priceHtml}
+                            <div class="sizes-badge"><i class="fa-solid fa-ruler"></i> المقاسات: ${sizesList}</div>
+                            <button onclick="addToCart('${p.id}', '${safeName}', '${p.price}')" class="buy-btn"><i class="fa-solid fa-cart-plus"></i> أضف إلى السلة</button>
+                        </div>
+                    </div>
+                `;
             });
         });
+
+        updateCartUI();
     </script>
 </body>
 </html>
