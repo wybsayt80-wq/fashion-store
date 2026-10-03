@@ -3,129 +3,211 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="page-title">كيان جينز - المعرض العالمي الفاخر</title>
+    <title id="page-title">كيان جينز - المتجر العالمي الفاخر</title>
     <!-- مكتبات Firebase السحابية -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
     <style>
         :root {
-            --bg-color: #f8f9fa;
-            --panel-bg: #ffffff;
-            --accent-color: #c5a059;
-            --text-color: #1a1a1a;
+            --bg-color: #ffffff;
+            --text-color: #111111;
             --secondary-text: #666666;
+            --accent-color: #c5a059;
             --border-color: #e5e7eb;
+            --dark-bg: #0d0d0d;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; overflow-x: hidden; }
-        
+        body { background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; }
+
+        /* الهيدر العصري */
         header {
-            background-color: var(--panel-bg);
-            padding: 18px 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            padding: 20px 50px;
             border-bottom: 1px solid var(--border-color);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.03);
-        }
-        .logo { font-size: 24px; font-weight: bold; color: var(--accent-color); letter-spacing: 1px; }
-        nav a { color: var(--secondary-text); text-decoration: none; margin-left: 25px; font-size: 15px; transition: 0.3s; font-weight: 600; }
-        nav a:hover { color: var(--accent-color); }
-
-        .hero {
-            padding: 60px 20px;
-            text-align: center;
-            background: linear-gradient(180deg, #ffffff 0%, var(--bg-color) 100%);
-            border-bottom: 1px solid var(--border-color);
-        }
-        .brand-title {
-            font-size: 48px;
-            font-weight: 900;
-            background: linear-gradient(45deg, #111, var(--accent-color));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 15px;
-            letter-spacing: 2px;
-        }
-        .hero h1 { font-size: 26px; margin-bottom: 12px; color: var(--text-color); font-weight: 700; }
-        .hero p { color: var(--secondary-text); font-size: 16px; margin-bottom: 35px; max-width: 700px; margin-left: auto; margin-right: auto; }
-        
-        .animated-logo-container { max-width: 650px; margin: 20px auto; padding: 10px; }
-        .store-animated-logo {
-            width: 100%;
-            height: auto;
-            border-radius: 12px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12), 0 0 20px rgba(197, 160, 89, 0.3);
-            border: 2px solid var(--accent-color);
             background: #fff;
-            animation: wingFlapAndGlow 4s ease-in-out infinite;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
-        @keyframes wingFlapAndGlow {
-            0% { transform: scale(1) rotate(0deg); filter: brightness(1); }
-            50% { transform: scale(1.02) rotate(0.3deg); filter: brightness(1.08) drop-shadow(0 0 15px rgba(197, 160, 89, 0.4)); }
-            100% { transform: scale(1) rotate(0deg); filter: brightness(1); }
-        }
+        .logo { font-size: 24px; font-weight: 900; letter-spacing: 1px; color: var(--text-color); text-transform: uppercase; }
+        nav { display: flex; gap: 30px; }
+        nav a { color: var(--text-color); text-decoration: none; font-size: 15px; font-weight: 600; transition: 0.3s; }
+        nav a:hover { color: var(--accent-color); }
+        .header-actions { display: flex; gap: 20px; align-items: center; }
+        .buy-now-btn { background: #000; color: #fff; padding: 10px 22px; border-radius: 30px; text-decoration: none; font-weight: bold; font-size: 14px; transition: 0.3s; }
+        .buy-now-btn:hover { background: var(--accent-color); }
 
-        .main-categories {
+        /* الواجهة الرئيسية (Hero Section) مطابقة للفيديو */
+        .hero {
             display: flex;
-            justify-content: center;
-            gap: 25px;
+            justify-content: space-between;
+            align-items: center;
+            padding: 80px 50px;
+            max-width: 1300px;
+            margin: 0 auto;
             flex-wrap: wrap;
-            padding: 50px 20px;
+            gap: 40px;
         }
-        .main-cat-card {
-            background: #ffffff;
-            border: 2px solid var(--accent-color);
-            padding: 30px 50px;
-            border-radius: 14px;
-            text-decoration: none;
-            color: var(--text-color);
-            font-size: 22px;
-            font-weight: bold;
-            transition: 0.3s;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.06);
-            text-align: center;
-            min-width: 260px;
-        }
-        .main-cat-card:hover {
-            background-color: var(--accent-color);
-            color: #fff;
-            transform: translateY(-5px);
-            box-shadow: 0 12px 30px rgba(197, 160, 89, 0.35);
+        .hero-content { flex: 1; min-width: 300px; }
+        .hero-content h1 { font-size: 56px; font-weight: 900; line-height: 1.1; margin-bottom: 20px; }
+        .hero-content p { color: var(--secondary-text); font-size: 18px; margin-bottom: 30px; max-width: 500px; }
+        .hero-btns { display: flex; gap: 15px; }
+        .btn-black { background: #000; color: #fff; padding: 14px 28px; border-radius: 30px; text-decoration: none; font-weight: bold; transition: 0.3s; }
+        .btn-black:hover { background: var(--accent-color); }
+        .btn-outline { background: transparent; color: #000; border: 2px solid #000; padding: 14px 28px; border-radius: 30px; text-decoration: none; font-weight: bold; transition: 0.3s; }
+        .btn-outline:hover { background: #000; color: #fff; }
+
+        .hero-image-box { flex: 1; display: flex; justify-content: center; min-width: 300px; }
+        .hero-image-box img { width: 100%; max-width: 450px; border-radius: 200px 200px 20px 20px; object-fit: cover; box-shadow: 0 20px 40px rgba(0,0,0,0.1); border: 2px solid var(--accent-color); animation: floatLogo 4s ease-in-out infinite; }
+        @keyframes floatLogo {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+            100% { transform: translateY(0); }
         }
 
-        footer { text-align: center; padding: 40px; background-color: var(--panel-bg); color: var(--secondary-text); border-top: 1px solid var(--border-color); margin-top: 50px; font-size: 15px; }
+        /* مميزات المتجر السريعة */
+        .features-bar {
+            display: flex;
+            justify-content: space-around;
+            padding: 30px 20px;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            background: #fafafa;
+            flex-wrap: wrap;
+            gap: 20px;
+            text-align: center;
+        }
+        .feature-item { font-size: 14px; font-weight: 600; color: #333; }
+
+        /* قسم الأقسام (Categories) */
+        .categories-section { max-width: 1300px; margin: 80px auto; padding: 0 50px; }
+        .section-title { font-size: 36px; font-weight: 900; margin-bottom: 40px; }
+        .categories-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 25px; }
+        .cat-card { position: relative; border-radius: 16px; overflow: hidden; height: 380px; text-decoration: none; color: #fff; box-shadow: 0 10px 25px rgba(0,0,0,0.1); display: flex; flex-direction: column; justify-content: flex-end; padding: 30px; background-size: cover; background-position: center; transition: 0.4s; }
+        .cat-card:hover { transform: scale(1.02); }
+        .cat-card::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); z-index: 1; }
+        .cat-card h3, .cat-card span { position: relative; z-index: 2; }
+        .cat-card h3 { font-size: 24px; font-weight: bold; margin-bottom: 5px; }
+
+        /* قسم العروض السريعة (Act Fast Offer) */
+        .offer-section { background: #111; color: #fff; padding: 80px 50px; max-width: 1300px; margin: 80px auto; border-radius: 20px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 40px; }
+        .offer-content { flex: 1; min-width: 300px; }
+        .offer-content h2 { font-size: 42px; font-weight: 900; margin-bottom: 15px; color: var(--accent-color); }
+        .offer-content p { color: #aaa; margin-bottom: 25px; }
+        .timer-box { display: flex; gap: 15px; margin-bottom: 30px; }
+        .timer-unit { background: rgba(255,255,255,0.1); padding: 12px 20px; border-radius: 10px; text-align: center; }
+        .timer-unit span { display: block; font-size: 22px; font-weight: bold; }
+        .timer-unit small { font-size: 11px; color: #aaa; }
+        .offer-img { flex: 1; min-width: 300px; display: flex; justify-content: center; }
+        .offer-img img { width: 100%; max-width: 400px; border-radius: 15px; object-fit: cover; }
+
+        /* فودر عصري فاخر */
+        footer { background: var(--dark-bg); color: #fff; padding: 60px 50px 30px; margin-top: 80px; }
+        .footer-container { max-width: 1300px; margin: 0 auto; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 40px; }
+        .footer-col h4 { color: var(--accent-color); margin-bottom: 20px; font-size: 18px; }
+        .footer-col p, .footer-col a { color: #aaa; text-decoration: none; display: block; margin-bottom: 10px; font-size: 14px; transition: 0.3s; }
+        .footer-col a:hover { color: #fff; }
+        .copyright { text-align: center; border-top: 1px solid #222; margin-top: 40px; padding-top: 20px; color: #777; font-size: 13px; }
     </style>
 </head>
 <body>
 
+    <!-- الهيدر -->
     <header>
-        <div class="logo" id="store-logo-text">كيان جينز</div>
+        <div class="logo" id="store-logo-name">كيان جينز</div>
         <nav>
-            <a href="index.html" style="color: var(--accent-color);">الرئيسية</a>
+            <a href="index.html">الرئيسية</a>
             <a href="summer.html">صيفي</a>
             <a href="winter.html">شتوي</a>
         </nav>
+        <div class="header-actions">
+            <a href="summer.html" class="buy-now-btn">تسوق الآن</a>
+        </div>
     </header>
 
+    <!-- الواجهة الرئيسية (Hero) مطابقة للفيديو -->
     <section class="hero">
-        <div class="brand-title">كيان جينز</div>
-        <h1 id="hero-title">ارتق بأناقتك مع تشكيلة رجالية فاخرة</h1>
-        <p id="hero-subtitle">تسوق أحدث تشكيلات الملابس الصيفية والشتوية الكلاسيكية.</p>
-        
-        <div class="animated-logo-container">
-            <img src="1000843025.png" id="main-animated-logo" class="store-animated-logo" alt="شعار كيان جينز">
+        <div class="hero-content">
+            <h1>ارتق بأناقتك الملكية</h1>
+            <p>تشكيلة رجالية فاخرة ومصممة خصيصاً لتمنحك الثقة، الحركة، والأناقة الكلاسيكية بلا حدود.</p>
+            <div class="hero-btns">
+                <a href="summer.html" class="btn-black">قسم الصيف</a>
+                <a href="winter.html" class="btn-outline">قسم الشتاء</a>
+            </div>
+        </div>
+        <div class="hero-image-box">
+            <!-- الشعار المتحرك أو الصورة الرئيسية -->
+            <img src="1000843025.png" id="main-hero-logo" alt="شعار كيان جينز">
         </div>
     </section>
 
-    <div class="main-categories">
-        <a href="summer.html" class="main-cat-card">☀️ قسم الصيف</a>
-        <a href="winter.html" class="main-cat-card">❄️ قسم الشتاء</a>
+    <!-- مميزات المتجر السريعة -->
+    <div class="features-bar">
+        <div class="feature-item">🔒 دفع آمن ومضمون 100%</div>
+        <div class="feature-item">⚡ شحن سريع لجميع المحافظات</div>
+        <div class="feature-item">🕒 خدمة عملاء ودعم فني طوال اليوم</div>
+        <div class="feature-item">🔄 استبدال واسترجاع سهل وسريع</div>
     </div>
 
-    <footer>جميع الحقوق محفوظة © كيان جينز 2026</footer>
+    <!-- الأقسام (Categories) -->
+    <section class="categories-section">
+        <h2 class="section-title">الأقسام الرئيسية</h2>
+        <div class="categories-grid">
+            <a href="summer.html" class="cat-card" style="background-image: url('https://images.unsplash.com/photo-1516257984-b1b4d707412e?w=600');">
+                <h3>☀️ قسم الصيف</h3>
+                <span>تكتشف أحدث تشكيلات البناطيل والتيشرتات الخفيفة</span>
+            </a>
+            <a href="winter.html" class="cat-card" style="background-image: url('https://images.unsplash.com/photo-1495105787522-5334e3ffa0ef?w=600');">
+                <h3>❄️ قسم الشتاء</h3>
+                <span>جواكت وسويتشيرتات شتوية ثقيلة وفاخرة</span>
+            </a>
+        </div>
+    </section>
+
+    <!-- عرض سريع (Offer Section) مطابق للفيديو -->
+    <section class="offer-section">
+        <div class="offer-content">
+            <h2>عروض حصريّة لفترة محدودة</h2>
+            <p id="offer-text-banner">سارع بطلب أحدث المنتجات قبل نفاد الكمية واستمتع بأقوى الخصومات الملكية.</p>
+            <div class="timer-box">
+                <div class="timer-unit"><span id="days-box">190</span><small>يوم</small></div>
+                <div class="timer-unit"><span id="hours-box">04</span><small>ساعة</small></div>
+                <div class="timer-unit"><span id="mins-box">38</span><small>دقيقة</small></div>
+                <div class="timer-unit"><span id="secs-box">13</span><small>ثانية</small></div>
+            </div>
+            <a href="summer.html" class="btn-black" style="background: var(--accent-color); color: #000;">استعراض العروض</a>
+        </div>
+        <div class="offer-img">
+            <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=600" id="offer-banner-img" alt="عروض كيان جينز">
+        </div>
+    </section>
+
+    <!-- الفودر -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-col">
+                <h4 id="footer-logo-title">كيان جينز</h4>
+                <p>العلامة التجارية الأولى للملابس الرجالية الكلاسيكية الفاخرة.</p>
+            </div>
+            <div class="footer-col">
+                <h4>روابط سريعة</h4>
+                <p><a href="index.html">الرئيسية</a></p>
+                <p><a href="summer.html">قسم الصيف</a></p>
+                <p><a href="winter.html">قسم الشتاء</a></p>
+            </div>
+            <div class="footer-col">
+                <h4>تواصل معنا</h4>
+                <p>الخدمة متاحة عبر الواتساب للطلبات الفورية.</p>
+                <p style="color: var(--accent-color); font-weight: bold;">مصر - القاهرة</p>
+            </div>
+        </div>
+        <div class="copyright">جميع الحقوق محفوظة © كيان جينز 2026</div>
+    </footer>
 
     <script>
+        // ربط السحابة الدائمة Firebase لتحديث اسم المتجر والشعار لحظياً من لوحة التحكم
         const firebaseConfig = {
             apiKey: "AIzaSyD-YOUR_KEY_HERE",
             authDomain: "fashionstore-192b6.firebaseapp.com",
@@ -137,12 +219,18 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
+        // جلب الإعدادات سحابياً وتحديث الصفحة فوراً
         db.collection("settings").doc("storeInfo").get().then(doc => {
             if (doc.exists) {
                 const data = doc.data();
-                document.getElementById('store-logo-text').innerText = data.storeName;
-                document.getElementById('page-title').innerText = data.storeName;
-                if(data.logoUrl) document.getElementById('main-animated-logo').src = data.logoUrl;
+                if(data.storeName) {
+                    document.getElementById('store-logo-name').innerText = data.storeName;
+                    document.getElementById('footer-logo-title').innerText = data.storeName;
+                    document.getElementById('page-title').innerText = data.storeName + " - المتجر العالمي الفاخر";
+                }
+                if(data.logoUrl) {
+                    document.getElementById('main-hero-logo').src = data.logoUrl;
+                }
             }
         });
     </script>
