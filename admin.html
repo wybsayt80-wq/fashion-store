@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة التحكم الشاملة - كيان جينز</title>
+    <title>لوحة التحكم الملكية - كيان جينز</title>
     <!-- مكتبات Firebase السحابية الدائمة -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
@@ -45,25 +45,25 @@
 
     <div id="admin-panel-content">
         <a href="index.html" class="back-link">← العودة إلى المتجر الرئيسي</a>
-        <h1>لوحة التحكم السحابية الشاملة - كيان جينز</h1>
+        <h1>لوحة التحكم السحابية - كيان جينز</h1>
 
-        <!-- 1. إعدادات الواجهة والخطوط والألوان -->
+        <!-- 1. إعدادات الشعار والألوان والواجهة -->
         <div class="section-box">
-            <h2>إعدادات تصميم الواجهة والشعار والألوان</h2>
+            <h2>إعدادات الشعار والواجهة والألوان العامة</h2>
             <div class="form-group">
                 <label>اسم المتجر:</label>
                 <input type="text" id="setting-storeName" value="كيان جينز">
             </div>
             <div class="form-group">
-                <label>العنوان الرئيسي في الواجهة:</label>
+                <label>العنوان الرئيسي:</label>
                 <input type="text" id="setting-heroTitle" value="ارتق بأناقتك الملكية">
             </div>
             <div class="form-group">
                 <label>الوصف الترويجي:</label>
-                <textarea id="setting-heroSubtitle" rows="2">تشكيلة رجالية فاخرة ومصممة خصيصاً لتمنحك الثقة، الحركة، والأناقة الكلاسيكية بلا حدود.</textarea>
+                <textarea id="setting-heroSubtitle" rows="2">تشكيلة رجالية فاخرة ومصممة خصيصاً لتمنحك الثقة والأناقة الكلاسيكية.</textarea>
             </div>
             <div class="form-group">
-                <label>اللون العام الأساسي للموقع (Accent Color):</label>
+                <label>اللون العام الأساسي للموقع:</label>
                 <input type="color" id="setting-accentColor" value="#c5a059" style="height: 45px; cursor: pointer;">
             </div>
             <div class="form-group">
@@ -71,43 +71,56 @@
                 <input type="file" id="setting-logoFile" accept="image/*" onchange="convertLogo(this)">
                 <div class="preview-container" id="logo-preview"><img src="1000843025.png" style="width:60px;height:60px;object-fit:cover;"></div>
             </div>
-            <button class="action-btn" onclick="saveSettingsToCloud()">حفظ إعدادات الواجهة والألوان سحابياً</button>
+            <button class="action-btn" onclick="saveSettingsToCloud()">حفظ إعدادات الواجهة سحابياً</button>
         </div>
 
-        <!-- 2. لوحة تحكم العروض بالوقت والتاريخ -->
+        <!-- 2. لوحة تحكم العروض الخاصة (نظام بدلاً من + التوقيت) -->
         <div class="section-box">
-            <h2>إدارة عروض المتاجر (صيفي وشتوي بالتوقيت)</h2>
+            <h2>إدارة عروض المتجر (صيفي وشتوي بنظام الخصم والتوقيت)</h2>
             <div class="form-group">
-                <label>نص إعلان العروض:</label>
-                <input type="text" id="offer-text" value="سارع بطلب أحدث المنتجات قبل نفاد الكمية واستمتع بأقوى الخصومات الملكية.">
+                <label>عنوان أو اسم الإعلان العرض:</label>
+                <input type="text" id="offer-title" placeholder="مثال: عرض حرق الأسعار الكلاسيكي">
             </div>
             <div class="form-group">
-                <label>نوع العرض النشط حالياً:</label>
+                <label>نوع العرض (صيفي أو شتوي):</label>
                 <select id="offer-type">
                     <option value="summer">عروض صيفية متاحة الآن</option>
                     <option value="winter">عروض شتوية متاحة الآن</option>
                 </select>
             </div>
             <div class="form-group">
-                <label>تاريخ ووقت انتهاء العرض (ينتهي العرض تلقائياً بعده):</label>
+                <label>السعر الأصلي (قبل الخصم - ليتم عمل خط عليه):</label>
+                <input type="text" id="offer-old-price" placeholder="مثال: 600">
+            </div>
+            <div class="form-group">
+                <label>سعر العرض الحالي (بعد الخصم):</label>
+                <input type="text" id="offer-new-price" placeholder="مثال: 399">
+            </div>
+            <div class="form-group">
+                <label>اختر صورة الإعلان العرض من الجهاز:</label>
+                <input type="file" id="offer-img-file" accept="image/*" onchange="convertOfferImg(this)">
+                <div class="preview-container" id="offer-img-preview"></div>
+            </div>
+            <div class="form-group">
+                <label>تاريخ ووقت انتهاء العرض:</label>
                 <input type="datetime-local" id="offer-endtime">
             </div>
-            <button class="action-btn" onclick="saveOfferSettings()">تفعيل وحفظ العرض التوقيتي</button>
+            <button class="action-btn" onclick="saveOfferSettings()">تفعيل وحفظ إعلان العرض التوقيتي</button>
         </div>
 
         <!-- 3. إضافة منتج صيفي -->
         <div class="section-box">
-            <h2>☀️ إضافة منتج صيفي جديد (مع رفع صور متعددة)</h2>
+            <h2>☀️ إضافة منتج صيفي جديد (رفع صور من الجهاز)</h2>
             <div class="form-group">
                 <label>اسم المنتج الصيفي:</label>
-                <input type="text" id="summer-name" placeholder="مثال: بنطلون جينز صيفي كلاسيكي">
+                <input type="text" id="summer-name" placeholder="مثال: بنطلون جينز صيفي فاخر">
             </div>
             <div class="form-group">
                 <label>السعر (بالجنيه المصري):</label>
                 <input type="text" id="summer-price" placeholder="550">
             </div>
             <div class="form-group">
-                <label>اختر صور المنتج (أكثر من 10 صور دفعة واحدة):</label>
+                <label>اختر صور المنتج:</label>
                 <input type="file" id="summer-files" accept="image/*" multiple onchange="convertSummerImgs(this)">
                 <div class="preview-container" id="summer-preview"></div>
             </div>
@@ -122,17 +135,17 @@
 
         <!-- 4. إضافة منتج شتوي -->
         <div class="section-box">
-            <h2>❄️ إضافة منتج شتوي جديد (مع رفع صور متعددة)</h2>
+            <h2>❄️ إضافة منتج شتوي جديد (رفع صور من الجهاز)</h2>
             <div class="form-group">
                 <label>اسم المنتج الشتوي:</label>
-                <input type="text" id="winter-name" placeholder="مثال: جاكيت شتوي كلاسيكي فاخر">
+                <input type="text" id="winter-name" placeholder="مثال: جاكيت شتوي كلاسيكي ثقيل">
             </div>
             <div class="form-group">
                 <label>السعر (بالجنيه المصري):</label>
                 <input type="text" id="winter-price" placeholder="850">
             </div>
             <div class="form-group">
-                <label>اختر صور المنتج (أكثر من 10 صور دفعة واحدة):</label>
+                <label>اختر صور المنتج:</label>
                 <input type="file" id="winter-files" accept="image/*" multiple onchange="convertWinterImgs(this)">
                 <div class="preview-container" id="winter-preview"></div>
             </div>
@@ -169,17 +182,52 @@
         }
 
         let tempLogoUrl = "1000843025.png";
+        let tempOfferImgUrl = "1000843025.png";
         let summerImgsArr = [];
         let winterImgsArr = [];
 
+        // دالة لضغط الصور تلقائياً لمنع أي توقف في الأزرار
+        function compressImage(file, callback) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    const MAX_WIDTH = 600;
+                    const MAX_HEIGHT = 600;
+                    let width = img.width;
+                    let height = img.height;
+                    if (width > height) {
+                        if (width > MAX_WIDTH) { height *= MAX_WIDTH / width; width = MAX_WIDTH; }
+                    } else {
+                        if (height > MAX_HEIGHT) { width *= MAX_HEIGHT / height; height = MAX_HEIGHT; }
+                    }
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+                    callback(canvas.toDataURL('image/jpeg', 0.7));
+                }
+                img.src = e.target.result;
+            }
+            reader.readAsDataURL(file);
+        }
+
         function convertLogo(input) {
             if(input.files && input.files[0]) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    tempLogoUrl = e.target.result;
+                compressImage(input.files[0], (compressedUrl) => {
+                    tempLogoUrl = compressedUrl;
                     document.getElementById('logo-preview').innerHTML = `<img src="${tempLogoUrl}">`;
-                }
-                reader.readAsDataURL(input.files[0]);
+                });
+            }
+        }
+
+        function convertOfferImg(input) {
+            if(input.files && input.files[0]) {
+                compressImage(input.files[0], (compressedUrl) => {
+                    tempOfferImgUrl = compressedUrl;
+                    document.getElementById('offer-img-preview').innerHTML = `<img src="${tempOfferImgUrl}">`;
+                });
             }
         }
 
@@ -188,12 +236,10 @@
             const container = document.getElementById('summer-preview');
             container.innerHTML = '';
             Array.from(input.files).forEach(file => {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    summerImgsArr.push(e.target.result);
-                    container.innerHTML += `<img src="${e.target.result}">`;
-                }
-                reader.readAsDataURL(file);
+                compressImage(file, (compressedUrl) => {
+                    summerImgsArr.push(compressedUrl);
+                    container.innerHTML += `<img src="${compressedUrl}">`;
+                });
             });
         }
 
@@ -202,12 +248,10 @@
             const container = document.getElementById('winter-preview');
             container.innerHTML = '';
             Array.from(input.files).forEach(file => {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    winterImgsArr.push(e.target.result);
-                    container.innerHTML += `<img src="${e.target.result}">`;
-                }
-                reader.readAsDataURL(file);
+                compressImage(file, (compressedUrl) => {
+                    winterImgsArr.push(compressedUrl);
+                    container.innerHTML += `<img src="${compressedUrl}">`;
+                });
             });
         }
 
@@ -222,18 +266,22 @@
                 });
                 alert("تم حفظ إعدادات الواجهة والشعار والألوان سحابياً بنجاح!");
             } catch (e) {
-                alert("خطأ أثناء الحفظ (تأكد من حجم صورة الشعار): " + e.message);
+                alert("خطأ: " + e.message);
             }
         }
 
         async function saveOfferSettings() {
-            const text = document.getElementById('offer-text').value;
+            const title = document.getElementById('offer-title').value;
             const type = document.getElementById('offer-type').value;
+            const oldPrice = document.getElementById('offer-old-price').value;
+            const newPrice = document.getElementById('offer-new-price').value;
             const endtimeInput = document.getElementById('offer-endtime').value;
             const endTime = endtimeInput ? new Date(endtimeInput).getTime() : new Date().getTime() + 86400000;
             try {
-                await db.collection("settings").doc("offerInfo").set({ text, type, endTime });
-                alert("تم حفظ إعدادات العرض التوقيتي بنجاح!");
+                await db.collection("settings").doc("offerInfo").set({
+                    title, type, oldPrice, newPrice, endTime, imgUrl: tempOfferImgUrl, active: true
+                });
+                alert("تم حفظ ونشر إعلان العرض التوقيتي بنجاح!");
             } catch (e) {
                 alert("خطأ: " + e.message);
             }
@@ -265,7 +313,7 @@
                 else { winterImgsArr = []; document.getElementById('winter-preview').innerHTML = ''; }
                 loadCloudData();
             } catch (e) {
-                alert("خطأ أثناء النشر: حجم الصور كبير جداً، قلل عدد الصور.");
+                alert("خطأ أثناء النشر: " + e.message);
             }
         }
 
