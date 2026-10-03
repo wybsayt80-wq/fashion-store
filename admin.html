@@ -11,7 +11,7 @@
         body { background-color: #f8f9fa; color: #1a1a1a; padding: 20px; }
         #auth-screen { max-width: 400px; margin: 100px auto; background: #ffffff; padding: 40px; border-radius: 14px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); text-align: center; border: 1px solid #e5e7eb; }
         #auth-screen h2 { color: #c5a059; margin-bottom: 20px; font-size: 22px; }
-        #auth-screen input { width: 100%; padding: 12px; font-size: 18px; text-align: center; border: 1px solid #ccc; border-radius: 6px; margin-bottom: 15px; letter-spacing: 5px; }
+        #auth-screen input { width: 100%; padding: 12px; font-size: 18px; text-align: center; border: 1px solid #ccc; border-radius: 6px; margin-bottom: 15px; letter-spacing: 5px; -webkit-text-security: disc; }
         #auth-screen button { width: 100%; background: #c5a059; color: #fff; border: none; padding: 12px; font-weight: bold; border-radius: 6px; cursor: pointer; font-size: 16px; }
         .error-msg { color: #cc3333; font-size: 14px; margin-top: 10px; display: none; }
         #admin-panel-content { display: none; max-width: 1000px; margin: 0 auto; background: #ffffff; padding: 35px; border-radius: 14px; border: 1px solid #e5e7eb; box-shadow: 0 10px 30px rgba(0,0,0,0.06); }
@@ -34,6 +34,7 @@
         .table-img { width: 45px; height: 45px; object-fit: cover; border-radius: 5px; border: 1px solid #ddd; }
         .sizes-container { display: flex; gap: 12px; flex-wrap: wrap; background: #fff; padding: 12px; border: 1px solid #ddd; border-radius: 6px; }
         .sizes-container label { display: flex; align-items: center; gap: 5px; font-weight: normal; cursor: pointer; }
+        .inline-edit-box { background: #fffdf5; border: 2px solid #c5a059; padding: 20px; border-radius: 8px; margin-top: 10px; margin-bottom: 15px; display: none; }
     </style>
 </head>
 <body>
@@ -119,8 +120,7 @@
 
         <!-- إضافة وتعديل المنتج الصيفي مع المقاسات -->
         <div class="section-box">
-            <h2 id="summer-form-title">☀️ إضافة منتج صيفي جديد</h2>
-            <input type="hidden" id="edit-summer-id" value="">
+            <h2>☀️ إضافة منتج صيفي جديد</h2>
             <div class="form-group">
                 <label>اسم المنتج الصيفي:</label>
                 <input type="text" id="summer-name" placeholder="بنطلون جينز صيفي فاخر">
@@ -128,6 +128,10 @@
             <div class="form-group">
                 <label>السعر (بالجنيه المصري):</label>
                 <input type="text" id="summer-price" placeholder="550">
+            </div>
+            <div class="form-group">
+                <label>السعر الأصلي (قبل الخصم - مشطوب عليه):</label>
+                <input type="text" id="summer-old-price" placeholder="700">
             </div>
             <div class="form-group">
                 <label>المقاسات المتاحة:</label>
@@ -147,20 +151,18 @@
                 <input type="file" id="summer-files" accept="image/*" multiple onchange="convertSummerImgs(this)">
                 <div class="preview-container" id="summer-preview"></div>
             </div>
-            <button class="action-btn" id="summer-submit-btn" onclick="addProduct('summer')">نشر المنتج الصيفي سحابياً</button>
-            <button class="action-btn" id="summer-cancel-btn" style="background:#666; display:none; margin-right:10px;" onclick="cancelEdit('summer')">إلغاء التعديل</button>
+            <button class="action-btn" onclick="addProduct('summer')">نشر المنتج الصيفي سحابياً</button>
             
             <h3 style="margin-top: 25px; color: #c5a059;">المنتجات الصيفية الحالية</h3>
             <table>
-                <thead><tr><th>الصورة</th><th>رقم المنتج</th><th>الاسم</th><th>السعر</th><th>المقاسات</th><th>الإجراءات</th></tr></thead>
+                <thead><tr><th>الصورة</th><th>رقم المنتج</th><th>الاسم</th><th>الأسعار</th><th>المقاسات</th><th>الإجراءات</th></tr></thead>
                 <tbody id="summer-table-body"></tbody>
             </table>
         </div>
 
         <!-- إضافة وتعديل المنتج الشتوي مع المقاسات -->
         <div class="section-box">
-            <h2 id="winter-form-title">❄️ إضافة منتج شتوي جديد</h2>
-            <input type="hidden" id="edit-winter-id" value="">
+            <h2>❄️ إضافة منتج شتوي جديد</h2>
             <div class="form-group">
                 <label>اسم المنتج الشتوي:</label>
                 <input type="text" id="winter-name" placeholder="جاكيت شتوي كلاسيكي ثقيل">
@@ -168,6 +170,10 @@
             <div class="form-group">
                 <label>السعر (بالجنيه المصري):</label>
                 <input type="text" id="winter-price" placeholder="850">
+            </div>
+            <div class="form-group">
+                <label>السعر الأصلي (قبل الخصم - مشطوب عليه):</label>
+                <input type="text" id="winter-old-price" placeholder="1050">
             </div>
             <div class="form-group">
                 <label>المقاسات المتاحة:</label>
@@ -187,12 +193,11 @@
                 <input type="file" id="winter-files" accept="image/*" multiple onchange="convertWinterImgs(this)">
                 <div class="preview-container" id="winter-preview"></div>
             </div>
-            <button class="action-btn" id="winter-submit-btn" onclick="addProduct('winter')">نشر المنتج الشتوي سحابياً</button>
-            <button class="action-btn" id="winter-cancel-btn" style="background:#666; display:none; margin-right:10px;" onclick="cancelEdit('winter')">إلغاء التعديل</button>
+            <button class="action-btn" onclick="addProduct('winter')">نشر المنتج الشتوي سحابياً</button>
             
             <h3 style="margin-top: 25px; color: #c5a059;">المنتجات الشتوية الحالية</h3>
             <table>
-                <thead><tr><th>الصورة</th><th>رقم المنتج</th><th>الاسم</th><th>السعر</th><th>المقاسات</th><th>الإجراءات</th></tr></thead>
+                <thead><tr><th>الصورة</th><th>رقم المنتج</th><th>الاسم</th><th>الأسعار</th><th>المقاسات</th><th>الإجراءات</th></tr></thead>
                 <tbody id="winter-table-body"></tbody>
             </table>
         </div>
@@ -298,26 +303,16 @@
             const container = document.getElementById(category + '-sizes');
             const checkboxes = container.querySelectorAll('input[type="checkbox"]');
             checkboxes.forEach(cb => {
-                if(cb !== masterCheckbox) {
-                    cb.checked = masterCheckbox.checked;
-                }
+                if(cb !== masterCheckbox) cb.checked = masterCheckbox.checked;
             });
         }
 
-        function getSelectedSizes(category) {
-            const container = document.getElementById(category + '-sizes');
+        function getSelectedSizes(category, containerId) {
+            const container = document.getElementById(containerId || (category + '-sizes'));
             const checkboxes = container.querySelectorAll('input[type="checkbox"]:checked');
             let sizes = [];
             checkboxes.forEach(cb => sizes.push(cb.value));
             return sizes.length > 0 ? sizes : ["متاح جميع المقاسات"];
-        }
-
-        function setSelectedSizes(category, sizesArr) {
-            const container = document.getElementById(category + '-sizes');
-            const checkboxes = container.querySelectorAll('input[type="checkbox"]');
-            checkboxes.forEach(cb => {
-                cb.checked = sizesArr.includes(cb.value) || sizesArr.includes("متاح جميع المقاسات");
-            });
         }
 
         async function saveSettingsToCloud() {
@@ -332,7 +327,7 @@
                 await db.collection("settings").doc("storeInfo").set({
                     storeName, customerService, ordersPhone, heroTitle, heroSubtitle, accentColor, logoUrl: tempLogoUrl
                 });
-                alert("تم حفظ إعدادات الواجهة والأرقام سحابياً بنجاح وتحديثها للجميع!");
+                alert("تم حفظ إعدادات الواجهة والأرقام سحابياً بنجاح!");
             } catch (e) {
                 alert("خطأ: " + e.message);
             }
@@ -350,7 +345,7 @@
                 await db.collection("settings").doc("offerInfo").set({
                     title, type, oldPrice, newPrice, endTime, imgUrl: tempOfferImgUrl, active: true
                 });
-                alert("تم حفظ ونشر إعلان العرض التوقيتي بنجاح ليظهر فوراً في الصفحة الرئيسية!");
+                alert("تم نشر إعلان العرض بنجاح!");
             } catch (e) {
                 alert("خطأ: " + e.message);
             }
@@ -360,62 +355,117 @@
             try {
                 const name = document.getElementById(category + '-name').value;
                 const price = document.getElementById(category + '-price').value;
-                const editId = document.getElementById('edit-' + category + '-id').value;
+                const oldPrice = document.getElementById(category + '-old-price').value || "";
                 const imgs = category === 'summer' ? summerImgsArr : winterImgsArr;
                 const sizes = getSelectedSizes(category);
 
                 if (!name || !price) {
-                    alert("الرجاء إدخال اسم المنتج والسعر!");
+                    alert("الرجاء إدخال اسم المنتج والسعر الحالي!");
                     return;
                 }
 
-                const productId = editId ? editId : (category === 'summer' ? 'SUM-' : 'WIN-') + Math.floor(1000 + Math.random() * 9000);
-                
-                let finalImgs = imgs;
-                if (editId && imgs.length === 0) {
-                    const docSnap = await db.collection("products").doc(editId).get();
-                    if(docSnap.exists) {
-                        finalImgs = docSnap.data().imgs || ["1000843025.png"];
-                    }
-                }
-
+                const productId = (category === 'summer' ? 'SUM-' : 'WIN-') + Math.floor(1000 + Math.random() * 9000);
                 await db.collection("products").doc(productId).set({
-                    id: productId, name, price, category, sizes,
-                    imgs: finalImgs.length > 0 ? finalImgs : ["1000843025.png"]
+                    id: productId, name, price, oldPrice, category, sizes,
+                    imgs: imgs.length > 0 ? imgs : ["1000843025.png"]
                 });
-
-                alert(editId ? "تم تعديل المنتج بنجاح!" : "تم نشر المنتج بنجاح برقم كود: " + productId);
-                cancelEdit(category);
+                alert("تم نشر المنتج بنجاح برقم كود: " + productId);
+                document.getElementById(category + '-name').value = '';
+                document.getElementById(category + '-price').value = '';
+                document.getElementById(category + '-old-price').value = '';
+                if(category === 'summer') { summerImgsArr = []; document.getElementById('summer-preview').innerHTML = ''; }
+                else { winterImgsArr = []; document.getElementById('winter-preview').innerHTML = ''; }
                 loadCloudData();
             } catch (e) {
                 alert("خطأ أثناء النشر: " + e.message);
             }
         }
 
-        async function editProduct(id, category, name, price, sizesStr) {
-            document.getElementById('edit-' + category + '-id').value = id;
-            document.getElementById(category + '-name').value = name;
-            document.getElementById(category + '-price').value = price;
+        let editImgsCache = [];
+        function toggleInlineEdit(id, category, name, price, oldPrice, sizesStr, imgsJson) {
+            const box = document.getElementById('edit-box-' + id);
+            if(box.style.display === 'block') {
+                box.style.display = 'none';
+                return;
+            }
+            document.querySelectorAll('.inline-edit-box').forEach(b => b.style.display = 'none');
             
+            editImgsCache = JSON.parse(decodeURIComponent(imgsJson));
             let sizesArr = sizesStr ? sizesStr.split(', ') : ["متاح جميع المقاسات"];
-            setSelectedSizes(category, sizesArr);
 
-            document.getElementById(category + '-form-title').innerText = (category === 'summer' ? '☀️ تعديل منتج صيفي (كود: ' : '❄️ تعديل منتج شتوي (كود: ') + id + ')';
-            document.getElementById(category + '-submit-btn').innerText = "حفظ التعديلات";
-            document.getElementById(category + '-cancel-btn').style.display = 'inline-block';
-            window.scrollTo({ top: document.getElementById(category + '-form-title').offsetTop - 50, behavior: 'smooth' });
+            let imgsHtml = '';
+            editImgsCache.forEach((imgSrc, idx) => {
+                imgsHtml += `<div style="position:relative; display:inline-block;"><img src="${imgSrc}" style="width:55px;height:55px;object-fit:cover;border-radius:5px;border:1px solid #ccc;"><button type="button" onclick="removeEditImg(${idx}, '${id}')" style="position:absolute;top:-5px;right:-5px;background:red;color:#fff;border:none;border-radius:50%;width:18px;height:18px;font-size:10px;cursor:pointer;">×</button></div>`;
+            });
+
+            const allSizesOpts = ["متاح جميع المقاسات", "Large", "X-Large", "2XL", "3XL", "4XL", "5XL", "6XL"];
+            let sizesHtml = `<div class="sizes-container" id="sizes-box-${id}">`;
+            allSizesOpts.forEach(sz => {
+                let checked = sizesArr.includes(sz) || sizesArr.includes("متاح جميع المقاسات") ? 'checked' : '';
+                sizesHtml += `<label><input type="checkbox" value="${sz}" ${checked}> ${sz}</label>`;
+            });
+            sizesHtml += `</div>`;
+
+            box.innerHTML = `
+                <h4 style="color:#c5a059; margin-bottom:10px;">تعديل الإعلان (${id})</h4>
+                <div class="form-group"><label>اسم المنتج:</label><input type="text" id="edit-name-${id}" value="${name}"></div>
+                <div class="form-group"><label>السعر الحالي:</label><input type="text" id="edit-price-${id}" value="${price}"></div>
+                <div class="form-group"><label>السعر الأصلي (المشطوب):</label><input type="text" id="edit-oldprice-${id}" value="${oldPrice}"></div>
+                <div class="form-group"><label>المقاسات المتاحة:</label>${sizesHtml}</div>
+                <div class="form-group"><label>صور المنتج الحالية:</label><div class="preview-container" id="edit-imgs-preview-${id}">${imgsHtml}</div></div>
+                <div class="form-group"><label>إضافة صور جديدة:</label><input type="file" id="edit-files-${id}" accept="image/*" multiple onchange="addNewEditImgs('${id}', this)"></div>
+                <button class="action-btn" onclick="saveInlineEdit('${id}', '${category}')">حفظ تعديلات الإعلان</button>
+                <button class="action-btn" style="background:#666; margin-right:8px;" onclick="document.getElementById('edit-box-${id}').style.display='none'">إلغاء</button>
+            `;
+            box.style.display = 'block';
         }
 
-        function cancelEdit(category) {
-            document.getElementById('edit-' + category + '-id').value = '';
-            document.getElementById(category + '-name').value = '';
-            document.getElementById(category + '-price').value = '';
-            setSelectedSizes(category, []);
-            document.getElementById(category + '-form-title').innerText = category === 'summer' ? '☀️ إضافة منتج صيفي جديد' : '❄️ إضافة منتج شتوي جديد';
-            document.getElementById(category + '-submit-btn').innerText = category === 'summer' ? 'نشر المنتج الصيفي سحابياً' : 'نشر المنتج الشتوي سحابياً';
-            document.getElementById(category + '-cancel-btn').style.display = 'none';
-            if(category === 'summer') { summerImgsArr = []; document.getElementById('summer-preview').innerHTML = ''; }
-            else { winterImgsArr = []; document.getElementById('winter-preview').innerHTML = ''; }
+        function removeEditImg(idx, id) {
+            editImgsCache.splice(idx, 1);
+            let imgsHtml = '';
+            editImgsCache.forEach((imgSrc, i) => {
+                imgsHtml += `<div style="position:relative; display:inline-block;"><img src="${imgSrc}" style="width:55px;height:55px;object-fit:cover;border-radius:5px;border:1px solid #ccc;"><button type="button" onclick="removeEditImg(${i}, '${id}')" style="position:absolute;top:-5px;right:-5px;background:red;color:#fff;border:none;border-radius:50%;width:18px;height:18px;font-size:10px;cursor:pointer;">×</button></div>`;
+            });
+            document.getElementById('edit-imgs-preview-' + id).innerHTML = imgsHtml;
+        }
+
+        function addNewEditImgs(id, input) {
+            if(input.files) {
+                Array.from(input.files).forEach(file => {
+                    compressImage(file, (compressedUrl) => {
+                        editImgsCache.push(compressedUrl);
+                        let imgsHtml = '';
+                        editImgsCache.forEach((imgSrc, i) => {
+                            imgsHtml += `<div style="position:relative; display:inline-block;"><img src="${imgSrc}" style="width:55px;height:55px;object-fit:cover;border-radius:5px;border:1px solid #ccc;"><button type="button" onclick="removeEditImg(${i}, '${id}')" style="position:absolute;top:-5px;right:-5px;background:red;color:#fff;border:none;border-radius:50%;width:18px;height:18px;font-size:10px;cursor:pointer;">×</button></div>`;
+                        });
+                        document.getElementById('edit-imgs-preview-' + id).innerHTML = imgsHtml;
+                    });
+                });
+            }
+        }
+
+        async function saveInlineEdit(id, category) {
+            try {
+                const name = document.getElementById('edit-name-' + id).value;
+                const price = document.getElementById('edit-price-' + id).value;
+                const oldPrice = document.getElementById('edit-oldprice-' + id).value;
+                const sizes = getSelectedSizes(category, 'sizes-box-' + id);
+                const imgs = editImgsCache.length > 0 ? editImgsCache : ["1000843025.png"];
+
+                if(!name || !price) {
+                    alert("الرجاء إدخال الاسم والسعر الحالي!");
+                    return;
+                }
+
+                await db.collection("products").doc(id).set({
+                    id, name, price, oldPrice, category, sizes, imgs
+                });
+
+                alert("تم تحديث الإعلان بنجاح!");
+                loadCloudData();
+            } catch (e) {
+                alert("خطأ أثناء التعديل: " + e.message);
+            }
         }
 
         async function deleteProduct(id) {
@@ -452,17 +502,22 @@
                     const p = doc.data();
                     const thumb = (p.imgs && p.imgs[0]) ? p.imgs[0] : '1000843025.png';
                     const sizesList = p.sizes ? p.sizes.join(', ') : 'متاح جميع المقاسات';
+                    const priceDisplay = p.oldPrice ? `<span style="text-decoration:line-through;color:#888;font-size:12px;margin-left:5px;">${p.oldPrice} ج.م</span><strong style="color:#c5a059;">${p.price} ج.م</strong>` : `<strong>${p.price} ج.م</strong>`;
+                    const imgsJsonStr = encodeURIComponent(JSON.stringify(p.imgs || [thumb]));
+
                     const row = `<tr>
                         <td><img src="${thumb}" class="table-img"></td>
                         <td><strong>${p.id}</strong></td>
                         <td>${p.name}</td>
-                        <td>${p.price} ج.م</td>
+                        <td>${priceDisplay}</td>
                         <td><small style="color:#666;">${sizesList}</small></td>
                         <td>
-                            <button class="edit-btn" onclick="editProduct('${p.id}', '${p.category}', '${p.name.replace(/'/g, "\\'")}', '${p.price}', '${sizesList}')">تعديل</button>
+                            <button class="edit-btn" onclick="toggleInlineEdit('${p.id}', '${p.category}', '${p.name.replace(/'/g, "\\'")}', '${p.price}', '${p.oldPrice || ''}', '${sizesList}', '${imgsJsonStr}')">تعديل</button>
                             <button class="del-btn" onclick="deleteProduct('${p.id}')">حذف</button>
                         </td>
-                    </tr>`;
+                    </tr>
+                    <tr><td colspan="6"><div id="edit-box-${p.id}" class="inline-edit-box"></div></td></tr>`;
+
                     if (p.category === 'summer') summerTbody.innerHTML += row;
                     else winterTbody.innerHTML += row;
                 });
