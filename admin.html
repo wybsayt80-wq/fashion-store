@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة التحكم الملكية - كيان جينز</title>
+    <title>لوحة التحكم الشاملة - كيان جينز</title>
+    <!-- مكتبات Firebase السحابية الدائمة -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
     <style>
@@ -44,26 +45,59 @@
 
     <div id="admin-panel-content">
         <a href="index.html" class="back-link">← العودة إلى المتجر الرئيسي</a>
-        <h1>لوحة التحكم السحابية المباشرة - كيان جينز</h1>
+        <h1>لوحة التحكم السحابية الشاملة - كيان جينز</h1>
 
-        <!-- إعدادات الشعار -->
+        <!-- 1. إعدادات الواجهة والخطوط والألوان -->
         <div class="section-box">
-            <h2>إعدادات الشعار المتحرك الرئيسي</h2>
+            <h2>إعدادات تصميم الواجهة والشعار والألوان</h2>
             <div class="form-group">
                 <label>اسم المتجر:</label>
                 <input type="text" id="setting-storeName" value="كيان جينز">
             </div>
             <div class="form-group">
-                <label>اختر صورة الشعار من ملفات الجهاز (مثال: 1000843025.png):</label>
+                <label>العنوان الرئيسي في الواجهة:</label>
+                <input type="text" id="setting-heroTitle" value="ارتق بأناقتك الملكية">
+            </div>
+            <div class="form-group">
+                <label>الوصف الترويجي:</label>
+                <textarea id="setting-heroSubtitle" rows="2">تشكيلة رجالية فاخرة ومصممة خصيصاً لتمنحك الثقة، الحركة، والأناقة الكلاسيكية بلا حدود.</textarea>
+            </div>
+            <div class="form-group">
+                <label>اللون العام الأساسي للموقع (Accent Color):</label>
+                <input type="color" id="setting-accentColor" value="#c5a059" style="height: 45px; cursor: pointer;">
+            </div>
+            <div class="form-group">
+                <label>اختر صورة الشعار المتحرك من الجهاز:</label>
                 <input type="file" id="setting-logoFile" accept="image/*" onchange="convertLogo(this)">
                 <div class="preview-container" id="logo-preview"><img src="1000843025.png" style="width:60px;height:60px;object-fit:cover;"></div>
             </div>
-            <button class="action-btn" onclick="saveSettingsToCloud()">حفظ الشعار والإعدادات سحابياً</button>
+            <button class="action-btn" onclick="saveSettingsToCloud()">حفظ إعدادات الواجهة والألوان سحابياً</button>
         </div>
 
-        <!-- إضافة منتج صيفي -->
+        <!-- 2. لوحة تحكم العروض بالوقت والتاريخ -->
         <div class="section-box">
-            <h2>☀️ إضافة منتج صيفي جديد (رفع صور متعددة من الجهاز)</h2>
+            <h2>إدارة عروض المتاجر (صيفي وشتوي بالتوقيت)</h2>
+            <div class="form-group">
+                <label>نص إعلان العروض:</label>
+                <input type="text" id="offer-text" value="سارع بطلب أحدث المنتجات قبل نفاد الكمية واستمتع بأقوى الخصومات الملكية.">
+            </div>
+            <div class="form-group">
+                <label>نوع العرض النشط حالياً:</label>
+                <select id="offer-type">
+                    <option value="summer">عروض صيفية متاحة الآن</option>
+                    <option value="winter">عروض شتوية متاحة الآن</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>تاريخ ووقت انتهاء العرض (ينتهي العرض تلقائياً بعده):</label>
+                <input type="datetime-local" id="offer-endtime">
+            </div>
+            <button class="action-btn" onclick="saveOfferSettings()">تفعيل وحفظ العرض التوقيتي</button>
+        </div>
+
+        <!-- 3. إضافة منتج صيفي -->
+        <div class="section-box">
+            <h2>☀️ إضافة منتج صيفي جديد (مع رفع صور متعددة)</h2>
             <div class="form-group">
                 <label>اسم المنتج الصيفي:</label>
                 <input type="text" id="summer-name" placeholder="مثال: بنطلون جينز صيفي كلاسيكي">
@@ -86,9 +120,9 @@
             </table>
         </div>
 
-        <!-- إضافة منتج شتوي -->
+        <!-- 4. إضافة منتج شتوي -->
         <div class="section-box">
-            <h2>❄️ إضافة منتج شتوي جديد (رفع صور متعددة من الجهاز)</h2>
+            <h2>❄️ إضافة منتج شتوي جديد (مع رفع صور متعددة)</h2>
             <div class="form-group">
                 <label>اسم المنتج الشتوي:</label>
                 <input type="text" id="winter-name" placeholder="مثال: جاكيت شتوي كلاسيكي فاخر">
@@ -179,9 +213,27 @@
 
         async function saveSettingsToCloud() {
             const storeName = document.getElementById('setting-storeName').value;
+            const heroTitle = document.getElementById('setting-heroTitle').value;
+            const heroSubtitle = document.getElementById('setting-heroSubtitle').value;
+            const accentColor = document.getElementById('setting-accentColor').value;
             try {
-                await db.collection("settings").doc("storeInfo").set({ storeName, logoUrl: tempLogoUrl });
-                alert("تم حفظ الإعدادات والشعار على السحابة بنجاح!");
+                await db.collection("settings").doc("storeInfo").set({
+                    storeName, heroTitle, heroSubtitle, accentColor, logoUrl: tempLogoUrl
+                });
+                alert("تم حفظ إعدادات الواجهة والشعار والألوان سحابياً بنجاح!");
+            } catch (e) {
+                alert("خطأ أثناء الحفظ (تأكد من حجم صورة الشعار): " + e.message);
+            }
+        }
+
+        async function saveOfferSettings() {
+            const text = document.getElementById('offer-text').value;
+            const type = document.getElementById('offer-type').value;
+            const endtimeInput = document.getElementById('offer-endtime').value;
+            const endTime = endtimeInput ? new Date(endtimeInput).getTime() : new Date().getTime() + 86400000;
+            try {
+                await db.collection("settings").doc("offerInfo").set({ text, type, endTime });
+                alert("تم حفظ إعدادات العرض التوقيتي بنجاح!");
             } catch (e) {
                 alert("خطأ: " + e.message);
             }
@@ -213,7 +265,7 @@
                 else { winterImgsArr = []; document.getElementById('winter-preview').innerHTML = ''; }
                 loadCloudData();
             } catch (e) {
-                alert("خطأ أثناء النشر: تأكد من حجم الصور أو قلل عددها قليلاً.");
+                alert("خطأ أثناء النشر: حجم الصور كبير جداً، قلل عدد الصور.");
             }
         }
 
