@@ -27,9 +27,11 @@
         table { width: 100%; margin-top: 20px; border-collapse: collapse; }
         th, td { padding: 12px; border-bottom: 1px solid #ddd; text-align: right; font-size: 14px; }
         th { color: #c5a059; }
-        .del-btn { background: #cc3333; color: #fff; padding: 6px 12px; border: none; border-radius: 4px; cursor: pointer; }
+        .del-btn { background: #cc3333; color: #fff; padding: 6px 12px; border: none; border-radius: 4px; cursor: pointer; margin-left: 5px; }
+        .edit-btn { background: #25d366; color: #fff; padding: 6px 12px; border: none; border-radius: 4px; cursor: pointer; }
         .preview-container { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
         .preview-container img { width: 60px; height: 60px; object-fit: cover; border-radius: 6px; border: 1px solid #c5a059; }
+        .table-img { width: 45px; height: 45px; object-fit: cover; border-radius: 5px; border: 1px solid #ddd; }
     </style>
 </head>
 <body>
@@ -47,10 +49,18 @@
         <h1>لوحة التحكم السحابية المباشرة - كيان جينز</h1>
 
         <div class="section-box">
-            <h2>إعدادات الواجهة والشعار والألوان</h2>
+            <h2>إعدادات المتجر وأرقام التواصل والواجهة</h2>
             <div class="form-group">
                 <label>اسم المتجر:</label>
                 <input type="text" id="setting-storeName" value="كيان جينز">
+            </div>
+            <div class="form-group">
+                <label>رقم خدمة العملاء:</label>
+                <input type="text" id="setting-customerService" value="01124793700" placeholder="01124793700">
+            </div>
+            <div class="form-group">
+                <label>رقم الطلبات:</label>
+                <input type="text" id="setting-ordersPhone" value="01124793700" placeholder="01124793700">
             </div>
             <div class="form-group">
                 <label>العنوان الرئيسي:</label>
@@ -69,7 +79,7 @@
                 <input type="file" id="setting-logoFile" accept="image/*" onchange="convertLogo(this)">
                 <div class="preview-container" id="logo-preview"><img src="1000843025.png" style="width:60px;height:60px;object-fit:cover;"></div>
             </div>
-            <button class="action-btn" onclick="saveSettingsToCloud()">حفظ إعدادات الواجهة سحابياً</button>
+            <button class="action-btn" onclick="saveSettingsToCloud()">حفظ إعدادات الواجهة والأرقام سحابياً</button>
         </div>
 
         <div class="section-box">
@@ -106,7 +116,8 @@
         </div>
 
         <div class="section-box">
-            <h2>☀️ إضافة منتج صيفي جديد</h2>
+            <h2 id="summer-form-title">☀️ إضافة منتج صيفي جديد</h2>
+            <input type="hidden" id="edit-summer-id" value="">
             <div class="form-group">
                 <label>اسم المنتج الصيفي:</label>
                 <input type="text" id="summer-name" placeholder="بنطلون جينز صيفي فاخر">
@@ -120,17 +131,19 @@
                 <input type="file" id="summer-files" accept="image/*" multiple onchange="convertSummerImgs(this)">
                 <div class="preview-container" id="summer-preview"></div>
             </div>
-            <button class="action-btn" onclick="addProduct('summer')">نشر المنتج الصيفي سحابياً</button>
+            <button class="action-btn" id="summer-submit-btn" onclick="addProduct('summer')">نشر المنتج الصيفي سحابياً</button>
+            <button class="action-btn" id="summer-cancel-btn" style="background:#666; display:none; margin-right:10px;" onclick="cancelEdit('summer')">إلغاء التعديل</button>
             
             <h3 style="margin-top: 25px; color: #c5a059;">المنتجات الصيفية الحالية</h3>
             <table>
-                <thead><tr><th>رقم المنتج</th><th>الاسم</th><th>السعر</th><th>الإجراءات</th></tr></thead>
+                <thead><tr><th>الصورة</th><th>رقم المنتج</th><th>الاسم</th><th>السعر</th><th>الإجراءات</th></tr></thead>
                 <tbody id="summer-table-body"></tbody>
             </table>
         </div>
 
         <div class="section-box">
-            <h2>❄️ إضافة منتج شتوي جديد</h2>
+            <h2 id="winter-form-title">❄️ إضافة منتج شتوي جديد</h2>
+            <input type="hidden" id="edit-winter-id" value="">
             <div class="form-group">
                 <label>اسم المنتج الشتوي:</label>
                 <input type="text" id="winter-name" placeholder="جاكيت شتوي كلاسيكي ثقيل">
@@ -144,11 +157,12 @@
                 <input type="file" id="winter-files" accept="image/*" multiple onchange="convertWinterImgs(this)">
                 <div class="preview-container" id="winter-preview"></div>
             </div>
-            <button class="action-btn" onclick="addProduct('winter')">نشر المنتج الشتوي سحابياً</button>
+            <button class="action-btn" id="winter-submit-btn" onclick="addProduct('winter')">نشر المنتج الشتوي سحابياً</button>
+            <button class="action-btn" id="winter-cancel-btn" style="background:#666; display:none; margin-right:10px;" onclick="cancelEdit('winter')">إلغاء التعديل</button>
             
             <h3 style="margin-top: 25px; color: #c5a059;">المنتجات الشتوية الحالية</h3>
             <table>
-                <thead><tr><th>رقم المنتج</th><th>الاسم</th><th>السعر</th><th>الإجراءات</th></tr></thead>
+                <thead><tr><th>الصورة</th><th>رقم المنتج</th><th>الاسم</th><th>السعر</th><th>الإجراءات</th></tr></thead>
                 <tbody id="winter-table-body"></tbody>
             </table>
         </div>
@@ -253,14 +267,16 @@
         async function saveSettingsToCloud() {
             try {
                 const storeName = document.getElementById('setting-storeName').value;
+                const customerService = document.getElementById('setting-customerService').value;
+                const ordersPhone = document.getElementById('setting-ordersPhone').value;
                 const heroTitle = document.getElementById('setting-heroTitle').value;
                 const heroSubtitle = document.getElementById('setting-heroSubtitle').value;
                 const accentColor = document.getElementById('setting-accentColor').value;
                 
                 await db.collection("settings").doc("storeInfo").set({
-                    storeName, heroTitle, heroSubtitle, accentColor, logoUrl: tempLogoUrl
+                    storeName, customerService, ordersPhone, heroTitle, heroSubtitle, accentColor, logoUrl: tempLogoUrl
                 });
-                alert("تم حفظ إعدادات الواجهة والشعار سحابياً بنجاح وتحديثها للجميع!");
+                alert("تم حفظ إعدادات الواجهة والأرقام سحابياً بنجاح وتحديثها للجميع!");
             } catch (e) {
                 alert("خطأ: " + e.message);
             }
@@ -288,6 +304,7 @@
             try {
                 const name = document.getElementById(category + '-name').value;
                 const price = document.getElementById(category + '-price').value;
+                const editId = document.getElementById('edit-' + category + '-id').value;
                 const imgs = category === 'summer' ? summerImgsArr : winterImgsArr;
 
                 if (!name || !price) {
@@ -295,19 +312,47 @@
                     return;
                 }
 
-                const productId = (category === 'summer' ? 'SUM-' : 'WIN-') + Math.floor(1000 + Math.random() * 9000);
+                const productId = editId ? editId : (category === 'summer' ? 'SUM-' : 'WIN-') + Math.floor(1000 + Math.random() * 9000);
+                
+                let finalImgs = imgs;
+                if (editId && imgs.length === 0) {
+                    const docSnap = await db.collection("products").doc(editId).get();
+                    if(docSnap.exists) {
+                        finalImgs = docSnap.data().imgs || ["1000843025.png"];
+                    }
+                }
+
                 await db.collection("products").doc(productId).set({
-                    id: productId, name, price, category, imgs: imgs.length > 0 ? imgs : ["1000843025.png"]
+                    id: productId, name, price, category, imgs: finalImgs.length > 0 ? finalImgs : ["1000843025.png"]
                 });
-                alert("تم نشر المنتج بنجاح برقم كود: " + productId);
-                document.getElementById(category + '-name').value = '';
-                document.getElementById(category + '-price').value = '';
-                if(category === 'summer') { summerImgsArr = []; document.getElementById('summer-preview').innerHTML = ''; }
-                else { winterImgsArr = []; document.getElementById('winter-preview').innerHTML = ''; }
+
+                alert(editId ? "تم تعديل المنتج بنجاح!" : "تم نشر المنتج بنجاح برقم كود: " + productId);
+                cancelEdit(category);
                 loadCloudData();
             } catch (e) {
                 alert("خطأ أثناء النشر: " + e.message);
             }
+        }
+
+        async function editProduct(id, category, name, price) {
+            document.getElementById('edit-' + category + '-id').value = id;
+            document.getElementById(category + '-name').value = name;
+            document.getElementById(category + '-price').value = price;
+            document.getElementById(category + '-form-title').innerText = (category === 'summer' ? '☀️ تعديل منتج صيفي (كود: ' : '❄️ تعديل منتج شتوي (كود: ') + id + ')';
+            document.getElementById(category + '-submit-btn').innerText = "حفظ التعديلات";
+            document.getElementById(category + '-cancel-btn').style.display = 'inline-block';
+            window.scrollTo({ top: document.getElementById(category + '-form-title').offsetTop - 50, behavior: 'smooth' });
+        }
+
+        function cancelEdit(category) {
+            document.getElementById('edit-' + category + '-id').value = '';
+            document.getElementById(category + '-name').value = '';
+            document.getElementById(category + '-price').value = '';
+            document.getElementById(category + '-form-title').innerText = category === 'summer' ? '☀️ إضافة منتج صيفي جديد' : '❄️ إضافة منتج شتوي جديد';
+            document.getElementById(category + '-submit-btn').innerText = category === 'summer' ? 'نشر المنتج الصيفي سحابياً' : 'نشر المنتج الشتوي سحابياً';
+            document.getElementById(category + '-cancel-btn').style.display = 'none';
+            if(category === 'summer') { summerImgsArr = []; document.getElementById('summer-preview').innerHTML = ''; }
+            else { winterImgsArr = []; document.getElementById('winter-preview').innerHTML = ''; }
         }
 
         async function deleteProduct(id) {
@@ -319,6 +364,21 @@
 
         async function loadCloudData() {
             try {
+                const settingsDoc = await db.collection("settings").doc("storeInfo").get();
+                if(settingsDoc.exists) {
+                    const data = settingsDoc.data();
+                    if(data.storeName) document.getElementById('setting-storeName').value = data.storeName;
+                    if(data.customerService) document.getElementById('setting-customerService').value = data.customerService;
+                    if(data.ordersPhone) document.getElementById('setting-ordersPhone').value = data.ordersPhone;
+                    if(data.heroTitle) document.getElementById('setting-heroTitle').value = data.heroTitle;
+                    if(data.heroSubtitle) document.getElementById('setting-heroSubtitle').value = data.heroSubtitle;
+                    if(data.accentColor) document.getElementById('setting-accentColor').value = data.accentColor;
+                    if(data.logoUrl) {
+                        tempLogoUrl = data.logoUrl;
+                        document.getElementById('logo-preview').innerHTML = `<img src="${tempLogoUrl}">`;
+                    }
+                }
+
                 const summerTbody = document.getElementById('summer-table-body');
                 const winterTbody = document.getElementById('winter-table-body');
                 summerTbody.innerHTML = '';
@@ -327,7 +387,17 @@
                 const snapshot = await db.collection("products").get();
                 snapshot.forEach(doc => {
                     const p = doc.data();
-                    const row = `<tr><td><strong>${p.id}</strong></td><td>${p.name}</td><td>${p.price} ج.م</td><td><button class="del-btn" onclick="deleteProduct('${p.id}')">حذف</button></td></tr>`;
+                    const thumb = (p.imgs && p.imgs[0]) ? p.imgs[0] : '1000843025.png';
+                    const row = `<tr>
+                        <td><img src="${thumb}" class="table-img"></td>
+                        <td><strong>${p.id}</strong></td>
+                        <td>${p.name}</td>
+                        <td>${p.price} ج.م</td>
+                        <td>
+                            <button class="edit-btn" onclick="editProduct('${p.id}', '${p.category}', '${p.name.replace(/'/g, "\\'")}', '${p.price}')">تعديل</button>
+                            <button class="del-btn" onclick="deleteProduct('${p.id}')">حذف</button>
+                        </td>
+                    </tr>`;
                     if (p.category === 'summer') summerTbody.innerHTML += row;
                     else winterTbody.innerHTML += row;
                 });
