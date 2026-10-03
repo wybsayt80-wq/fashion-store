@@ -35,6 +35,8 @@
         .sizes-container { display: flex; gap: 12px; flex-wrap: wrap; background: #fff; padding: 12px; border: 1px solid #ddd; border-radius: 6px; }
         .sizes-container label { display: flex; align-items: center; gap: 5px; font-weight: normal; cursor: pointer; }
         .inline-edit-box { background: #fffdf5; border: 2px solid #c5a059; padding: 20px; border-radius: 8px; margin-top: 10px; margin-bottom: 15px; display: none; }
+        .search-box { margin-bottom: 20px; }
+        .search-box input { border: 2px solid #c5a059; background: #fff; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -85,7 +87,7 @@
             <button class="action-btn" onclick="saveSettingsToCloud()">حفظ إعدادات الواجهة والأرقام سحابياً</button>
         </div>
 
-        <!-- إدارة عروض المتجر (يتيح رفع عدد غير محدود من العروض صيفي وشتوي معاً) -->
+        <!-- إدارة عروض المتجر -->
         <div class="section-box">
             <h2>إدارة عروض المتجر (إضافة عدة عروض صيفية وشتوية معاً)</h2>
             <div class="form-group">
@@ -123,6 +125,15 @@
                 <thead><tr><th>الصورة الرئيسية</th><th>كود العرض</th><th>العنوان</th><th>النوع</th><th>الأسعار</th><th>الإجراء</th></tr></thead>
                 <tbody id="offers-table-body"></tbody>
             </table>
+        </div>
+
+        <!-- أداة البحث السريع الفورية في المنتجات -->
+        <div class="section-box search-box">
+            <h2>🔍 البحث الفوري عن المنتجات</h2>
+            <div class="form-group" style="margin-bottom:0;">
+                <label>ابحث باسم المنتج، الكود، أو السعر:</label>
+                <input type="text" id="search-input" placeholder="اكتب هنا للبحث الفوري..." oninput="filterProductsTable()">
+            </div>
         </div>
 
         <!-- إضافة وتعديل المنتج الصيفي مع المقاسات -->
@@ -237,6 +248,7 @@
         let offerImgsArr = [];
         let summerImgsArr = [];
         let winterImgsArr = [];
+        let allProductsCache = []; // كاش لتخزين المنتجات للبحث الفوري
 
         function compressImage(file, callback) {
             const reader = new FileReader();
@@ -440,7 +452,7 @@
                 <div class="form-group"><label>صور المنتج الحالية:</label><div class="preview-container" id="edit-imgs-preview-${id}">${imgsHtml}</div></div>
                 <div class="form-group"><label>إضافة صور جديدة:</label><input type="file" id="edit-files-${id}" accept="image/*" multiple onchange="addNewEditImgs('${id}', this)"></div>
                 <button class="action-btn" onclick="saveInlineEdit('${id}', '${category}')">حفظ تعديلات الإعلان</button>
-                <button class="action-btn" style="background:#666; margin-right:8px;" onclick="document.getElementById('edit-box-${id}').style.display='none'">إلغاء</button>
+                <button class="action-btn" style="background:#666; margin-right:8px;" onclick="document.getElementById('edit-box-' + '${id}').style.display='none'">إلغاء</button>
             `;
             box.style.display = 'block';
         }
@@ -517,7 +529,6 @@
                     }
                 }
 
-                // تحميل جدول العروض
                 const offersTbody = document.getElementById('offers-table-body');
                 offersTbody.innerHTML = '';
                 const offersSnap = await db.collection("offers").get();
@@ -534,38 +545,61 @@
                     </tr>`;
                 });
 
-                const summerTbody = document.getElementById('summer-table-body');
-                const winterTbody = document.getElementById('winter-table-body');
-                summerTbody.innerHTML = '';
-                winterTbody.innerHTML = '';
-
                 const snapshot = await db.collection("products").get();
+                allProductsCache = [];
                 snapshot.forEach(doc => {
-                    const p = doc.data();
-                    const thumb = (p.imgs && p.imgs[0]) ? p.imgs[0] : '1000843025.png';
-                    const sizesList = p.sizes ? p.sizes.join(', ') : 'متاح جميع المقاسات';
-                    const priceDisplay = p.oldPrice ? `<span style="text-decoration:line-through;color:#888;font-size:12px;margin-left:5px;">${p.oldPrice} ج.م</span><strong style="color:#c5a059;">${p.price} ج.م</strong>` : `<strong>${p.price} ج.م</strong>`;
-                    const imgsJsonStr = encodeURIComponent(JSON.stringify(p.imgs || [thumb]));
-
-                    const row = `<tr>
-                        <td><img src="${thumb}" class="table-img"></td>
-                        <td><strong>${p.id}</strong></td>
-                        <td>${p.name}</td>
-                        <td>${priceDisplay}</td>
-                        <td><small style="color:#666;">${sizesList}</small></td>
-                        <td>
-                            <button class="edit-btn" onclick="toggleInlineEdit('${p.id}', '${p.category}', '${p.name.replace(/'/g, "\\'")}', '${p.price}', '${p.oldPrice || ''}', '${sizesList}', '${imgsJsonStr}')">تعديل</button>
-                            <button class="del-btn" onclick="deleteProduct('${p.id}')">حذف</button>
-                        </td>
-                    </tr>
-                    <tr><td colspan="6"><div id="edit-box-${p.id}" class="inline-edit-box"></div></td></tr>`;
-
-                    if (p.category === 'summer') summerTbody.innerHTML += row;
-                    else winterTbody.innerHTML += row;
+                    allProductsCache.push(doc.data());
                 });
+
+                renderProductsTables(allProductsCache);
             } catch (e) {
                 console.log(e);
             }
+        }
+
+        function renderProductsTables(productsList) {
+            const summerTbody = document.getElementById('summer-table-body');
+            const winterTbody = document.getElementById('winter-table-body');
+            summerTbody.innerHTML = '';
+            winterTbody.innerHTML = '';
+
+            productsList.forEach(p => {
+                const thumb = (p.imgs && p.imgs[0]) ? p.imgs[0] : '1000843025.png';
+                const sizesList = p.sizes ? p.sizes.join(', ') : 'متاح جميع المقاسات';
+                const priceDisplay = p.oldPrice ? `<span style="text-decoration:line-through;color:#888;font-size:12px;margin-left:5px;">${p.oldPrice} ج.م</span><strong style="color:#c5a059;">${p.price} ج.م</strong>` : `<strong>${p.price} ج.م</strong>`;
+                const imgsJsonStr = encodeURIComponent(JSON.stringify(p.imgs || [thumb]));
+
+                const row = `<tr>
+                    <td><img src="${thumb}" class="table-img"></td>
+                    <td><strong>${p.id}</strong></td>
+                    <td>${p.name}</td>
+                    <td>${priceDisplay}</td>
+                    <td><small style="color:#666;">${sizesList}</small></td>
+                    <td>
+                        <button class="edit-btn" onclick="toggleInlineEdit('${p.id}', '${p.category}', '${p.name.replace(/'/g, "\\'")}', '${p.price}', '${p.oldPrice || ''}', '${sizesList}', '${imgsJsonStr}')">تعديل</button>
+                        <button class="del-btn" onclick="deleteProduct('${p.id}')">حذف</button>
+                    </td>
+                </tr>
+                <tr><td colspan="6"><div id="edit-box-${p.id}" class="inline-edit-box"></div></td></tr>`;
+
+                if (p.category === 'summer') summerTbody.innerHTML += row;
+                else winterTbody.innerHTML += row;
+            });
+        }
+
+        function filterProductsTable() {
+            const query = document.getElementById('search-input').value.toLowerCase().trim();
+            if (!query) {
+                renderProductsTables(allProductsCache);
+                return;
+            }
+            const filtered = allProductsCache.filter(p => {
+                return (p.name && p.name.toLowerCase().includes(query)) ||
+                       (p.id && p.id.toLowerCase().includes(query)) ||
+                       (p.price && p.price.toLowerCase().includes(query)) ||
+                       (p.oldPrice && p.oldPrice.toLowerCase().includes(query));
+            });
+            renderProductsTables(filtered);
         }
     </script>
 </body>
