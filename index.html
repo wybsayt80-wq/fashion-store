@@ -32,11 +32,11 @@
             z-index: 1000;
         }
         .logo { font-size: 24px; font-weight: 900; letter-spacing: 1px; color: var(--text-color); text-transform: uppercase; }
-        nav { display: flex; gap: 30px; }
+        nav { display: flex; gap: 25px; }
         nav a { color: var(--text-color); text-decoration: none; font-size: 15px; font-weight: 600; transition: 0.3s; position: relative; }
         nav a::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -4px; right: 0; background-color: var(--accent-color); transition: 0.3s; }
         nav a:hover::after { width: 100%; }
-        nav a:hover { color: var(--accent-color); }
+        nav a:hover, nav a.active { color: var(--accent-color); }
         .buy-now-btn { background: #000; color: #fff; padding: 10px 22px; border-radius: 30px; text-decoration: none; font-weight: bold; font-size: 14px; transition: 0.3s; }
         .buy-now-btn:hover { background: var(--accent-color); transform: translateY(-2px); }
 
@@ -53,7 +53,7 @@
         .hero-content { flex: 1; min-width: 300px; }
         .hero-content h1 { font-size: 56px; font-weight: 900; line-height: 1.1; margin-bottom: 20px; }
         .hero-content p { color: var(--secondary-text); font-size: 18px; margin-bottom: 30px; max-width: 500px; }
-        .hero-btns { display: flex; gap: 15px; }
+        .hero-btns { display: flex; gap: 15px; flex-wrap: wrap; }
         .btn-black { background: #000; color: #fff; padding: 14px 28px; border-radius: 30px; text-decoration: none; font-weight: bold; transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
         .btn-black:hover { background: var(--accent-color); transform: translateY(-2px); }
         .btn-outline { background: transparent; color: #000; border: 2px solid #000; padding: 14px 28px; border-radius: 30px; text-decoration: none; font-weight: bold; transition: 0.3s; }
@@ -76,7 +76,7 @@
         .feature-item { font-size: 14px; font-weight: 600; color: #333; display: flex; align-items: center; gap: 8px; }
         .feature-item i { color: var(--accent-color); }
 
-        /* حاوية العروض المتعددة (لإظهار صيفي وشتوي معاً) */
+        /* حاوية العروض المتعددة (لإظهار صيفي، شتوي، وأحذية معاً) */
         .offers-wrapper {
             max-width: 1300px;
             margin: 60px auto;
@@ -120,13 +120,13 @@
 
         .categories-section { max-width: 1300px; margin: 90px auto; padding: 0 50px; }
         .section-title { font-size: 38px; font-weight: 900; margin-bottom: 40px; text-align: center; letter-spacing: -0.5px; }
-        .categories-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-        .cat-card { position: relative; border-radius: 20px; overflow: hidden; height: 420px; text-decoration: none; color: #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.12); display: flex; flex-direction: column; justify-content: flex-end; padding: 35px; background-size: cover; background-position: center; transition: 0.5s; }
+        .categories-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+        .cat-card { position: relative; border-radius: 20px; overflow: hidden; height: 400px; text-decoration: none; color: #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.12); display: flex; flex-direction: column; justify-content: flex-end; padding: 35px; background-size: cover; background-position: center; transition: 0.5s; }
         .cat-card:hover { transform: translateY(-6px) scale(1.01); }
         .cat-card::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.85), rgba(0,0,0,0.2), transparent); z-index: 1; }
         .cat-card h3, .cat-card span, .cat-card .explore-badge { position: relative; z-index: 2; }
-        .cat-card h3 { font-size: 28px; font-weight: 800; margin-bottom: 8px; }
-        .cat-card span { font-size: 15px; color: #ddd; margin-bottom: 15px; display: block; }
+        .cat-card h3 { font-size: 26px; font-weight: 800; margin-bottom: 8px; }
+        .cat-card span { font-size: 14px; color: #ddd; margin-bottom: 15px; display: block; }
         .explore-badge { font-size: 14px; font-weight: bold; color: var(--accent-color); display: flex; align-items: center; gap: 8px; }
 
         .float-whatsapp {
@@ -166,9 +166,10 @@
     <header>
         <div class="logo" id="store-logo-name">كيان جينز</div>
         <nav>
-            <a href="index.html">الرئيسية</a>
+            <a href="index.html" class="active">الرئيسية</a>
             <a href="summer.html">صيفي</a>
             <a href="winter.html">شتوي</a>
+            <a href="shoes.html">أحذية</a>
         </nav>
         <a href="https://wa.me/201124793700?text=أهلاً، أود إتمام طلب جديد من متجر كيان جينز" target="_blank" class="buy-now-btn">تواصل للطلب</a>
     </header>
@@ -180,6 +181,7 @@
             <div class="hero-btns">
                 <a href="summer.html" class="btn-black">قسم الصيف</a>
                 <a href="winter.html" class="btn-outline">قسم الشتاء</a>
+                <a href="shoes.html" class="btn-black" style="background: var(--accent-color); color: #000;">قسم الأحذية</a>
             </div>
         </div>
         <div class="hero-image-box">
@@ -194,7 +196,7 @@
         <div class="feature-item"><i class="fa-solid fa-rotate-left"></i> استبدال واسترجاع سريع</div>
     </div>
 
-    <!-- حاوية العروض المتعددة (صيفي وشتوي معاً) -->
+    <!-- حاوية العروض المتعددة (صيفي، شتوي، وأحذية) -->
     <div class="offers-wrapper" id="offers-container"></div>
 
     <section class="categories-section">
@@ -210,6 +212,11 @@
                 <span>جواكت وسويتشيرتات شتوية ثقيلة وفاخرة</span>
                 <div class="explore-badge">استكشف التشكيلة <i class="fa-solid fa-arrow-left"></i></div>
             </a>
+            <a href="shoes.html" class="cat-card" style="background-image: url('https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800');">
+                <h3>👞 قسم الأحذية</h3>
+                <span>أرقى تصميمات الأحذية الجلدية والكلاسيكية</span>
+                <div class="explore-badge">استكشف التشكيلة <i class="fa-solid fa-arrow-left"></i></div>
+            </a>
         </div>
     </section>
 
@@ -217,7 +224,7 @@
         <div class="footer-container">
             <div class="footer-col">
                 <h4 id="footer-logo-title">كيان جينز</h4>
-                <p>العلامة التجارية الأولى للملابس الرجالية الفاخرة.</p>
+                <p>العلامة التجارية الأولى للملابس والأحذية الفاخرة.</p>
                 <p style="margin-top: 12px; color: var(--accent-color); font-weight: bold;"><i class="fa-solid fa-phone"></i> 01124793700</p>
             </div>
             <div class="footer-col">
@@ -225,6 +232,7 @@
                 <p><a href="index.html">الرئيسية</a></p>
                 <p><a href="summer.html">قسم الصيف</a></p>
                 <p><a href="winter.html">شتوي</a></p>
+                <p><a href="shoes.html">أحذية</a></p>
             </div>
             <div class="footer-col">
                 <h4>تواصل معنا</h4>
@@ -265,7 +273,6 @@
             }
         });
 
-        // متغيرات عامة لشرائح الصور المتعددة للعروض
         window.offerSliders = {};
 
         function changeOfferSlide(offerKey, direction) {
@@ -277,22 +284,22 @@
             document.getElementById('img-el-' + offerKey).src = slider.imgs[slider.idx];
         }
 
-        // جلب جميع العروض المفعلة من قاعدة البيانات وعرضها معاً
         db.collection("offers").get().then(snapshot => {
             const container = document.getElementById('offers-container');
             container.innerHTML = '';
             
-            let activeOffersCount = 0;
             snapshot.forEach(doc => {
                 const offer = doc.data();
                 if (offer.active && new Date().getTime() < offer.endTime) {
-                    activeOffersCount++;
                     let imgsArr = offer.imgs && offer.imgs.length > 0 ? offer.imgs : [offer.imgUrl || "1000843025.png"];
                     let offerKey = offer.id || ('offer_' + Math.random());
                     window.offerSliders[offerKey] = { imgs: imgsArr, idx: 0 };
 
-                    let badgeText = offer.type === 'summer' ? "🔥 عروض صيفية متاحة الآن" : "🔥 عروض شتوية متاحة الآن";
-                    let linkPage = offer.type === 'summer' ? "summer.html" : "winter.html";
+                    let badgeText = "🔥 عروض متاحة الآن";
+                    let linkPage = "summer.html";
+                    if(offer.type === 'summer') { badgeText = "🔥 عروض صيفية متاحة الآن"; linkPage = "summer.html"; }
+                    else if(offer.type === 'winter') { badgeText = "🔥 عروض شتوية متاحة الآن"; linkPage = "winter.html"; }
+                    else if(offer.type === 'shoes') { badgeText = "👞 عروض أحذية متاحة الآن"; linkPage = "shoes.html"; }
                     
                     let arrowsHtml = imgsArr.length > 1 ? `
                         <button class="slider-arrow slider-prev" onclick="changeOfferSlide('${offerKey}', -1)"><i class="fa-solid fa-chevron-right"></i></button>
@@ -323,7 +330,6 @@
                         </section>
                     `;
 
-                    // تفعيل العداد التنازلي لكل عرض
                     const endTime = offer.endTime;
                     setInterval(() => {
                         const now = new Date().getTime();
