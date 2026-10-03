@@ -163,12 +163,17 @@
         }
         .float-whatsapp:hover { transform: scale(1.1); }
 
-        footer { background: var(--dark-bg); color: #fff; padding: 50px 20px 20px; margin-top: 80px; }
-        .footer-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 30px; }
-        .footer-col h4 { color: var(--accent-color); margin-bottom: 15px; font-size: 16px; }
-        .footer-col p, .footer-col a { color: #aaa; text-decoration: none; display: block; margin-bottom: 8px; font-size: 13px; }
-        .footer-col a:hover { color: #fff; }
-        .copyright { text-align: center; border-top: 1px solid #222; margin-top: 30px; padding-top: 15px; color: #777; font-size: 12px; }
+        /* تنسيق اللوحة السوداء (الفوتر) بشكل احترافي وراقي يعبر عن قصة البراند والتوسعات */
+        footer { background: var(--dark-bg); color: #fff; padding: 60px 20px 25px; margin-top: 80px; border-top: 3px solid var(--accent-color); }
+        .footer-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 40px; }
+        .footer-col { flex: 1; min-width: 260px; }
+        .footer-col h4 { color: var(--accent-color); margin-bottom: 15px; font-size: 18px; font-weight: bold; }
+        .footer-col p, .footer-col a { color: #b5b5b5; text-decoration: none; display: block; margin-bottom: 10px; font-size: 14px; line-height: 1.8; }
+        .footer-col a:hover { color: var(--accent-color); }
+        .social-footer-links { display: flex; gap: 12px; margin-top: 15px; }
+        .social-footer-links a { display: inline-flex; justify-content: center; align-items: center; width: 38px; height: 38px; background: rgba(255,255,255,0.08); color: #fff; border-radius: 50%; transition: 0.3s; font-size: 16px; border: 1px solid rgba(255,255,255,0.1); }
+        .social-footer-links a:hover { background: var(--accent-color); color: #000; transform: translateY(-3px); }
+        .copyright { text-align: center; border-top: 1px solid #222; margin-top: 40px; padding-top: 20px; color: #888; font-size: 13px; }
     </style>
 </head>
 <body>
@@ -248,20 +253,25 @@
         <div class="footer-container">
             <div class="footer-col">
                 <h4 id="footer-logo-title">كيان جينز</h4>
-                <p>العلامة التجارية الأولى للملابس والأحذية الفاخرة.</p>
+                <p>العلامة التجارية الأولى للملابس والأحذية الفاخرة. لقد بذلنا جهداً استثنائياً وواجهنا الكثير لنصنع هذا البراند لنقدم لكم "العظمة" والفخامة اللائقة بكم.</p>
                 <p style="margin-top: 10px; color: var(--accent-color); font-weight: bold;"><i class="fa-solid fa-phone"></i> 01101100491</p>
+                <div class="social-footer-links">
+                    <a href="https://www.facebook.com/share/1FVYzJMfVF/" target="_blank" title="الفيسبوك"><i class="fa-brands fa-facebook-f"></i></a>
+                    <a href="https://www.tiktok.com/@user86700746112525?_r=1&_t=ZS-9AFtGblWrEC" target="_blank" title="التيك توك"><i class="fa-brands fa-tiktok"></i></a>
+                    <a href="https://wa.me/201101100491" target="_blank" title="الواتساب"><i class="fa-brands fa-whatsapp"></i></a>
+                </div>
             </div>
             <div class="footer-col">
                 <h4>روابط سريعة</h4>
                 <p><a href="index.html">الرئيسية</a></p>
-                <p><a href="summer.html">صيفي</a></p>
-                <p><a href="winter.html">شتوي</a></p>
-                <p><a href="shoes.html">أحذية</a></p>
+                <p><a href="summer.html">قسم الصيف</a></p>
+                <p><a href="winter.html">قسم الشتاء</a></p>
+                <p><a href="shoes.html">قسم الأحذية</a></p>
             </div>
             <div class="footer-col">
-                <h4>تواصل معنا</h4>
-                <p style="color: var(--accent-color); font-weight: bold;">متاح الشحن لجميع أنحاء مصر</p>
-                <p><a href="https://wa.me/201101100491" target="_blank" style="color: #25d366;"><i class="fa-brands fa-whatsapp"></i> خدمة العملاء</a></p>
+                <h4>رؤيتنا وتوسعاتنا</h4>
+                <p>بفضل ثقتكم الغالية ودعمكم المستمر، نحن قادمون على توسعات ضخمة لتقديم المزيد من الإبداع والتميز في عالم الموضة الرجالية. بيكو ومعكم نستمر في النمو ونحقق العظمة!</p>
+                <p style="margin-top: 10px; color: #25d366; font-weight: bold;"><i class="fa-solid fa-headset"></i> خدمة العملاء متاحة دائماً لخدمتكم</p>
             </div>
         </div>
         <div class="copyright">جميع الحقوق محفوظة © كيان جينز 2026</div>
