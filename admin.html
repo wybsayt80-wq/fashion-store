@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة التحكم الملكية - كيان جينز</title>
-    <!-- مكتبات Firebase السحابية الدائمة -->
+    <title>لوحة التحكم السحابية - كيان جينز</title>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
     <style>
@@ -45,11 +44,11 @@
 
     <div id="admin-panel-content">
         <a href="index.html" class="back-link">← العودة إلى المتجر الرئيسي</a>
-        <h1>لوحة التحكم السحابية - كيان جينز</h1>
+        <h1>لوحة التحكم السحابية المباشرة - كيان جينز</h1>
 
-        <!-- 1. إعدادات الشعار والألوان والواجهة -->
+        <!-- 1. إعدادات الواجهة والشعار -->
         <div class="section-box">
-            <h2>إعدادات الشعار والواجهة والألوان العامة</h2>
+            <h2>إعدادات الواجهة والشعار والألوان</h2>
             <div class="form-group">
                 <label>اسم المتجر:</label>
                 <input type="text" id="setting-storeName" value="كيان جينز">
@@ -67,18 +66,18 @@
                 <input type="color" id="setting-accentColor" value="#c5a059" style="height: 45px; cursor: pointer;">
             </div>
             <div class="form-group">
-                <label>اختر صورة الشعار المتحرك من الجهاز:</label>
+                <label>اختر صورة الشعار المتحرك:</label>
                 <input type="file" id="setting-logoFile" accept="image/*" onchange="convertLogo(this)">
                 <div class="preview-container" id="logo-preview"><img src="1000843025.png" style="width:60px;height:60px;object-fit:cover;"></div>
             </div>
             <button class="action-btn" onclick="saveSettingsToCloud()">حفظ إعدادات الواجهة سحابياً</button>
         </div>
 
-        <!-- 2. لوحة تحكم العروض الخاصة (نظام بدلاً من + التوقيت) -->
+        <!-- 2. إدارة العروض (نظام بدلاً من + التوقيت) -->
         <div class="section-box">
             <h2>إدارة عروض المتجر (صيفي وشتوي بنظام الخصم والتوقيت)</h2>
             <div class="form-group">
-                <label>عنوان أو اسم الإعلان العرض:</label>
+                <label>عنوان أو اسم إعلان العرض:</label>
                 <input type="text" id="offer-title" placeholder="مثال: عرض حرق الأسعار الكلاسيكي">
             </div>
             <div class="form-group">
@@ -89,7 +88,7 @@
                 </select>
             </div>
             <div class="form-group">
-                <label>السعر الأصلي (قبل الخصم - ليتم عمل خط عليه):</label>
+                <label>السعر الأصلي (قبل الخصم - مشطوب عليه):</label>
                 <input type="text" id="offer-old-price" placeholder="مثال: 600">
             </div>
             <div class="form-group">
@@ -97,7 +96,7 @@
                 <input type="text" id="offer-new-price" placeholder="مثال: 399">
             </div>
             <div class="form-group">
-                <label>اختر صورة الإعلان العرض من الجهاز:</label>
+                <label>اختر صورة إعلان العرض:</label>
                 <input type="file" id="offer-img-file" accept="image/*" onchange="convertOfferImg(this)">
                 <div class="preview-container" id="offer-img-preview"></div>
             </div>
@@ -110,7 +109,7 @@
 
         <!-- 3. إضافة منتج صيفي -->
         <div class="section-box">
-            <h2>☀️ إضافة منتج صيفي جديد (رفع صور من الجهاز)</h2>
+            <h2>☀️ إضافة منتج صيفي جديد</h2>
             <div class="form-group">
                 <label>اسم المنتج الصيفي:</label>
                 <input type="text" id="summer-name" placeholder="مثال: بنطلون جينز صيفي فاخر">
@@ -135,7 +134,7 @@
 
         <!-- 4. إضافة منتج شتوي -->
         <div class="section-box">
-            <h2>❄️ إضافة منتج شتوي جديد (رفع صور من الجهاز)</h2>
+            <h2>❄️ إضافة منتج شتوي جديد</h2>
             <div class="form-group">
                 <label>اسم المنتج الشتوي:</label>
                 <input type="text" id="winter-name" placeholder="مثال: جاكيت شتوي كلاسيكي ثقيل">
@@ -186,15 +185,14 @@
         let summerImgsArr = [];
         let winterImgsArr = [];
 
-        // دالة لضغط الصور تلقائياً لمنع أي توقف في الأزرار
         function compressImage(file, callback) {
             const reader = new FileReader();
             reader.onload = function(e) {
                 const img = new Image();
                 img.onload = function() {
                     const canvas = document.createElement('canvas');
-                    const MAX_WIDTH = 600;
-                    const MAX_HEIGHT = 600;
+                    const MAX_WIDTH = 500;
+                    const MAX_HEIGHT = 500;
                     let width = img.width;
                     let height = img.height;
                     if (width > height) {
@@ -206,7 +204,7 @@
                     canvas.height = height;
                     const ctx = canvas.getContext('2d');
                     ctx.drawImage(img, 0, 0, width, height);
-                    callback(canvas.toDataURL('image/jpeg', 0.7));
+                    callback(canvas.toDataURL('image/jpeg', 0.6));
                 }
                 img.src = e.target.result;
             }
@@ -264,7 +262,7 @@
                 await db.collection("settings").doc("storeInfo").set({
                     storeName, heroTitle, heroSubtitle, accentColor, logoUrl: tempLogoUrl
                 });
-                alert("تم حفظ إعدادات الواجهة والشعار والألوان سحابياً بنجاح!");
+                alert("تم حفظ إعدادات الواجهة والشعار والألوان سحابياً بنجاح وتحديثها للجميع!");
             } catch (e) {
                 alert("خطأ: " + e.message);
             }
@@ -281,7 +279,7 @@
                 await db.collection("settings").doc("offerInfo").set({
                     title, type, oldPrice, newPrice, endTime, imgUrl: tempOfferImgUrl, active: true
                 });
-                alert("تم حفظ ونشر إعلان العرض التوقيتي بنجاح!");
+                alert("تم حفظ ونشر إعلان العرض التوقيتي بنجاح ليظهر فوراً في الصفحة الرئيسية!");
             } catch (e) {
                 alert("خطأ: " + e.message);
             }
