@@ -210,7 +210,12 @@
             message += `💰 *الإجمالي الكلي:* ${total} ج.م\n\nيرجى تأكيد الطلب وترتيب الشحن. شكراً جزيلاً!`;
 
             const encodedMessage = encodeURIComponent(message);
-            window.open(`https://wa.me/201124793700?text=${encodedMessage}`, '_blank');
+            window.open(`https://wa.me/201101100491?text=${encodedMessage}`, '_blank');
+
+            // تفريغ السلة تلقائياً بعد إتمام الطلب
+            cart = [];
+            updateCartUI();
+            closeCartModal();
         }
 
         let currentImgsList = [];
@@ -270,7 +275,6 @@
             });
         });
 
-        // تحديث عداد السلة عند التحميل
         updateCartUI();
     </script>
 </body>
