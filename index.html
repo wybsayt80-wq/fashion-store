@@ -17,7 +17,7 @@
             --dark-bg: #0d0d0d;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        html, body { width: 100%; overflow-x: hidden; position: relative; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; }
+        html, body { width: 100%; max-width: 100%; overflow-x: hidden; position: relative; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; }
 
         header {
             display: flex;
@@ -33,7 +33,7 @@
             width: 100%;
         }
         .logo { font-size: 20px; font-weight: 900; letter-spacing: 1px; color: var(--text-color); text-transform: uppercase; }
-        nav { display: flex; gap: 15px; flex-wrap: wrap; }
+        nav { display: flex; gap: 12px; flex-wrap: wrap; }
         nav a { color: var(--text-color); text-decoration: none; font-size: 13px; font-weight: 600; transition: 0.3s; position: relative; }
         nav a::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -4px; right: 0; background-color: var(--accent-color); transition: 0.3s; }
         nav a:hover::after { width: 100%; }
@@ -45,25 +45,25 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 40px 20px;
+            padding: 40px 15px;
             max-width: 1300px;
             margin: 0 auto;
             flex-wrap: wrap;
-            gap: 30px;
+            gap: 25px;
             width: 100%;
         }
-        .hero-content { flex: 1; min-width: 280px; text-align: center; }
-        .hero-content h1 { font-size: 34px; font-weight: 900; line-height: 1.2; margin-bottom: 15px; }
-        .hero-content p { color: var(--secondary-text); font-size: 15px; margin-bottom: 25px; max-width: 500px; margin-left: auto; margin-right: auto; }
+        .hero-content { flex: 1; min-width: 260px; text-align: center; }
+        .hero-content h1 { font-size: 32px; font-weight: 900; line-height: 1.2; margin-bottom: 12px; }
+        .hero-content p { color: var(--secondary-text); font-size: 15px; margin-bottom: 20px; max-width: 500px; margin-left: auto; margin-right: auto; }
         .hero-btns { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
-        .btn-black { background: #000; color: #fff; padding: 12px 22px; border-radius: 30px; text-decoration: none; font-weight: bold; font-size: 13px; transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .btn-black { background: #000; color: #fff; padding: 12px 20px; border-radius: 30px; text-decoration: none; font-weight: bold; font-size: 13px; transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
         .btn-black:hover { background: var(--accent-color); color: #000; }
-        .btn-outline { background: transparent; color: #000; border: 2px solid #000; padding: 12px 22px; border-radius: 30px; text-decoration: none; font-weight: bold; font-size: 13px; transition: 0.3s; }
+        .btn-outline { background: transparent; color: #000; border: 2px solid #000; padding: 12px 20px; border-radius: 30px; text-decoration: none; font-weight: bold; font-size: 13px; transition: 0.3s; }
         .btn-outline:hover { background: #000; color: #fff; }
 
         /* الشعار كاسم شفاف بدون خلفية سوداء وبدون إمكانية الضغط */
-        .hero-image-box { flex: 1; display: flex; justify-content: center; min-width: 280px; pointer-events: none; user-select: none; width: 100%; }
-        .hero-image-box img { width: 100%; max-width: 320px; height: auto; object-fit: contain; background: transparent !important; border: none; box-shadow: none; border-radius: 0; mix-blend-mode: multiply; filter: contrast(110%); }
+        .hero-image-box { flex: 1; display: flex; justify-content: center; min-width: 260px; pointer-events: none; user-select: none; width: 100%; }
+        .hero-image-box img { width: 100%; max-width: 300px; height: auto; object-fit: contain; background: transparent !important; border: none; box-shadow: none; border-radius: 0; mix-blend-mode: multiply; filter: contrast(110%); }
 
         /* قسم وسائل التواصل الاجتماعي في المنتصف */
         .social-section-center {
@@ -72,15 +72,15 @@
             border: 1px solid var(--border-color);
             border-radius: 14px;
             padding: 25px 15px;
-            margin: 30px auto;
-            max-width: 90%;
+            margin: 25px auto;
+            max-width: 92%;
             width: 100%;
             box-shadow: 0 5px 20px rgba(0,0,0,0.03);
         }
         .social-section-center h3 { color: var(--accent-color); font-size: 18px; margin-bottom: 8px; font-weight: bold; }
         .social-section-center p { color: var(--secondary-text); font-size: 13px; margin-bottom: 15px; }
-        .social-icons-row { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
-        .social-icon-btn { display: inline-flex; align-items: center; gap: 6px; padding: 10px 16px; background: #000; color: #fff; border-radius: 30px; text-decoration: none; font-size: 12px; font-weight: 600; transition: 0.3s; }
+        .social-icons-row { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; }
+        .social-icon-btn { display: inline-flex; align-items: center; gap: 5px; padding: 10px 14px; background: #000; color: #fff; border-radius: 30px; text-decoration: none; font-size: 12px; font-weight: 600; transition: 0.3s; }
         .social-icon-btn:hover { background: var(--accent-color); color: #000; }
 
         .features-bar {
@@ -108,7 +108,7 @@
             width: 100%;
         }
 
-        /* تنسيق كارد العروض ليكون متناسقاً ومثالياً على الموبايل */
+        /* تنسيق كارد العروض ليكون متناسقاً ومثالياً على الموبايل وبدون أي اهتزاز */
         .offer-section {
             background: #111;
             color: #fff;
@@ -122,6 +122,7 @@
             border: 2px solid var(--accent-color);
             box-shadow: 0 10px 25px rgba(0,0,0,0.15);
             width: 100%;
+            overflow: hidden;
         }
         .offer-content { width: 100%; display: flex; flex-direction: column; align-items: center; }
         .offer-badge { background: var(--accent-color); color: #000; padding: 5px 12px; border-radius: 20px; font-weight: bold; font-size: 12px; display: inline-block; margin-bottom: 10px; }
@@ -131,12 +132,12 @@
         .new-price { color: var(--accent-color); font-size: 22px; }
         
         .timer-box { display: flex; justify-content: center; gap: 8px; margin-bottom: 20px; width: 100%; }
-        .timer-unit { background: rgba(255,255,255,0.1); padding: 8px 10px; border-radius: 8px; text-align: center; min-width: 60px; }
-        .timer-unit span { display: block; font-size: 16px; font-weight: bold; }
+        .timer-unit { background: rgba(255,255,255,0.1); padding: 8px 10px; border-radius: 8px; text-align: center; min-width: 55px; }
+        .timer-unit span { display: block; font-size: 15px; font-weight: bold; }
         .timer-unit small { font-size: 10px; color: #aaa; }
         
         .offer-img-container { width: 100%; display: flex; justify-content: center; position: relative; margin-top: 5px; }
-        .offer-img-container img { width: 100%; max-width: 300px; height: 260px; border-radius: 12px; object-fit: cover; border: 2px solid var(--accent-color); }
+        .offer-img-container img { width: 100%; max-width: 280px; height: 260px; border-radius: 12px; object-fit: cover; border: 2px solid var(--accent-color); }
         .slider-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.7); color: #fff; border: none; font-size: 16px; padding: 10px 12px; cursor: pointer; border-radius: 50%; transition: 0.3s; z-index: 10; }
         .slider-arrow:hover { background: var(--accent-color); color: #000; }
         .slider-prev { right: 10px; }
@@ -340,6 +341,18 @@
             document.getElementById('img-el-' + offerKey).src = slider.imgs[slider.idx];
         }
 
+        function orderOffer(title, oldPrice, newPrice, offerId) {
+            let message = `مرحباً، أود طلب هذا العرض المميز من متجر كيان جينز:\n\n`;
+            message += `🔥 *العرض:* ${title}\n`;
+            message += `📌 *كود العرض:* ${offerId || 'عرض خاص'}\n`;
+            message += `🏷️ *السعر الأصلي:* ${oldPrice} ج.م\n`;
+            message += `💰 *سعر العرض الحالي:* ${newPrice} ج.م\n\n`;
+            message += `يرجى تأكيد الطلب وترتيب الشحن. شكراً جزيلاً!`;
+
+            const encodedMessage = encodeURIComponent(message);
+            window.open(`https://wa.me/201101100491?text=${encodedMessage}`, '_blank');
+        }
+
         db.collection("offers").get().then(snapshot => {
             const container = document.getElementById('offers-container');
             container.innerHTML = '';
@@ -352,15 +365,16 @@
                     window.offerSliders[offerKey] = { imgs: imgsArr, idx: 0 };
 
                     let badgeText = "🔥 عروض متاحة الآن";
-                    let linkPage = "summer.html";
-                    if(offer.type === 'summer') { badgeText = "🔥 عروض صيفية متاحة الآن"; linkPage = "summer.html"; }
-                    else if(offer.type === 'winter') { badgeText = "🔥 عروض شتوية متاحة الآن"; linkPage = "winter.html"; }
-                    else if(offer.type === 'shoes') { badgeText = "👞 عروض أحذية متاحة الآن"; linkPage = "shoes.html"; }
+                    if(offer.type === 'summer') { badgeText = "🔥 عروض صيفية متاحة الآن"; }
+                    else if(offer.type === 'winter') { badgeText = "🔥 عروض شتوية متاحة الآن"; }
+                    else if(offer.type === 'shoes') { badgeText = "👞 عروض أحذية متاحة الآن"; }
                     
                     let arrowsHtml = imgsArr.length > 1 ? `
                         <button class="slider-arrow slider-prev" onclick="changeOfferSlide('${offerKey}', -1)"><i class="fa-solid fa-chevron-right"></i></button>
                         <button class="slider-arrow slider-next" onclick="changeOfferSlide('${offerKey}', 1)"><i class="fa-solid fa-chevron-left"></i></button>
                     ` : '';
+
+                    const safeTitle = (offer.title || '').replace(/'/g, "\\'");
 
                     container.innerHTML += `
                         <section class="offer-section">
@@ -377,7 +391,7 @@
                                     <div class="timer-unit"><span id="mins-${offerKey}">00</span><small>دقيقة</small></div>
                                     <div class="timer-unit"><span id="secs-${offerKey}">00</span><small>ثانية</small></div>
                                 </div>
-                                <a href="${linkPage}" class="btn-black" style="background: var(--accent-color); color: #000; width: 100%; max-width: 200px; text-align: center;">تسوق العرض الآن</a>
+                                <button onclick="orderOffer('${safeTitle}', '${offer.oldPrice}', '${offer.newPrice}', '${offer.id || ''}')" class="btn-black" style="background: var(--accent-color); color: #000; width: 100%; max-width: 200px; text-align: center; cursor: pointer; border: none; font-size: 14px; padding: 12px; border-radius: 30px; font-weight: bold;">اطلب العرض الآن</button>
                             </div>
                             <div class="offer-img-container">
                                 <img src="${imgsArr[0]}" id="img-el-${offerKey}" alt="صورة العرض">
