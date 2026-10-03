@@ -127,12 +127,12 @@
             </table>
         </div>
 
-        <!-- أداة البحث السريع الفورية في المنتجات (تدعم الأكواد والأرقام بدقة) -->
+        <!-- أداة البحث السريع الفورية (تبحث بالكود أو الاسم فوراً) -->
         <div class="section-box search-box">
             <h2>🔍 البحث الفوري عن المنتجات (بالكود، الاسم، أو السعر)</h2>
             <div class="form-group" style="margin-bottom:0;">
-                <label>اكتب الكود هنا (مثل SUM-1234 أو WIN-5678):</label>
-                <input type="text" id="search-input" placeholder="SUM-XXXXX" oninput="filterProductsTable()">
+                <label>اكتب الكود هنا (مثل SUM-2731 أو WIN-XXXX):</label>
+                <input type="text" id="search-input" placeholder="SUM-2731" oninput="filterProductsTable()">
             </div>
         </div>
 
@@ -594,10 +594,11 @@
                 return;
             }
             const filtered = allProductsCache.filter(p => {
-                return (p.id && p.id.toLowerCase().includes(query)) ||
-                       (p.name && p.name.toLowerCase().includes(query)) ||
-                       (p.price && p.price.toLowerCase().includes(query)) ||
-                       (p.oldPrice && p.oldPrice.toLowerCase().includes(query));
+                const pId = (p.id || '').toLowerCase();
+                const pName = (p.name || '').toLowerCase();
+                const pPrice = (p.price || '').toLowerCase();
+                const pOldPrice = (p.oldPrice || '').toLowerCase();
+                return pId.includes(query) || pName.includes(query) || pPrice.includes(query) || pOldPrice.includes(query);
             });
             renderProductsTables(filtered);
         }
