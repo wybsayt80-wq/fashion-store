@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>لوحة التحكم السحابية - كيان جينز</title>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <!-- تحديث مكتبات Firebase لأحدث إصدار مستقر -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background-color: #f8f9fa; color: #1a1a1a; padding: 20px; }
@@ -44,7 +45,7 @@
 
     <div id="admin-panel-content">
         <a href="index.html" class="back-link">← العودة إلى المتجر الرئيسي</a>
-        <h1>لوحة التحكم السحابية المباشرة - كيان جينز</h1>
+        <h1>لوحة التحكم السحابية - كيان جينز</h1>
 
         <!-- 1. إعدادات الواجهة والشعار -->
         <div class="section-box">
@@ -185,15 +186,14 @@
         let summerImgsArr = [];
         let winterImgsArr = [];
 
-        // دالة تصغير وضغط ذكي للصور لتجنب أي مشاكل في حجم قاعدة البيانات ولضمان سرعة الحفظ
         function compressImage(file, callback) {
             const reader = new FileReader();
             reader.onload = function(e) {
                 const img = new Image();
                 img.onload = function() {
                     const canvas = document.createElement('canvas');
-                    const MAX_WIDTH = 400;
-                    const MAX_HEIGHT = 400;
+                    const MAX_WIDTH = 300;
+                    const MAX_HEIGHT = 300;
                     let width = img.width;
                     let height = img.height;
                     if (width > height) {
@@ -205,7 +205,7 @@
                     canvas.height = height;
                     const ctx = canvas.getContext('2d');
                     ctx.drawImage(img, 0, 0, width, height);
-                    callback(canvas.toDataURL('image/jpeg', 0.5));
+                    callback(canvas.toDataURL('image/jpeg', 0.4));
                 }
                 img.src = e.target.result;
             }
@@ -255,49 +255,51 @@
         }
 
         async function saveSettingsToCloud() {
-            const storeName = document.getElementById('setting-storeName').value;
-            const heroTitle = document.getElementById('setting-heroTitle').value;
-            const heroSubtitle = document.getElementById('setting-heroSubtitle').value;
-            const accentColor = document.getElementById('setting-accentColor').value;
             try {
+                const storeName = document.getElementById('setting-storeName').value;
+                const heroTitle = document.getElementById('setting-heroTitle').value;
+                const heroSubtitle = document.getElementById('setting-heroSubtitle').value;
+                const accentColor = document.getElementById('setting-accentColor').value;
+                
                 await db.collection("settings").doc("storeInfo").set({
                     storeName, heroTitle, heroSubtitle, accentColor, logoUrl: tempLogoUrl
                 });
-                alert("تم حفظ إعدادات الواجهة والشعار والألوان سحابياً بنجاح وتحديثها للجميع!");
+                alert("تم حفظ إعدادات الواجهة والشعار سحابياً بنجاح!");
             } catch (e) {
-                alert("خطأ: " + e.message);
+                alert("خطأ أثناء الحفظ: " + e.message);
             }
         }
 
         async function saveOfferSettings() {
-            const title = document.getElementById('offer-title').value;
-            const type = document.getElementById('offer-type').value;
-            const oldPrice = document.getElementById('offer-old-price').value;
-            const newPrice = document.getElementById('offer-new-price').value;
-            const endtimeInput = document.getElementById('offer-endtime').value;
-            const endTime = endtimeInput ? new Date(endtimeInput).getTime() : new Date().getTime() + 86400000;
             try {
+                const title = document.getElementById('offer-title').value;
+                const type = document.getElementById('offer-type').value;
+                const oldPrice = document.getElementById('offer-old-price').value;
+                const newPrice = document.getElementById('offer-new-price').value;
+                const endtimeInput = document.getElementById('offer-endtime').value;
+                const endTime = endtimeInput ? new Date(endtimeInput).getTime() : new Date().getTime() + 86400000;
+                
                 await db.collection("settings").doc("offerInfo").set({
                     title, type, oldPrice, newPrice, endTime, imgUrl: tempOfferImgUrl, active: true
                 });
-                alert("تم حفظ ونشر إعلان العرض التوقيتي بنجاح ليظهر فوراً في الصفحة الرئيسية!");
+                alert("تم نشر إعلان العرض بنجاح!");
             } catch (e) {
-                alert("خطأ: " + e.message);
+                alert("خطأ أثناء النشر: " + e.message);
             }
         }
 
         async function addProduct(category) {
-            const name = document.getElementById(category + '-name').value;
-            const price = document.getElementById(category + '-price').value;
-            const imgs = category === 'summer' ? summerImgsArr : winterImgsArr;
-
-            if (!name || !price) {
-                alert("الرجاء إدخال اسم المنتج والسعر!");
-                return;
-            }
-
-            const productId = (category === 'summer' ? 'SUM-' : 'WIN-') + Math.floor(1000 + Math.random() * 9000);
             try {
+                const name = document.getElementById(category + '-name').value;
+                const price = document.getElementById(category + '-price').value;
+                const imgs = category === 'summer' ? summerImgsArr : winterImgsArr;
+
+                if (!name || !price) {
+                    alert("الرجاء إدخال اسم المنتج والسعر!");
+                    return;
+                }
+
+                const productId = (category === 'summer' ? 'SUM-' : 'WIN-') + Math.floor(1000 + Math.random() * 9000);
                 await db.collection("products").doc(productId).set({
                     id: productId,
                     name,
@@ -305,14 +307,14 @@
                     category,
                     imgs: imgs.length > 0 ? imgs : ["1000843025.png"]
                 });
-                alert("تم نشر المنتج بنجاح برقم كود: " + productId);
+                alert("تم نشر المنتج بنجاح برقم: " + productId);
                 document.getElementById(category + '-name').value = '';
                 document.getElementById(category + '-price').value = '';
                 if(category === 'summer') { summerImgsArr = []; document.getElementById('summer-preview').innerHTML = ''; }
                 else { winterImgsArr = []; document.getElementById('winter-preview').innerHTML = ''; }
                 loadCloudData();
             } catch (e) {
-                alert("خطأ أثناء النشر: " + e.message);
+                alert("خطأ أثناء نشر المنتج: " + e.message);
             }
         }
 
@@ -324,18 +326,22 @@
         }
 
         async function loadCloudData() {
-            const summerTbody = document.getElementById('summer-table-body');
-            const winterTbody = document.getElementById('winter-table-body');
-            summerTbody.innerHTML = '';
-            winterTbody.innerHTML = '';
+            try {
+                const summerTbody = document.getElementById('summer-table-body');
+                const winterTbody = document.getElementById('winter-table-body');
+                summerTbody.innerHTML = '';
+                winterTbody.innerHTML = '';
 
-            const snapshot = await db.collection("products").get();
-            snapshot.forEach(doc => {
-                const p = doc.data();
-                const row = `<tr><td><strong>${p.id}</strong></td><td>${p.name}</td><td>${p.price} ج.م</td><td><button class="del-btn" onclick="deleteProduct('${p.id}')">حذف</button></td></tr>`;
-                if (p.category === 'summer') summerTbody.innerHTML += row;
-                else winterTbody.innerHTML += row;
-            });
+                const snapshot = await db.collection("products").get();
+                snapshot.forEach(doc => {
+                    const p = doc.data();
+                    const row = `<tr><td><strong>${p.id}</strong></td><td>${p.name}</td><td>${p.price} ج.م</td><td><button class="del-btn" onclick="deleteProduct('${p.id}')">حذف</button></td></tr>`;
+                    if (p.category === 'summer') summerTbody.innerHTML += row;
+                    else winterTbody.innerHTML += row;
+                });
+            } catch (e) {
+                console.log("خطأ في جلب البيانات: ", e);
+            }
         }
     </script>
 </body>
