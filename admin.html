@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>لوحة التحكم السحابية - كيان جينز</title>
-    <!-- تحديث مكتبات Firebase لأحدث إصدار مستقر -->
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
     <style>
@@ -45,9 +44,8 @@
 
     <div id="admin-panel-content">
         <a href="index.html" class="back-link">← العودة إلى المتجر الرئيسي</a>
-        <h1>لوحة التحكم السحابية - كيان جينز</h1>
+        <h1>لوحة التحكم السحابية المباشرة - كيان جينز</h1>
 
-        <!-- 1. إعدادات الواجهة والشعار -->
         <div class="section-box">
             <h2>إعدادات الواجهة والشعار والألوان</h2>
             <div class="form-group">
@@ -74,27 +72,26 @@
             <button class="action-btn" onclick="saveSettingsToCloud()">حفظ إعدادات الواجهة سحابياً</button>
         </div>
 
-        <!-- 2. إدارة العروض (نظام بدلاً من + التوقيت) -->
         <div class="section-box">
-            <h2>إدارة عروض المتجر (صيفي وشتوي بنظام الخصم والتوقيت)</h2>
+            <h2>إدارة عروض المتجر (توقيت ونظام الخصم)</h2>
             <div class="form-group">
-                <label>عنوان أو اسم إعلان العرض:</label>
-                <input type="text" id="offer-title" placeholder="مثال: عرض حرق الأسعار الكلاسيكي">
+                <label>عنوان إعلان العرض:</label>
+                <input type="text" id="offer-title" placeholder="عرض حرق الأسعار الكلاسيكي">
             </div>
             <div class="form-group">
-                <label>نوع العرض (صيفي أو شتوي):</label>
+                <label>نوع العرض:</label>
                 <select id="offer-type">
                     <option value="summer">عروض صيفية متاحة الآن</option>
                     <option value="winter">عروض شتوية متاحة الآن</option>
                 </select>
             </div>
             <div class="form-group">
-                <label>السعر الأصلي (قبل الخصم - مشطوب عليه):</label>
-                <input type="text" id="offer-old-price" placeholder="مثال: 600">
+                <label>السعر الأصلي (مشطوب عليه):</label>
+                <input type="text" id="offer-old-price" placeholder="600">
             </div>
             <div class="form-group">
-                <label>سعر العرض الحالي (بعد الخصم):</label>
-                <input type="text" id="offer-new-price" placeholder="مثال: 399">
+                <label>سعر العرض الحالي:</label>
+                <input type="text" id="offer-new-price" placeholder="399">
             </div>
             <div class="form-group">
                 <label>اختر صورة إعلان العرض:</label>
@@ -108,12 +105,11 @@
             <button class="action-btn" onclick="saveOfferSettings()">تفعيل وحفظ إعلان العرض التوقيتي</button>
         </div>
 
-        <!-- 3. إضافة منتج صيفي -->
         <div class="section-box">
             <h2>☀️ إضافة منتج صيفي جديد</h2>
             <div class="form-group">
                 <label>اسم المنتج الصيفي:</label>
-                <input type="text" id="summer-name" placeholder="مثال: بنطلون جينز صيفي فاخر">
+                <input type="text" id="summer-name" placeholder="بنطلون جينز صيفي فاخر">
             </div>
             <div class="form-group">
                 <label>السعر (بالجنيه المصري):</label>
@@ -133,12 +129,11 @@
             </table>
         </div>
 
-        <!-- 4. إضافة منتج شتوي -->
         <div class="section-box">
             <h2>❄️ إضافة منتج شتوي جديد</h2>
             <div class="form-group">
                 <label>اسم المنتج الشتوي:</label>
-                <input type="text" id="winter-name" placeholder="مثال: جاكيت شتوي كلاسيكي ثقيل">
+                <input type="text" id="winter-name" placeholder="جاكيت شتوي كلاسيكي ثقيل">
             </div>
             <div class="form-group">
                 <label>السعر (بالجنيه المصري):</label>
@@ -161,12 +156,13 @@
 
     <script>
         const firebaseConfig = {
-            apiKey: "AIzaSyD-YOUR_KEY_HERE",
-            authDomain: "fashionstore-192b6.firebaseapp.com",
-            projectId: "fashionstore-192b6",
-            storageBucket: "fashionstore-192b6.appspot.com",
-            messagingSenderId: "123456789",
-            appId: "1:123:web:abc"
+            apiKey: "AIzaSyD0zBcQyBgL580vQT6NB0Bo03nm84ncXg",
+            authDomain: "fashionstore-f92b6.firebaseapp.com",
+            projectId: "fashionstore-f92b6",
+            storageBucket: "fashionstore-f92b6.appspot.com",
+            messagingSenderId: "787445522859",
+            appId: "1:787445522859:web:35839055f2eb83862472ee",
+            measurementId: "G-E8J7DDK1DL"
         };
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
@@ -192,8 +188,8 @@
                 const img = new Image();
                 img.onload = function() {
                     const canvas = document.createElement('canvas');
-                    const MAX_WIDTH = 300;
-                    const MAX_HEIGHT = 300;
+                    const MAX_WIDTH = 400;
+                    const MAX_HEIGHT = 400;
                     let width = img.width;
                     let height = img.height;
                     if (width > height) {
@@ -205,7 +201,7 @@
                     canvas.height = height;
                     const ctx = canvas.getContext('2d');
                     ctx.drawImage(img, 0, 0, width, height);
-                    callback(canvas.toDataURL('image/jpeg', 0.4));
+                    callback(canvas.toDataURL('image/jpeg', 0.5));
                 }
                 img.src = e.target.result;
             }
@@ -264,9 +260,9 @@
                 await db.collection("settings").doc("storeInfo").set({
                     storeName, heroTitle, heroSubtitle, accentColor, logoUrl: tempLogoUrl
                 });
-                alert("تم حفظ إعدادات الواجهة والشعار سحابياً بنجاح!");
+                alert("تم حفظ إعدادات الواجهة والشعار سحابياً بنجاح وتحديثها للجميع!");
             } catch (e) {
-                alert("خطأ أثناء الحفظ: " + e.message);
+                alert("خطأ: " + e.message);
             }
         }
 
@@ -282,9 +278,9 @@
                 await db.collection("settings").doc("offerInfo").set({
                     title, type, oldPrice, newPrice, endTime, imgUrl: tempOfferImgUrl, active: true
                 });
-                alert("تم نشر إعلان العرض بنجاح!");
+                alert("تم حفظ ونشر إعلان العرض التوقيتي بنجاح ليظهر فوراً في الصفحة الرئيسية!");
             } catch (e) {
-                alert("خطأ أثناء النشر: " + e.message);
+                alert("خطأ: " + e.message);
             }
         }
 
@@ -301,20 +297,16 @@
 
                 const productId = (category === 'summer' ? 'SUM-' : 'WIN-') + Math.floor(1000 + Math.random() * 9000);
                 await db.collection("products").doc(productId).set({
-                    id: productId,
-                    name,
-                    price,
-                    category,
-                    imgs: imgs.length > 0 ? imgs : ["1000843025.png"]
+                    id: productId, name, price, category, imgs: imgs.length > 0 ? imgs : ["1000843025.png"]
                 });
-                alert("تم نشر المنتج بنجاح برقم: " + productId);
+                alert("تم نشر المنتج بنجاح برقم كود: " + productId);
                 document.getElementById(category + '-name').value = '';
                 document.getElementById(category + '-price').value = '';
                 if(category === 'summer') { summerImgsArr = []; document.getElementById('summer-preview').innerHTML = ''; }
                 else { winterImgsArr = []; document.getElementById('winter-preview').innerHTML = ''; }
                 loadCloudData();
             } catch (e) {
-                alert("خطأ أثناء نشر المنتج: " + e.message);
+                alert("خطأ أثناء النشر: " + e.message);
             }
         }
 
@@ -340,7 +332,7 @@
                     else winterTbody.innerHTML += row;
                 });
             } catch (e) {
-                console.log("خطأ في جلب البيانات: ", e);
+                console.log(e);
             }
         }
     </script>
