@@ -32,6 +32,8 @@
         .preview-container { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
         .preview-container img { width: 60px; height: 60px; object-fit: cover; border-radius: 6px; border: 1px solid #c5a059; }
         .table-img { width: 45px; height: 45px; object-fit: cover; border-radius: 5px; border: 1px solid #ddd; }
+        .sizes-container { display: flex; gap: 12px; flex-wrap: wrap; background: #fff; padding: 12px; border: 1px solid #ddd; border-radius: 6px; }
+        .sizes-container label { display: flex; align-items: center; gap: 5px; font-weight: normal; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -115,6 +117,7 @@
             <button class="action-btn" onclick="saveOfferSettings()">تفعيل وحفظ إعلان العرض التوقيتي</button>
         </div>
 
+        <!-- إضافة وتعديل المنتج الصيفي مع المقاسات -->
         <div class="section-box">
             <h2 id="summer-form-title">☀️ إضافة منتج صيفي جديد</h2>
             <input type="hidden" id="edit-summer-id" value="">
@@ -127,6 +130,19 @@
                 <input type="text" id="summer-price" placeholder="550">
             </div>
             <div class="form-group">
+                <label>المقاسات المتاحة:</label>
+                <div class="sizes-container" id="summer-sizes">
+                    <label><input type="checkbox" value="متاح جميع المقاسات" onchange="toggleAllSizes('summer', this)"> متاح جميع المقاسات</label>
+                    <label><input type="checkbox" value="Large"> Large</label>
+                    <label><input type="checkbox" value="X-Large"> X-Large</label>
+                    <label><input type="checkbox" value="2XL"> 2XL</label>
+                    <label><input type="checkbox" value="3XL"> 3XL</label>
+                    <label><input type="checkbox" value="4XL"> 4XL</label>
+                    <label><input type="checkbox" value="5XL"> 5XL</label>
+                    <label><input type="checkbox" value="6XL"> 6XL</label>
+                </div>
+            </div>
+            <div class="form-group">
                 <label>اختر صور المنتج:</label>
                 <input type="file" id="summer-files" accept="image/*" multiple onchange="convertSummerImgs(this)">
                 <div class="preview-container" id="summer-preview"></div>
@@ -136,11 +152,12 @@
             
             <h3 style="margin-top: 25px; color: #c5a059;">المنتجات الصيفية الحالية</h3>
             <table>
-                <thead><tr><th>الصورة</th><th>رقم المنتج</th><th>الاسم</th><th>السعر</th><th>الإجراءات</th></tr></thead>
+                <thead><tr><th>الصورة</th><th>رقم المنتج</th><th>الاسم</th><th>السعر</th><th>المقاسات</th><th>الإجراءات</th></tr></thead>
                 <tbody id="summer-table-body"></tbody>
             </table>
         </div>
 
+        <!-- إضافة وتعديل المنتج الشتوي مع المقاسات -->
         <div class="section-box">
             <h2 id="winter-form-title">❄️ إضافة منتج شتوي جديد</h2>
             <input type="hidden" id="edit-winter-id" value="">
@@ -153,6 +170,19 @@
                 <input type="text" id="winter-price" placeholder="850">
             </div>
             <div class="form-group">
+                <label>المقاسات المتاحة:</label>
+                <div class="sizes-container" id="winter-sizes">
+                    <label><input type="checkbox" value="متاح جميع المقاسات" onchange="toggleAllSizes('winter', this)"> متاح جميع المقاسات</label>
+                    <label><input type="checkbox" value="Large"> Large</label>
+                    <label><input type="checkbox" value="X-Large"> X-Large</label>
+                    <label><input type="checkbox" value="2XL"> 2XL</label>
+                    <label><input type="checkbox" value="3XL"> 3XL</label>
+                    <label><input type="checkbox" value="4XL"> 4XL</label>
+                    <label><input type="checkbox" value="5XL"> 5XL</label>
+                    <label><input type="checkbox" value="6XL"> 6XL</label>
+                </div>
+            </div>
+            <div class="form-group">
                 <label>اختر صور المنتج:</label>
                 <input type="file" id="winter-files" accept="image/*" multiple onchange="convertWinterImgs(this)">
                 <div class="preview-container" id="winter-preview"></div>
@@ -162,7 +192,7 @@
             
             <h3 style="margin-top: 25px; color: #c5a059;">المنتجات الشتوية الحالية</h3>
             <table>
-                <thead><tr><th>الصورة</th><th>رقم المنتج</th><th>الاسم</th><th>السعر</th><th>الإجراءات</th></tr></thead>
+                <thead><tr><th>الصورة</th><th>رقم المنتج</th><th>الاسم</th><th>السعر</th><th>المقاسات</th><th>الإجراءات</th></tr></thead>
                 <tbody id="winter-table-body"></tbody>
             </table>
         </div>
@@ -264,6 +294,32 @@
             });
         }
 
+        function toggleAllSizes(category, masterCheckbox) {
+            const container = document.getElementById(category + '-sizes');
+            const checkboxes = container.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(cb => {
+                if(cb !== masterCheckbox) {
+                    cb.checked = masterCheckbox.checked;
+                }
+            });
+        }
+
+        function getSelectedSizes(category) {
+            const container = document.getElementById(category + '-sizes');
+            const checkboxes = container.querySelectorAll('input[type="checkbox"]:checked');
+            let sizes = [];
+            checkboxes.forEach(cb => sizes.push(cb.value));
+            return sizes.length > 0 ? sizes : ["متاح جميع المقاسات"];
+        }
+
+        function setSelectedSizes(category, sizesArr) {
+            const container = document.getElementById(category + '-sizes');
+            const checkboxes = container.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(cb => {
+                cb.checked = sizesArr.includes(cb.value) || sizesArr.includes("متاح جميع المقاسات");
+            });
+        }
+
         async function saveSettingsToCloud() {
             try {
                 const storeName = document.getElementById('setting-storeName').value;
@@ -306,6 +362,7 @@
                 const price = document.getElementById(category + '-price').value;
                 const editId = document.getElementById('edit-' + category + '-id').value;
                 const imgs = category === 'summer' ? summerImgsArr : winterImgsArr;
+                const sizes = getSelectedSizes(category);
 
                 if (!name || !price) {
                     alert("الرجاء إدخال اسم المنتج والسعر!");
@@ -323,7 +380,8 @@
                 }
 
                 await db.collection("products").doc(productId).set({
-                    id: productId, name, price, category, imgs: finalImgs.length > 0 ? finalImgs : ["1000843025.png"]
+                    id: productId, name, price, category, sizes,
+                    imgs: finalImgs.length > 0 ? finalImgs : ["1000843025.png"]
                 });
 
                 alert(editId ? "تم تعديل المنتج بنجاح!" : "تم نشر المنتج بنجاح برقم كود: " + productId);
@@ -334,10 +392,14 @@
             }
         }
 
-        async function editProduct(id, category, name, price) {
+        async function editProduct(id, category, name, price, sizesStr) {
             document.getElementById('edit-' + category + '-id').value = id;
             document.getElementById(category + '-name').value = name;
             document.getElementById(category + '-price').value = price;
+            
+            let sizesArr = sizesStr ? sizesStr.split(', ') : ["متاح جميع المقاسات"];
+            setSelectedSizes(category, sizesArr);
+
             document.getElementById(category + '-form-title').innerText = (category === 'summer' ? '☀️ تعديل منتج صيفي (كود: ' : '❄️ تعديل منتج شتوي (كود: ') + id + ')';
             document.getElementById(category + '-submit-btn').innerText = "حفظ التعديلات";
             document.getElementById(category + '-cancel-btn').style.display = 'inline-block';
@@ -348,6 +410,7 @@
             document.getElementById('edit-' + category + '-id').value = '';
             document.getElementById(category + '-name').value = '';
             document.getElementById(category + '-price').value = '';
+            setSelectedSizes(category, []);
             document.getElementById(category + '-form-title').innerText = category === 'summer' ? '☀️ إضافة منتج صيفي جديد' : '❄️ إضافة منتج شتوي جديد';
             document.getElementById(category + '-submit-btn').innerText = category === 'summer' ? 'نشر المنتج الصيفي سحابياً' : 'نشر المنتج الشتوي سحابياً';
             document.getElementById(category + '-cancel-btn').style.display = 'none';
@@ -388,13 +451,15 @@
                 snapshot.forEach(doc => {
                     const p = doc.data();
                     const thumb = (p.imgs && p.imgs[0]) ? p.imgs[0] : '1000843025.png';
+                    const sizesList = p.sizes ? p.sizes.join(', ') : 'متاح جميع المقاسات';
                     const row = `<tr>
                         <td><img src="${thumb}" class="table-img"></td>
                         <td><strong>${p.id}</strong></td>
                         <td>${p.name}</td>
                         <td>${p.price} ج.م</td>
+                        <td><small style="color:#666;">${sizesList}</small></td>
                         <td>
-                            <button class="edit-btn" onclick="editProduct('${p.id}', '${p.category}', '${p.name.replace(/'/g, "\\'")}', '${p.price}')">تعديل</button>
+                            <button class="edit-btn" onclick="editProduct('${p.id}', '${p.category}', '${p.name.replace(/'/g, "\\'")}', '${p.price}', '${sizesList}')">تعديل</button>
                             <button class="del-btn" onclick="deleteProduct('${p.id}')">حذف</button>
                         </td>
                     </tr>`;
