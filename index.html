@@ -6,7 +6,6 @@
     <title id="page-title">كيان جينز - المتجر العالمي الفاخر</title>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
-    <!-- مكتبة الأيقونات الفاخرة FontAwesome لزر الواتساب -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -51,7 +50,7 @@
             flex-wrap: wrap;
             gap: 40px;
         }
-        .hero-content { flex: 1; min-width: 300px; animation: fadeInRight 0.8s ease-in-out; }
+        .hero-content { flex: 1; min-width: 300px; }
         .hero-content h1 { font-size: 56px; font-weight: 900; line-height: 1.1; margin-bottom: 20px; }
         .hero-content p { color: var(--secondary-text); font-size: 18px; margin-bottom: 30px; max-width: 500px; }
         .hero-btns { display: flex; gap: 15px; }
@@ -60,17 +59,8 @@
         .btn-outline { background: transparent; color: #000; border: 2px solid #000; padding: 14px 28px; border-radius: 30px; text-decoration: none; font-weight: bold; transition: 0.3s; }
         .btn-outline:hover { background: #000; color: #fff; transform: translateY(-2px); }
 
-        .hero-image-box { flex: 1; display: flex; justify-content: center; min-width: 300px; animation: fadeInLeft 0.8s ease-in-out; }
-        .hero-image-box img { width: 100%; max-width: 450px; border-radius: 200px 200px 20px 20px; object-fit: cover; box-shadow: 0 20px 40px rgba(0,0,0,0.1); border: 2px solid var(--accent-color); animation: floatLogo 4s ease-in-out infinite; transition: 0.4s; }
-        .hero-image-box img:hover { transform: scale(1.02); }
-
-        @keyframes floatLogo {
-            0% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
-            100% { transform: translateY(0); }
-        }
-        @keyframes fadeInRight { from { opacity: 0; transform: translateX(25px); } to { opacity: 1; transform: translateX(0); } }
-        @keyframes fadeInLeft { from { opacity: 0; transform: translateX(-25px); } to { opacity: 1; transform: translateX(0); } }
+        .hero-image-box { flex: 1; display: flex; justify-content: center; min-width: 300px; }
+        .hero-image-box img { width: 100%; max-width: 450px; border-radius: 200px 200px 20px 20px; object-fit: cover; box-shadow: 0 20px 40px rgba(0,0,0,0.1); border: 2px solid var(--accent-color); }
 
         .features-bar {
             display: flex;
@@ -86,23 +76,32 @@
         .feature-item { font-size: 14px; font-weight: 600; color: #333; display: flex; align-items: center; gap: 8px; }
         .feature-item i { color: var(--accent-color); }
 
-        .categories-section { max-width: 1300px; margin: 90px auto; padding: 0 50px; }
-        .section-title { font-size: 38px; font-weight: 900; margin-bottom: 40px; text-align: center; letter-spacing: -0.5px; }
-        .categories-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-        .cat-card { position: relative; border-radius: 20px; overflow: hidden; height: 420px; text-decoration: none; color: #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.12); display: flex; flex-direction: column; justify-content: flex-end; padding: 35px; background-size: cover; background-position: center; transition: 0.5s cubic-bezier(0.25, 1, 0.5, 1); }
-        .cat-card:hover { transform: translateY(-6px) scale(1.01); box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
-        .cat-card::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.85), rgba(0,0,0,0.2), transparent); z-index: 1; transition: 0.4s; }
-        .cat-card:hover::after { background: linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0.35), transparent); }
-        .cat-card h3, .cat-card span, .cat-card .explore-badge { position: relative; z-index: 2; }
-        .cat-card h3 { font-size: 28px; font-weight: 800; margin-bottom: 8px; }
-        .cat-card span { font-size: 15px; color: #ddd; margin-bottom: 15px; display: block; }
-        .explore-badge { font-size: 14px; font-weight: bold; color: var(--accent-color); display: flex; align-items: center; gap: 8px; transition: 0.3s; }
-        .cat-card:hover .explore-badge { gap: 14px; }
+        /* حاوية العروض المتعددة (لإظهار صيفي وشتوي معاً) */
+        .offers-wrapper {
+            max-width: 1300px;
+            margin: 60px auto;
+            padding: 0 50px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
 
-        .offer-section { background: #111; color: #fff; padding: 80px 50px; max-width: 1300px; margin: 80px auto; border-radius: 20px; display: none; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 40px; border: 2px solid var(--accent-color); box-shadow: 0 15px 35px rgba(0,0,0,0.2); }
+        .offer-section {
+            background: #111;
+            color: #fff;
+            padding: 50px;
+            border-radius: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 40px;
+            border: 2px solid var(--accent-color);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
         .offer-content { flex: 1; min-width: 300px; }
         .offer-badge { background: var(--accent-color); color: #000; padding: 6px 15px; border-radius: 20px; font-weight: bold; font-size: 13px; display: inline-block; margin-bottom: 15px; }
-        .offer-content h2 { font-size: 38px; font-weight: 900; margin-bottom: 15px; }
+        .offer-content h2 { font-size: 32px; font-weight: 900; margin-bottom: 15px; }
         .price-box { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; font-size: 24px; font-weight: bold; }
         .old-price { text-decoration: line-through; color: #888; font-size: 20px; }
         .new-price { color: var(--accent-color); font-size: 30px; }
@@ -110,10 +109,26 @@
         .timer-unit { background: rgba(255,255,255,0.1); padding: 10px 18px; border-radius: 10px; text-align: center; }
         .timer-unit span { display: block; font-size: 20px; font-weight: bold; }
         .timer-unit small { font-size: 11px; color: #aaa; }
-        .offer-img { flex: 1; min-width: 300px; display: flex; justify-content: center; }
-        .offer-img img { width: 100%; max-width: 380px; border-radius: 15px; object-fit: cover; border: 2px solid var(--accent-color); }
+        
+        /* حاوية الصور مع أسهم التنقل للصور المتعددة */
+        .offer-img-container { flex: 1; min-width: 300px; display: flex; justify-content: center; position: relative; }
+        .offer-img-container img { width: 100%; max-width: 380px; height: 350px; border-radius: 15px; object-fit: cover; border: 2px solid var(--accent-color); }
+        .slider-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.6); color: #fff; border: none; font-size: 22px; padding: 12px 16px; cursor: pointer; border-radius: 50%; transition: 0.3s; z-index: 10; }
+        .slider-arrow:hover { background: var(--accent-color); color: #000; }
+        .slider-prev { right: 15px; }
+        .slider-next { left: 15px; }
 
-        /* زر خدمة العملاء العائم (WhatsApp Floating Button) */
+        .categories-section { max-width: 1300px; margin: 90px auto; padding: 0 50px; }
+        .section-title { font-size: 38px; font-weight: 900; margin-bottom: 40px; text-align: center; letter-spacing: -0.5px; }
+        .categories-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .cat-card { position: relative; border-radius: 20px; overflow: hidden; height: 420px; text-decoration: none; color: #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.12); display: flex; flex-direction: column; justify-content: flex-end; padding: 35px; background-size: cover; background-position: center; transition: 0.5s; }
+        .cat-card:hover { transform: translateY(-6px) scale(1.01); }
+        .cat-card::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.85), rgba(0,0,0,0.2), transparent); z-index: 1; }
+        .cat-card h3, .cat-card span, .cat-card .explore-badge { position: relative; z-index: 2; }
+        .cat-card h3 { font-size: 28px; font-weight: 800; margin-bottom: 8px; }
+        .cat-card span { font-size: 15px; color: #ddd; margin-bottom: 15px; display: block; }
+        .explore-badge { font-size: 14px; font-weight: bold; color: var(--accent-color); display: flex; align-items: center; gap: 8px; }
+
         .float-whatsapp {
             position: fixed;
             bottom: 30px;
@@ -137,14 +152,13 @@
         footer { background: var(--dark-bg); color: #fff; padding: 70px 50px 30px; margin-top: 100px; }
         .footer-container { max-width: 1300px; margin: 0 auto; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 40px; }
         .footer-col h4 { color: var(--accent-color); margin-bottom: 20px; font-size: 18px; }
-        .footer-col p, .footer-col a { color: #aaa; text-decoration: none; display: block; margin-bottom: 10px; font-size: 14px; transition: 0.3s; }
+        .footer-col p, .footer-col a { color: #aaa; text-decoration: none; display: block; margin-bottom: 10px; font-size: 14px; }
         .footer-col a:hover { color: #fff; }
         .copyright { text-align: center; border-top: 1px solid #222; margin-top: 40px; padding-top: 20px; color: #777; font-size: 13px; }
     </style>
 </head>
 <body>
 
-    <!-- زر خدمة العملاء العائم برقم الهاتف الدولي 201124793700 -->
     <a href="https://wa.me/201124793700?text=مرحباً، أود الاستفسار عن منتجات كيان جينز" target="_blank" class="float-whatsapp" title="تواصل مع خدمة العملاء">
         <i class="fa-brands fa-whatsapp"></i>
     </a>
@@ -180,26 +194,8 @@
         <div class="feature-item"><i class="fa-solid fa-rotate-left"></i> استبدال واسترجاع سريع</div>
     </div>
 
-    <section class="offer-section" id="dynamic-offer-section">
-        <div class="offer-content">
-            <span class="offer-badge" id="offer-badge-label">🔥 عروض متاحة الآن</span>
-            <h2 id="offer-card-title">عنوان العرض</h2>
-            <div class="price-box">
-                <span class="old-price" id="offer-card-old">0 ج.م</span>
-                <span class="new-price" id="offer-card-new">0 ج.م</span>
-            </div>
-            <div class="timer-box">
-                <div class="timer-unit"><span id="days-box">00</span><small>يوم</small></div>
-                <div class="timer-unit"><span id="hours-box">00</span><small>ساعة</small></div>
-                <div class="timer-unit"><span id="mins-box">00</span><small>دقيقة</small></div>
-                <div class="timer-unit"><span id="secs-box">00</span><small>ثانية</small></div>
-            </div>
-            <a href="summer.html" class="btn-black" style="background: var(--accent-color); color: #000;" id="offer-link-btn">تسوق العرض الآن</a>
-        </div>
-        <div class="offer-img">
-            <img src="1000843025.png" id="offer-card-img" alt="صورة العرض">
-        </div>
-    </section>
+    <!-- حاوية العروض المتعددة (صيفي وشتوي معاً) -->
+    <div class="offers-wrapper" id="offers-container"></div>
 
     <section class="categories-section">
         <h2 class="section-title">الأقسام الرئيسية</h2>
@@ -269,34 +265,85 @@
             }
         });
 
-        db.collection("settings").doc("offerInfo").get().then(doc => {
-            if (doc.exists) {
+        // متغيرات عامة لشرائح الصور المتعددة للعروض
+        window.offerSliders = {};
+
+        function changeOfferSlide(offerKey, direction) {
+            if (!window.offerSliders[offerKey]) return;
+            let slider = window.offerSliders[offerKey];
+            slider.idx += direction;
+            if (slider.idx >= slider.imgs.length) slider.idx = 0;
+            if (slider.idx < 0) slider.idx = slider.imgs.length - 1;
+            document.getElementById('img-el-' + offerKey).src = slider.imgs[slider.idx];
+        }
+
+        // جلب جميع العروض المفعلة من قاعدة البيانات وعرضها معاً
+        db.collection("offers").get().then(snapshot => {
+            const container = document.getElementById('offers-container');
+            container.innerHTML = '';
+            
+            let activeOffersCount = 0;
+            snapshot.forEach(doc => {
                 const offer = doc.data();
                 if (offer.active && new Date().getTime() < offer.endTime) {
-                    const section = document.getElementById('dynamic-offer-section');
-                    section.style.display = 'flex';
-                    document.getElementById('offer-card-title').innerText = offer.title;
-                    document.getElementById('offer-card-old').innerText = offer.oldPrice + " ج.م";
-                    document.getElementById('offer-card-new').innerText = offer.newPrice + " ج.م";
-                    document.getElementById('offer-badge-label').innerText = offer.type === 'summer' ? "🔥 عروض صيفية متاحة الآن" : "🔥 عروض شتوية متاحة الآن";
-                    document.getElementById('offer-link-btn').href = offer.type === 'summer' ? "summer.html" : "winter.html";
-                    if(offer.imgUrl) document.getElementById('offer-card-img').src = offer.imgUrl;
+                    activeOffersCount++;
+                    let imgsArr = offer.imgs && offer.imgs.length > 0 ? offer.imgs : [offer.imgUrl || "1000843025.png"];
+                    let offerKey = offer.id || ('offer_' + Math.random());
+                    window.offerSliders[offerKey] = { imgs: imgsArr, idx: 0 };
 
+                    let badgeText = offer.type === 'summer' ? "🔥 عروض صيفية متاحة الآن" : "🔥 عروض شتوية متاحة الآن";
+                    let linkPage = offer.type === 'summer' ? "summer.html" : "winter.html";
+                    
+                    let arrowsHtml = imgsArr.length > 1 ? `
+                        <button class="slider-arrow slider-prev" onclick="changeOfferSlide('${offerKey}', -1)"><i class="fa-solid fa-chevron-right"></i></button>
+                        <button class="slider-arrow slider-next" onclick="changeOfferSlide('${offerKey}', 1)"><i class="fa-solid fa-chevron-left"></i></button>
+                    ` : '';
+
+                    container.innerHTML += `
+                        <section class="offer-section">
+                            <div class="offer-content">
+                                <span class="offer-badge">${badgeText}</span>
+                                <h2>${offer.title}</h2>
+                                <div class="price-box">
+                                    <span class="old-price">${offer.oldPrice} ج.م</span>
+                                    <span class="new-price">${offer.newPrice} ج.م</span>
+                                </div>
+                                <div class="timer-box" id="timer-${offerKey}">
+                                    <div class="timer-unit"><span id="days-${offerKey}">00</span><small>يوم</small></div>
+                                    <div class="timer-unit"><span id="hours-${offerKey}">00</span><small>ساعة</small></div>
+                                    <div class="timer-unit"><span id="mins-${offerKey}">00</span><small>دقيقة</small></div>
+                                    <div class="timer-unit"><span id="secs-${offerKey}">00</span><small>ثانية</small></div>
+                                </div>
+                                <a href="${linkPage}" class="btn-black" style="background: var(--accent-color); color: #000;">تسوق العرض الآن</a>
+                            </div>
+                            <div class="offer-img-container">
+                                <img src="${imgsArr[0]}" id="img-el-${offerKey}" alt="صورة العرض">
+                                ${arrowsHtml}
+                            </div>
+                        </section>
+                    `;
+
+                    // تفعيل العداد التنازلي لكل عرض
                     const endTime = offer.endTime;
                     setInterval(() => {
                         const now = new Date().getTime();
                         const distance = endTime - now;
                         if (distance > 0) {
-                            document.getElementById('days-box').innerText = Math.floor(distance / (1000 * 60 * 60 * 24));
-                            document.getElementById('hours-box').innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                            document.getElementById('mins-box').innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                            document.getElementById('secs-box').innerText = Math.floor((distance % (1000 * 60)) / 1000);
+                            const dEl = document.getElementById(`days-${offerKey}`);
+                            const hEl = document.getElementById(`hours-${offerKey}`);
+                            const mEl = document.getElementById(`mins-${offerKey}`);
+                            const sEl = document.getElementById(`secs-${offerKey}`);
+                            if(dEl) dEl.innerText = Math.floor(distance / (1000 * 60 * 60 * 24));
+                            if(hEl) hEl.innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                            if(mEl) mEl.innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                            if(sEl) sEl.innerText = Math.floor((distance % (1000 * 60)) / 1000);
                         } else {
-                            section.style.display = 'none';
+                            const timerBox = document.getElementById(`timer-${offerKey}`);
+                            if(timerBox) timerBox.innerHTML = "<span style='color:red;font-weight:bold;'>انتهى العرض</span>";
                         }
                     }, 1000);
                 }
-            }
+            });
         });
     </script>
 </body>
