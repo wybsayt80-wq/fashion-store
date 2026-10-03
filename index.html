@@ -1,351 +1,356 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="page-title">كيان جينز - المتجر العالمي الفاخر</title>
-    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        :root {
-            --bg-color: #ffffff;
-            --text-color: #111111;
-            --secondary-text: #666666;
-            --accent-color: #c5a059;
-            --border-color: #e5e7eb;
-            --dark-bg: #0d0d0d;
-        }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; overflow-x: hidden; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">كيان جينز - المتجر العالمي الفاخر</title>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #111111;
+            --secondary-text: #666666;
+            --accent-color: #c5a059;
+            --border-color: #e5e7eb;
+            --dark-bg: #0d0d0d;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; overflow-x: hidden; }
 
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 15px 20px;
-            border-bottom: 1px solid var(--border-color);
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-        .logo { font-size: 20px; font-weight: 900; letter-spacing: 1px; color: var(--text-color); text-transform: uppercase; }
-        nav { display: flex; gap: 15px; }
-        nav a { color: var(--text-color); text-decoration: none; font-size: 14px; font-weight: 600; transition: 0.3s; position: relative; }
-        nav a:hover, nav a.active { color: var(--accent-color); }
-        .buy-now-btn { background: #000; color: #fff; padding: 8px 16px; border-radius: 30px; text-decoration: none; font-weight: bold; font-size: 13px; transition: 0.3s; white-space: nowrap; }
-        .buy-now-btn:hover { background: var(--accent-color); }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 50px;
+            border-bottom: 1px solid var(--border-color);
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .logo { font-size: 24px; font-weight: 900; letter-spacing: 1px; color: var(--text-color); text-transform: uppercase; }
+        nav { display: flex; gap: 25px; }
+        nav a { color: var(--text-color); text-decoration: none; font-size: 15px; font-weight: 600; transition: 0.3s; position: relative; }
+        nav a::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -4px; right: 0; background-color: var(--accent-color); transition: 0.3s; }
+        nav a:hover::after { width: 100%; }
+        nav a:hover, nav a.active { color: var(--accent-color); }
+        .buy-now-btn { background: #000; color: #fff; padding: 10px 22px; border-radius: 30px; text-decoration: none; font-weight: bold; font-size: 14px; transition: 0.3s; }
+        .buy-now-btn:hover { background: var(--accent-color); transform: translateY(-2px); }
 
-        /* تنسيق الواجهة ليكون متناسقاً ومرتباً على الهواتف */
-        .hero {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            padding: 40px 20px;
-            max-width: 900px;
-            margin: 0 auto;
-            gap: 25px;
-        }
-        .hero-image-box { width: 100%; display: flex; justify-content: center; }
-        .hero-image-box img { width: 180px; height: 180px; border-radius: 50%; object-fit: cover; box-shadow: 0 10px 25px rgba(0,0,0,0.12); border: 3px solid var(--accent-color); }
+        .hero {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 90px 50px;
+            max-width: 1300px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
+        .hero-content { flex: 1; min-width: 300px; }
+        .hero-content h1 { font-size: 56px; font-weight: 900; line-height: 1.1; margin-bottom: 20px; }
+        .hero-content p { color: var(--secondary-text); font-size: 18px; margin-bottom: 30px; max-width: 500px; }
+        .hero-btns { display: flex; gap: 15px; flex-wrap: wrap; }
+        .btn-black { background: #000; color: #fff; padding: 14px 28px; border-radius: 30px; text-decoration: none; font-weight: bold; transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .btn-black:hover { background: var(--accent-color); transform: translateY(-2px); }
+        .btn-outline { background: transparent; color: #000; border: 2px solid #000; padding: 14px 28px; border-radius: 30px; text-decoration: none; font-weight: bold; transition: 0.3s; }
+        .btn-outline:hover { background: #000; color: #fff; transform: translateY(-2px); }
 
-        .hero-content { width: 100%; }
-        .hero-content h1 { font-size: 36px; font-weight: 900; line-height: 1.2; margin-bottom: 12px; }
-        .hero-content p { color: var(--secondary-text); font-size: 16px; margin-bottom: 25px; padding: 0 10px; max-width: 600px; margin-left: auto; margin-right: auto; }
-        .hero-btns { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
-        .btn-black { background: #000; color: #fff; padding: 12px 24px; border-radius: 30px; text-decoration: none; font-weight: bold; font-size: 14px; transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
-        .btn-black:hover { background: var(--accent-color); color: #000; }
-        .btn-outline { background: transparent; color: #000; border: 2px solid #000; padding: 12px 24px; border-radius: 30px; text-decoration: none; font-weight: bold; font-size: 14px; transition: 0.3s; }
-        .btn-outline:hover { background: #000; color: #fff; }
+        .hero-image-box { flex: 1; display: flex; justify-content: center; min-width: 300px; }
+        .hero-image-box img { width: 100%; max-width: 450px; border-radius: 200px 200px 20px 20px; object-fit: cover; box-shadow: 0 20px 40px rgba(0,0,0,0.1); border: 2px solid var(--accent-color); }
 
-        .features-bar {
-            display: flex;
-            justify-content: space-around;
-            padding: 20px 10px;
-            border-top: 1px solid var(--border-color);
-            border-bottom: 1px solid var(--border-color);
-            background: #fafafa;
-            flex-wrap: wrap;
-            gap: 15px;
-            text-align: center;
-        }
-        .feature-item { font-size: 13px; font-weight: 600; color: #333; display: flex; align-items: center; gap: 6px; }
-        .feature-item i { color: var(--accent-color); }
+        .features-bar {
+            display: flex;
+            justify-content: space-around;
+            padding: 30px 20px;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            background: #fafafa;
+            flex-wrap: wrap;
+            gap: 20px;
+            text-align: center;
+        }
+        .feature-item { font-size: 14px; font-weight: 600; color: #333; display: flex; align-items: center; gap: 8px; }
+        .feature-item i { color: var(--accent-color); }
 
-        .offers-wrapper {
-            max-width: 1200px;
-            margin: 50px auto;
-            padding: 0 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 30px;
-        }
+        /* حاوية العروض المتعددة (لإظهار صيفي، شتوي، وأحذية معاً) */
+        .offers-wrapper {
+            max-width: 1300px;
+            margin: 60px auto;
+            padding: 0 50px;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
 
-        .offer-section {
-            background: #111;
-            color: #fff;
-            padding: 30px 20px;
-            border-radius: 16px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 25px;
-            border: 2px solid var(--accent-color);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-        }
-        .offer-content { flex: 1; min-width: 260px; }
-        .offer-badge { background: var(--accent-color); color: #000; padding: 5px 12px; border-radius: 20px; font-weight: bold; font-size: 12px; display: inline-block; margin-bottom: 12px; }
-        .offer-content h2 { font-size: 26px; font-weight: 900; margin-bottom: 12px; }
-        .price-box { display: flex; align-items: center; gap: 12px; margin-bottom: 15px; font-size: 20px; font-weight: bold; }
-        .old-price { text-decoration: line-through; color: #888; font-size: 16px; }
-        .new-price { color: var(--accent-color); font-size: 24px; }
-        .timer-box { display: flex; gap: 10px; margin-bottom: 25px; }
-        .timer-unit { background: rgba(255,255,255,0.1); padding: 8px 12px; border-radius: 8px; text-align: center; }
-        .timer-unit span { display: block; font-size: 16px; font-weight: bold; }
-        .timer-unit small { font-size: 10px; color: #aaa; }
-        
-        .offer-img-container { flex: 1; min-width: 260px; display: flex; justify-content: center; position: relative; }
-        .offer-img-container img { width: 100%; max-width: 320px; height: 280px; border-radius: 12px; object-fit: cover; border: 2px solid var(--accent-color); }
-        .slider-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.6); color: #fff; border: none; font-size: 18px; padding: 10px 14px; cursor: pointer; border-radius: 50%; transition: 0.3s; z-index: 10; }
-        .slider-arrow:hover { background: var(--accent-color); color: #000; }
-        .slider-prev { right: 10px; }
-        .slider-next { left: 10px; }
+        .offer-section {
+            background: #111;
+            color: #fff;
+            padding: 50px;
+            border-radius: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 40px;
+            border: 2px solid var(--accent-color);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+        .offer-content { flex: 1; min-width: 300px; }
+        .offer-badge { background: var(--accent-color); color: #000; padding: 6px 15px; border-radius: 20px; font-weight: bold; font-size: 13px; display: inline-block; margin-bottom: 15px; }
+        .offer-content h2 { font-size: 32px; font-weight: 900; margin-bottom: 15px; }
+        .price-box { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; font-size: 24px; font-weight: bold; }
+        .old-price { text-decoration: line-through; color: #888; font-size: 20px; }
+        .new-price { color: var(--accent-color); font-size: 30px; }
+        .timer-box { display: flex; gap: 15px; margin-bottom: 30px; }
+        .timer-unit { background: rgba(255,255,255,0.1); padding: 10px 18px; border-radius: 10px; text-align: center; }
+        .timer-unit span { display: block; font-size: 20px; font-weight: bold; }
+        .timer-unit small { font-size: 11px; color: #aaa; }
+        
+        /* حاوية الصور مع أسهم التنقل للصور المتعددة */
+        .offer-img-container { flex: 1; min-width: 300px; display: flex; justify-content: center; position: relative; }
+        .offer-img-container img { width: 100%; max-width: 380px; height: 350px; border-radius: 15px; object-fit: cover; border: 2px solid var(--accent-color); }
+        .slider-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.6); color: #fff; border: none; font-size: 22px; padding: 12px 16px; cursor: pointer; border-radius: 50%; transition: 0.3s; z-index: 10; }
+        .slider-arrow:hover { background: var(--accent-color); color: #000; }
+        .slider-prev { right: 15px; }
+        .slider-next { left: 15px; }
 
-        .categories-section { max-width: 1200px; margin: 60px auto; padding: 0 20px; }
-        .section-title { font-size: 32px; font-weight: 900; margin-bottom: 30px; text-align: center; }
-        .categories-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 25px; }
-        .cat-card { position: relative; border-radius: 16px; overflow: hidden; height: 350px; text-decoration: none; color: #fff; box-shadow: 0 8px 25px rgba(0,0,0,0.1); display: flex; flex-direction: column; justify-content: flex-end; padding: 25px; background-size: cover; background-position: center; transition: 0.4s; }
-        .cat-card:hover { transform: translateY(-4px); }
-        .cat-card::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.85), rgba(0,0,0,0.2), transparent); z-index: 1; }
-        .cat-card h3, .cat-card span, .cat-card .explore-badge { position: relative; z-index: 2; }
-        .cat-card h3 { font-size: 24px; font-weight: 800; margin-bottom: 6px; }
-        .cat-card span { font-size: 13px; color: #ddd; margin-bottom: 12px; display: block; }
-        .explore-badge { font-size: 13px; font-weight: bold; color: var(--accent-color); display: flex; align-items: center; gap: 6px; }
+        .categories-section { max-width: 1300px; margin: 90px auto; padding: 0 50px; }
+        .section-title { font-size: 38px; font-weight: 900; margin-bottom: 40px; text-align: center; letter-spacing: -0.5px; }
+        .categories-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+        .cat-card { position: relative; border-radius: 20px; overflow: hidden; height: 400px; text-decoration: none; color: #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.12); display: flex; flex-direction: column; justify-content: flex-end; padding: 35px; background-size: cover; background-position: center; transition: 0.5s; }
+        .cat-card:hover { transform: translateY(-6px) scale(1.01); }
+        .cat-card::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.85), rgba(0,0,0,0.2), transparent); z-index: 1; }
+        .cat-card h3, .cat-card span, .cat-card .explore-badge { position: relative; z-index: 2; }
+        .cat-card h3 { font-size: 26px; font-weight: 800; margin-bottom: 8px; }
+        .cat-card span { font-size: 14px; color: #ddd; margin-bottom: 15px; display: block; }
+        .explore-badge { font-size: 14px; font-weight: bold; color: var(--accent-color); display: flex; align-items: center; gap: 8px; }
 
-        .float-whatsapp {
-            position: fixed;
-            bottom: 25px;
-            left: 25px;
-            background-color: #25d366;
-            color: #fff;
-            width: 55px;
-            height: 55px;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 28px;
-            box-shadow: 0 5px 15px rgba(37, 211, 102, 0.4);
-            z-index: 9999;
-            transition: 0.3s;
-            text-decoration: none;
-        }
-        .float-whatsapp:hover { transform: scale(1.1); }
+        .float-whatsapp {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background-color: #25d366;
+            color: #fff;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 32px;
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+            z-index: 9999;
+            transition: 0.4s;
+            text-decoration: none;
+        }
+        .float-whatsapp:hover { transform: scale(1.1) rotate(10deg); background-color: #20ba5a; }
 
-        footer { background: var(--dark-bg); color: #fff; padding: 50px 20px 20px; margin-top: 80px; }
-        .footer-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 30px; }
-        .footer-col h4 { color: var(--accent-color); margin-bottom: 15px; font-size: 16px; }
-        .footer-col p, .footer-col a { color: #aaa; text-decoration: none; display: block; margin-bottom: 8px; font-size: 13px; }
-        .copyright { text-align: center; border-top: 1px solid #222; margin-top: 30px; padding-top: 15px; color: #777; font-size: 12px; }
-    </style>
+        footer { background: var(--dark-bg); color: #fff; padding: 70px 50px 30px; margin-top: 100px; }
+        .footer-container { max-width: 1300px; margin: 0 auto; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 40px; }
+        .footer-col h4 { color: var(--accent-color); margin-bottom: 20px; font-size: 18px; }
+        .footer-col p, .footer-col a { color: #aaa; text-decoration: none; display: block; margin-bottom: 10px; font-size: 14px; }
+        .footer-col a:hover { color: #fff; }
+        .copyright { text-align: center; border-top: 1px solid #222; margin-top: 40px; padding-top: 20px; color: #777; font-size: 13px; }
+    </style>
 </head>
 <body>
 
-    <a href="https://wa.me/201124793700?text=مرحباً، أود الاستفسار عن منتجات كيان جينز" target="_blank" class="float-whatsapp">
-        <i class="fa-brands fa-whatsapp"></i>
-    </a>
+    <a href="https://wa.me/201124793700?text=مرحباً، أود الاستفسار عن منتجات كيان جينز" target="_blank" class="float-whatsapp" title="تواصل مع خدمة العملاء">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
 
-    <header>
-        <div class="logo" id="store-logo-name">كيان جينز</div>
-        <nav>
-            <a href="index.html" class="active">الرئيسية</a>
-            <a href="summer.html">صيفي</a>
-            <a href="winter.html">شتوي</a>
-            <a href="shoes.html">أحذية</a>
-        </nav>
-        <a href="https://wa.me/201124793700?text=أهلاً، أود إتمام طلب جديد من متجر كيان جينز" target="_blank" class="buy-now-btn">تواصل للطلب</a>
-    </header>
+    <header>
+        <div class="logo" id="store-logo-name">كيان جينز</div>
+        <nav>
+            <a href="index.html" class="active">الرئيسية</a>
+            <a href="summer.html">صيفي</a>
+            <a href="winter.html">شتوي</a>
+            <a href="shoes.html">أحذية</a>
+        </nav>
+        <a href="https://wa.me/201124793700?text=أهلاً، أود إتمام طلب جديد من متجر كيان جينز" target="_blank" class="buy-now-btn">تواصل للطلب</a>
+    </header>
 
-    <section class="hero">
-        <div class="hero-image-box">
-            <img src="1000843025.png" id="main-hero-logo" alt="شعار كيان جينز">
-        </div>
-        <div class="hero-content">
-            <h1 id="hero-title-text">ارتق بأناقتك الملكية</h1>
-            <p id="hero-subtitle-text">تشكيلة رجالية فاخرة ومصممة خصيصاً لتمنحك الثقة والأناقة الكلاسيكية بلا حدود.</p>
-            <div class="hero-btns">
-                <a href="summer.html" class="btn-black">قسم الصيف</a>
-                <a href="winter.html" class="btn-outline">قسم الشتاء</a>
-                <a href="shoes.html" class="btn-black" style="background: var(--accent-color); color: #000;">قسم الأحذية</a>
-            </div>
-        </div>
-    </section>
+    <section class="hero">
+        <div class="hero-content">
+            <h1 id="hero-title-text">ارتق بأناقتك الملكية</h1>
+            <p id="hero-subtitle-text">تشكيلة رجالية فاخرة ومصممة خصيصاً لتمنحك الثقة والأناقة الكلاسيكية بلا حدود.</p>
+            <div class="hero-btns">
+                <a href="summer.html" class="btn-black">قسم الصيف</a>
+                <a href="winter.html" class="btn-outline">قسم الشتاء</a>
+                <a href="shoes.html" class="btn-black" style="background: var(--accent-color); color: #000;">قسم الأحذية</a>
+            </div>
+        </div>
+        <div class="hero-image-box">
+            <img src="1000843025.png" id="main-hero-logo" alt="شعار كيان جينز">
+        </div>
+    </section>
 
-    <div class="features-bar">
-        <div class="feature-item"><i class="fa-solid fa-shield-halved"></i> دفع آمن ومضمون</div>
-        <div class="feature-item"><i class="fa-solid fa-truck-fast"></i> شحن سريع لجميع المحافظات</div>
-        <div class="feature-item"><i class="fa-solid fa-headset"></i> خدمة عملاء</div>
-    </div>
+    <div class="features-bar">
+        <div class="feature-item"><i class="fa-solid fa-shield-halved"></i> دفع آمن ومضمون 100%</div>
+        <div class="feature-item"><i class="fa-solid fa-truck-fast"></i> شحن سريع لجميع المحافظات</div>
+        <div class="feature-item"><i class="fa-solid fa-headset"></i> خدمة عملاء 01124793700</div>
+        <div class="feature-item"><i class="fa-solid fa-rotate-left"></i> استبدال واسترجاع سريع</div>
+    </div>
 
-    <!-- حاوية العروض المتعددة -->
-    <div class="offers-wrapper" id="offers-container"></div>
+    <!-- حاوية العروض المتعددة (صيفي، شتوي، وأحذية) -->
+    <div class="offers-wrapper" id="offers-container"></div>
 
-    <section class="categories-section">
-        <h2 class="section-title">الأقسام الرئيسية</h2>
-        <div class="categories-grid">
-            <a href="summer.html" class="cat-card" style="background-image: url('https://images.unsplash.com/photo-1516257984-b1b4d707412e?w=800');">
-                <h3>☀️ قسم الصيف</h3>
-                <span>أحدث تشكيلات البناطيل والتيشرتات الخفيفة</span>
-                <div class="explore-badge">استكشف التشكيلة <i class="fa-solid fa-arrow-left"></i></div>
-            </a>
-            <a href="winter.html" class="cat-card" style="background-image: url('https://images.unsplash.com/photo-1495105787522-5334e3ffa0ef?w=800');">
-                <h3>❄️ قسم الشتاء</h3>
-                <span>جواكت وسويتشيرتات شتوية ثقيلة وفاخرة</span>
-                <div class="explore-badge">استكشف التشكيلة <i class="fa-solid fa-arrow-left"></i></div>
-            </a>
-            <a href="shoes.html" class="cat-card" style="background-image: url('https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800');">
-                <h3>👞 قسم الأحذية</h3>
-                <span>أرقى تصميمات الأحذية الجلدية والكلاسيكية</span>
-                <div class="explore-badge">استكشف التشكيلة <i class="fa-solid fa-arrow-left"></i></div>
-            </a>
-        </div>
-    </section>
+    <section class="categories-section">
+        <h2 class="section-title">الأقسام الرئيسية</h2>
+        <div class="categories-grid">
+            <a href="summer.html" class="cat-card" style="background-image: url('https://images.unsplash.com/photo-1516257984-b1b4d707412e?w=800');">
+                <h3>☀️ قسم الصيف</h3>
+                <span>أحدث تشكيلات البناطيل والتيشرتات الخفيفة</span>
+                <div class="explore-badge">استكشف التشكيلة <i class="fa-solid fa-arrow-left"></i></div>
+            </a>
+            <a href="winter.html" class="cat-card" style="background-image: url('https://images.unsplash.com/photo-1495105787522-5334e3ffa0ef?w=800');">
+                <h3>❄️ قسم الشتاء</h3>
+                <span>جواكت وسويتشيرتات شتوية ثقيلة وفاخرة</span>
+                <div class="explore-badge">استكشف التشكيلة <i class="fa-solid fa-arrow-left"></i></div>
+            </a>
+            <a href="shoes.html" class="cat-card" style="background-image: url('https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800');">
+                <h3>👞 قسم الأحذية</h3>
+                <span>أرقى تصميمات الأحذية الجلدية والكلاسيكية</span>
+                <div class="explore-badge">استكشف التشكيلة <i class="fa-solid fa-arrow-left"></i></div>
+            </a>
+        </div>
+    </section>
 
-    <footer>
-        <div class="footer-container">
-            <div class="footer-col">
-                <h4 id="footer-logo-title">كيان جينز</h4>
-                <p>العلامة التجارية الأولى للملابس والأحذية الفاخرة.</p>
-                <p style="margin-top: 10px; color: var(--accent-color); font-weight: bold;"><i class="fa-solid fa-phone"></i> 01124793700</p>
-            </div>
-            <div class="footer-col">
-                <h4>روابط سريعة</h4>
-                <p><a href="index.html">الرئيسية</a></p>
-                <p><a href="summer.html">صيفي</a></p>
-                <p><a href="winter.html">شتوي</a></p>
-                <p><a href="shoes.html">أحذية</a></p>
-            </div>
-            <div class="footer-col">
-                <h4>تواصل معنا</h4>
-                <p style="color: var(--accent-color); font-weight: bold;">متاح الشحن لجميع أنحاء مصر</p>
-                <p><a href="https://wa.me/201124793700" target="_blank" style="color: #25d366;"><i class="fa-brands fa-whatsapp"></i> خدمة العملاء</a></p>
-            </div>
-        </div>
-        <div class="copyright">جميع الحقوق محفوظة © كيان جينز 2026</div>
-    </footer>
+    <footer>
+        <div class="footer-container">
+            <div class="footer-col">
+                <h4 id="footer-logo-title">كيان جينز</h4>
+                <p>العلامة التجارية الأولى للملابس والأحذية الفاخرة.</p>
+                <p style="margin-top: 12px; color: var(--accent-color); font-weight: bold;"><i class="fa-solid fa-phone"></i> 01124793700</p>
+            </div>
+            <div class="footer-col">
+                <h4>روابط سريعة</h4>
+                <p><a href="index.html">الرئيسية</a></p>
+                <p><a href="summer.html">قسم الصيف</a></p>
+                <p><a href="winter.html">شتوي</a></p>
+                <p><a href="shoes.html">أحذية</a></p>
+            </div>
+            <div class="footer-col">
+                <h4>تواصل معنا</h4>
+                <p style="color: var(--accent-color); font-weight: bold;">متاح الشحن والتوصيل لجميع أنحاء جمهورية مصر العربية</p>
+                <p><a href="https://wa.me/201124793700" target="_blank" style="color: #25d366; font-weight: bold;"><i class="fa-brands fa-whatsapp"></i> خدمة العملاء (واتساب)</a></p>
+            </div>
+        </div>
+        <div class="copyright">جميع الحقوق محفوظة © كيان جينز 2026</div>
+    </footer>
 
-    <script>
-        const firebaseConfig = {
-            apiKey: "AIzaSyD0zBcQyBgL580vQT6NB0Bo03nm84ncXg",
-            authDomain: "fashionstore-f92b6.firebaseapp.com",
-            projectId: "fashionstore-f92b6",
-            storageBucket: "fashionstore-f92b6.appspot.com",
-            messagingSenderId: "787445522859",
-            appId: "1:787445522859:web:35839055f2eb83862472ee",
-            measurementId: "G-E8J7DDK1DL"
-        };
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.firestore();
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyD0zBcQyBgL580vQT6NB0Bo03nm84ncXg",
+            authDomain: "fashionstore-f92b6.firebaseapp.com",
+            projectId: "fashionstore-f92b6",
+            storageBucket: "fashionstore-f92b6.appspot.com",
+            messagingSenderId: "787445522859",
+            appId: "1:787445522859:web:35839055f2eb83862472ee",
+            measurementId: "G-E8J7DDK1DL"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
 
-        db.collection("settings").doc("storeInfo").get().then(doc => {
-            if (doc.exists) {
-                const data = doc.data();
-                if(data.storeName) {
-                    document.getElementById('store-logo-name').innerText = data.storeName;
-                    document.getElementById('footer-logo-title').innerText = data.storeName;
-                    document.getElementById('page-title').innerText = data.storeName;
-                }
-                if(data.heroTitle) document.getElementById('hero-title-text').innerText = data.heroTitle;
-                if(data.heroSubtitle) document.getElementById('hero-subtitle-text').innerText = data.heroSubtitle;
-                if(data.logoUrl) document.getElementById('main-hero-logo').src = data.logoUrl;
-                if(data.accentColor) {
-                    document.documentElement.style.setProperty('--accent-color', data.accentColor);
-                }
-            }
-        });
+        db.collection("settings").doc("storeInfo").get().then(doc => {
+            if (doc.exists) {
+                const data = doc.data();
+                if(data.storeName) {
+                    document.getElementById('store-logo-name').innerText = data.storeName;
+                    document.getElementById('footer-logo-title').innerText = data.storeName;
+                    document.getElementById('page-title').innerText = data.storeName;
+                }
+                if(data.heroTitle) document.getElementById('hero-title-text').innerText = data.heroTitle;
+                if(data.heroSubtitle) document.getElementById('hero-subtitle-text').innerText = data.heroSubtitle;
+                if(data.logoUrl) document.getElementById('main-hero-logo').src = data.logoUrl;
+                if(data.accentColor) {
+                    document.documentElement.style.setProperty('--accent-color', data.accentColor);
+                }
+            }
+        });
 
-        window.offerSliders = {};
+        window.offerSliders = {};
 
-        function changeOfferSlide(offerKey, direction) {
-            if (!window.offerSliders[offerKey]) return;
-            let slider = window.offerSliders[offerKey];
-            slider.idx += direction;
-            if (slider.idx >= slider.imgs.length) slider.idx = 0;
-            if (slider.idx < 0) slider.idx = slider.imgs.length - 1;
-            document.getElementById('img-el-' + offerKey).src = slider.imgs[slider.idx];
-        }
+        function changeOfferSlide(offerKey, direction) {
+            if (!window.offerSliders[offerKey]) return;
+            let slider = window.offerSliders[offerKey];
+            slider.idx += direction;
+            if (slider.idx >= slider.imgs.length) slider.idx = 0;
+            if (slider.idx < 0) slider.idx = slider.imgs.length - 1;
+            document.getElementById('img-el-' + offerKey).src = slider.imgs[slider.idx];
+        }
 
-        db.collection("offers").get().then(snapshot => {
-            const container = document.getElementById('offers-container');
-            container.innerHTML = '';
-            
-            snapshot.forEach(doc => {
-                const offer = doc.data();
-                if (offer.active && new Date().getTime() < offer.endTime) {
-                    let imgsArr = offer.imgs && offer.imgs.length > 0 ? offer.imgs : [offer.imgUrl || "1000843025.png"];
-                    let offerKey = offer.id || ('offer_' + Math.random());
-                    window.offerSliders[offerKey] = { imgs: imgsArr, idx: 0 };
+        db.collection("offers").get().then(snapshot => {
+            const container = document.getElementById('offers-container');
+            container.innerHTML = '';
+            
+            snapshot.forEach(doc => {
+                const offer = doc.data();
+                if (offer.active && new Date().getTime() < offer.endTime) {
+                    let imgsArr = offer.imgs && offer.imgs.length > 0 ? offer.imgs : [offer.imgUrl || "1000843025.png"];
+                    let offerKey = offer.id || ('offer_' + Math.random());
+                    window.offerSliders[offerKey] = { imgs: imgsArr, idx: 0 };
 
-                    let badgeText = "🔥 عروض متاحة الآن";
-                    let linkPage = "summer.html";
-                    if(offer.type === 'summer') { badgeText = "🔥 عروض صيفية متاحة الآن"; linkPage = "summer.html"; }
-                    else if(offer.type === 'winter') { badgeText = "🔥 عروض شتوية متاحة الآن"; linkPage = "winter.html"; }
-                    else if(offer.type === 'shoes') { badgeText = "👞 عروض أحذية متاحة الآن"; linkPage = "shoes.html"; }
-                    
-                    let arrowsHtml = imgsArr.length > 1 ? `
-                        <button class="slider-arrow slider-prev" onclick="changeOfferSlide('${offerKey}', -1)"><i class="fa-solid fa-chevron-right"></i></button>
-                        <button class="slider-arrow slider-next" onclick="changeOfferSlide('${offerKey}', 1)"><i class="fa-solid fa-chevron-left"></i></button>
-                    ` : '';
+                    let badgeText = "🔥 عروض متاحة الآن";
+                    let linkPage = "summer.html";
+                    if(offer.type === 'summer') { badgeText = "🔥 عروض صيفية متاحة الآن"; linkPage = "summer.html"; }
+                    else if(offer.type === 'winter') { badgeText = "🔥 عروض شتوية متاحة الآن"; linkPage = "winter.html"; }
+                    else if(offer.type === 'shoes') { badgeText = "👞 عروض أحذية متاحة الآن"; linkPage = "shoes.html"; }
+                    
+                    let arrowsHtml = imgsArr.length > 1 ? `
+                        <button class="slider-arrow slider-prev" onclick="changeOfferSlide('${offerKey}', -1)"><i class="fa-solid fa-chevron-right"></i></button>
+                        <button class="slider-arrow slider-next" onclick="changeOfferSlide('${offerKey}', 1)"><i class="fa-solid fa-chevron-left"></i></button>
+                    ` : '';
 
-                    container.innerHTML += `
-                        <section class="offer-section">
-                            <div class="offer-content">
-                                <span class="offer-badge">${badgeText}</span>
-                                <h2>${offer.title}</h2>
-                                <div class="price-box">
-                                    <span class="old-price">${offer.oldPrice} ج.م</span>
-                                    <span class="new-price">${offer.newPrice} ج.م</span>
-                                </div>
-                                <div class="timer-box" id="timer-${offerKey}">
-                                    <div class="timer-unit"><span id="days-${offerKey}">00</span><small>يوم</small></div>
-                                    <div class="timer-unit"><span id="hours-${offerKey}">00</span><small>ساعة</small></div>
-                                    <div class="timer-unit"><span id="mins-${offerKey}">00</span><small>دقيقة</small></div>
-                                    <div class="timer-unit"><span id="secs-${offerKey}">00</span><small>ثانية</small></div>
-                                </div>
-                                <a href="${linkPage}" class="btn-black" style="background: var(--accent-color); color: #000;">تسوق العرض الآن</a>
-                            </div>
-                            <div class="offer-img-container">
-                                <img src="${imgsArr[0]}" id="img-el-${offerKey}" alt="صورة العرض">
-                                ${arrowsHtml}
-                            </div>
-                        </section>
-                    `;
+                    container.innerHTML += `
+                        <section class="offer-section">
+                            <div class="offer-content">
+                                <span class="offer-badge">${badgeText}</span>
+                                <h2>${offer.title}</h2>
+                                <div class="price-box">
+                                    <span class="old-price">${offer.oldPrice} ج.م</span>
+                                    <span class="new-price">${offer.newPrice} ج.م</span>
+                                </div>
+                                <div class="timer-box" id="timer-${offerKey}">
+                                    <div class="timer-unit"><span id="days-${offerKey}">00</span><small>يوم</small></div>
+                                    <div class="timer-unit"><span id="hours-${offerKey}">00</span><small>ساعة</small></div>
+                                    <div class="timer-unit"><span id="mins-${offerKey}">00</span><small>دقيقة</small></div>
+                                    <div class="timer-unit"><span id="secs-${offerKey}">00</span><small>ثانية</small></div>
+                                </div>
+                                <a href="${linkPage}" class="btn-black" style="background: var(--accent-color); color: #000;">تسوق العرض الآن</a>
+                            </div>
+                            <div class="offer-img-container">
+                                <img src="${imgsArr[0]}" id="img-el-${offerKey}" alt="صورة العرض">
+                                ${arrowsHtml}
+                            </div>
+                        </section>
+                    `;
 
-                    const endTime = offer.endTime;
-                    setInterval(() => {
-                        const now = new Date().getTime();
-                        const distance = endTime - now;
-                        if (distance > 0) {
-                            const dEl = document.getElementById(`days-${offerKey}`);
-                            const hEl = document.getElementById(`hours-${offerKey}`);
-                            const mEl = document.getElementById(`mins-${offerKey}`);
-                            const sEl = document.getElementById(`secs-${offerKey}`);
-                            if(dEl) dEl.innerText = Math.floor(distance / (1000 * 60 * 60 * 24));
-                            if(hEl) hEl.innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                            if(mEl) mEl.innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                            if(sEl) sEl.innerText = Math.floor((distance % (1000 * 60)) / 1000);
-                        } else {
-                            const timerBox = document.getElementById(`timer-${offerKey}`);
-                            if(timerBox) timerBox.innerHTML = "<span style='color:red;font-weight:bold;'>انتهى العرض</span>";
-                        }
-                    }, 1000);
-                }
-            });
-        });
-    </script>
+                    const endTime = offer.endTime;
+                    setInterval(() => {
+                        const now = new Date().getTime();
+                        const distance = endTime - now;
+                        if (distance > 0) {
+                            const dEl = document.getElementById(`days-${offerKey}`);
+                            const hEl = document.getElementById(`hours-${offerKey}`);
+                            const mEl = document.getElementById(`mins-${offerKey}`);
+                            const sEl = document.getElementById(`secs-${offerKey}`);
+                            if(dEl) dEl.innerText = Math.floor(distance / (1000 * 60 * 60 * 24));
+                            if(hEl) hEl.innerText = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                            if(mEl) mEl.innerText = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                            if(sEl) sEl.innerText = Math.floor((distance % (1000 * 60)) / 1000);
+                        } else {
+                            const timerBox = document.getElementById(`timer-${offerKey}`);
+                            if(timerBox) timerBox.innerHTML = "<span style='color:red;font-weight:bold;'>انتهى العرض</span>";
+                        }
+                    }, 1000);
+                }
+            });
+        });
+    </script>
 </body>
 </html>
