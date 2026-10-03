@@ -6,6 +6,8 @@
     <title id="page-title">كيان جينز - المتجر العالمي الفاخر</title>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+    <!-- مكتبة الأيقونات الفاخرة FontAwesome لزر الواتساب -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --bg-color: #ffffff;
@@ -16,7 +18,7 @@
             --dark-bg: #0d0d0d;
         }
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; }
+        body { background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; overflow-x: hidden; }
 
         header {
             display: flex;
@@ -24,44 +26,51 @@
             align-items: center;
             padding: 20px 50px;
             border-bottom: 1px solid var(--border-color);
-            background: #fff;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
             position: sticky;
             top: 0;
             z-index: 1000;
         }
         .logo { font-size: 24px; font-weight: 900; letter-spacing: 1px; color: var(--text-color); text-transform: uppercase; }
         nav { display: flex; gap: 30px; }
-        nav a { color: var(--text-color); text-decoration: none; font-size: 15px; font-weight: 600; transition: 0.3s; }
+        nav a { color: var(--text-color); text-decoration: none; font-size: 15px; font-weight: 600; transition: 0.3s; position: relative; }
+        nav a::after { content: ''; position: absolute; width: 0; height: 2px; bottom: -4px; right: 0; background-color: var(--accent-color); transition: 0.3s; }
+        nav a:hover::after { width: 100%; }
         nav a:hover { color: var(--accent-color); }
         .buy-now-btn { background: #000; color: #fff; padding: 10px 22px; border-radius: 30px; text-decoration: none; font-weight: bold; font-size: 14px; transition: 0.3s; }
-        .buy-now-btn:hover { background: var(--accent-color); }
+        .buy-now-btn:hover { background: var(--accent-color); transform: translateY(-2px); }
 
         .hero {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 80px 50px;
+            padding: 90px 50px;
             max-width: 1300px;
             margin: 0 auto;
             flex-wrap: wrap;
             gap: 40px;
         }
-        .hero-content { flex: 1; min-width: 300px; }
+        .hero-content { flex: 1; min-width: 300px; animation: fadeInRight 0.8s ease-in-out; }
         .hero-content h1 { font-size: 56px; font-weight: 900; line-height: 1.1; margin-bottom: 20px; }
         .hero-content p { color: var(--secondary-text); font-size: 18px; margin-bottom: 30px; max-width: 500px; }
         .hero-btns { display: flex; gap: 15px; }
-        .btn-black { background: #000; color: #fff; padding: 14px 28px; border-radius: 30px; text-decoration: none; font-weight: bold; transition: 0.3s; }
-        .btn-black:hover { background: var(--accent-color); }
+        .btn-black { background: #000; color: #fff; padding: 14px 28px; border-radius: 30px; text-decoration: none; font-weight: bold; transition: 0.3s; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .btn-black:hover { background: var(--accent-color); transform: translateY(-2px); }
         .btn-outline { background: transparent; color: #000; border: 2px solid #000; padding: 14px 28px; border-radius: 30px; text-decoration: none; font-weight: bold; transition: 0.3s; }
-        .btn-outline:hover { background: #000; color: #fff; }
+        .btn-outline:hover { background: #000; color: #fff; transform: translateY(-2px); }
 
-        .hero-image-box { flex: 1; display: flex; justify-content: center; min-width: 300px; }
-        .hero-image-box img { width: 100%; max-width: 450px; border-radius: 200px 200px 20px 20px; object-fit: cover; box-shadow: 0 20px 40px rgba(0,0,0,0.1); border: 2px solid var(--accent-color); animation: floatLogo 4s ease-in-out infinite; }
+        .hero-image-box { flex: 1; display: flex; justify-content: center; min-width: 300px; animation: fadeInLeft 0.8s ease-in-out; }
+        .hero-image-box img { width: 100%; max-width: 450px; border-radius: 200px 200px 20px 20px; object-fit: cover; box-shadow: 0 20px 40px rgba(0,0,0,0.1); border: 2px solid var(--accent-color); animation: floatLogo 4s ease-in-out infinite; transition: 0.4s; }
+        .hero-image-box img:hover { transform: scale(1.02); }
+
         @keyframes floatLogo {
             0% { transform: translateY(0); }
             50% { transform: translateY(-8px); }
             100% { transform: translateY(0); }
         }
+        @keyframes fadeInRight { from { opacity: 0; transform: translateX(25px); } to { opacity: 1; transform: translateX(0); } }
+        @keyframes fadeInLeft { from { opacity: 0; transform: translateX(-25px); } to { opacity: 1; transform: translateX(0); } }
 
         .features-bar {
             display: flex;
@@ -74,18 +83,23 @@
             gap: 20px;
             text-align: center;
         }
-        .feature-item { font-size: 14px; font-weight: 600; color: #333; }
+        .feature-item { font-size: 14px; font-weight: 600; color: #333; display: flex; align-items: center; gap: 8px; }
+        .feature-item i { color: var(--accent-color); }
 
-        .categories-section { max-width: 1300px; margin: 80px auto; padding: 0 50px; }
-        .section-title { font-size: 36px; font-weight: 900; margin-bottom: 40px; }
-        .categories-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 25px; }
-        .cat-card { position: relative; border-radius: 16px; overflow: hidden; height: 380px; text-decoration: none; color: #fff; box-shadow: 0 10px 25px rgba(0,0,0,0.1); display: flex; flex-direction: column; justify-content: flex-end; padding: 30px; background-size: cover; background-position: center; transition: 0.4s; }
-        .cat-card:hover { transform: scale(1.02); }
-        .cat-card::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); z-index: 1; }
-        .cat-card h3, .cat-card span { position: relative; z-index: 2; }
-        .cat-card h3 { font-size: 24px; font-weight: bold; margin-bottom: 5px; }
+        .categories-section { max-width: 1300px; margin: 90px auto; padding: 0 50px; }
+        .section-title { font-size: 38px; font-weight: 900; margin-bottom: 40px; text-align: center; letter-spacing: -0.5px; }
+        .categories-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .cat-card { position: relative; border-radius: 20px; overflow: hidden; height: 420px; text-decoration: none; color: #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.12); display: flex; flex-direction: column; justify-content: flex-end; padding: 35px; background-size: cover; background-position: center; transition: 0.5s cubic-bezier(0.25, 1, 0.5, 1); }
+        .cat-card:hover { transform: translateY(-6px) scale(1.01); box-shadow: 0 20px 40px rgba(0,0,0,0.2); }
+        .cat-card::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.85), rgba(0,0,0,0.2), transparent); z-index: 1; transition: 0.4s; }
+        .cat-card:hover::after { background: linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0.35), transparent); }
+        .cat-card h3, .cat-card span, .cat-card .explore-badge { position: relative; z-index: 2; }
+        .cat-card h3 { font-size: 28px; font-weight: 800; margin-bottom: 8px; }
+        .cat-card span { font-size: 15px; color: #ddd; margin-bottom: 15px; display: block; }
+        .explore-badge { font-size: 14px; font-weight: bold; color: var(--accent-color); display: flex; align-items: center; gap: 8px; transition: 0.3s; }
+        .cat-card:hover .explore-badge { gap: 14px; }
 
-        .offer-section { background: #111; color: #fff; padding: 80px 50px; max-width: 1300px; margin: 80px auto; border-radius: 20px; display: none; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 40px; border: 2px solid var(--accent-color); }
+        .offer-section { background: #111; color: #fff; padding: 80px 50px; max-width: 1300px; margin: 80px auto; border-radius: 20px; display: none; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 40px; border: 2px solid var(--accent-color); box-shadow: 0 15px 35px rgba(0,0,0,0.2); }
         .offer-content { flex: 1; min-width: 300px; }
         .offer-badge { background: var(--accent-color); color: #000; padding: 6px 15px; border-radius: 20px; font-weight: bold; font-size: 13px; display: inline-block; margin-bottom: 15px; }
         .offer-content h2 { font-size: 38px; font-weight: 900; margin-bottom: 15px; }
@@ -99,14 +113,41 @@
         .offer-img { flex: 1; min-width: 300px; display: flex; justify-content: center; }
         .offer-img img { width: 100%; max-width: 380px; border-radius: 15px; object-fit: cover; border: 2px solid var(--accent-color); }
 
-        footer { background: var(--dark-bg); color: #fff; padding: 60px 50px 30px; margin-top: 80px; }
+        /* زر خدمة العملاء العائم (WhatsApp Floating Button) */
+        .float-whatsapp {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background-color: #25d366;
+            color: #fff;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 32px;
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+            z-index: 9999;
+            transition: 0.4s;
+            text-decoration: none;
+        }
+        .float-whatsapp:hover { transform: scale(1.1) rotate(10deg); background-color: #20ba5a; }
+
+        footer { background: var(--dark-bg); color: #fff; padding: 70px 50px 30px; margin-top: 100px; }
         .footer-container { max-width: 1300px; margin: 0 auto; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 40px; }
         .footer-col h4 { color: var(--accent-color); margin-bottom: 20px; font-size: 18px; }
-        .footer-col p, .footer-col a { color: #aaa; text-decoration: none; display: block; margin-bottom: 10px; font-size: 14px; }
+        .footer-col p, .footer-col a { color: #aaa; text-decoration: none; display: block; margin-bottom: 10px; font-size: 14px; transition: 0.3s; }
+        .footer-col a:hover { color: #fff; }
         .copyright { text-align: center; border-top: 1px solid #222; margin-top: 40px; padding-top: 20px; color: #777; font-size: 13px; }
     </style>
 </head>
 <body>
+
+    <!-- زر خدمة العملاء العائم برقم الهاتف 01124793700 -->
+    <a href="https://wa.me/201124793700?text=مرحباً، أود الاستفسار عن منتجات كيان جينز" target="_blank" class="float-whatsapp" title="تواصل مع خدمة العملاء">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
 
     <header>
         <div class="logo" id="store-logo-name">كيان جينز</div>
@@ -115,7 +156,7 @@
             <a href="summer.html">صيفي</a>
             <a href="winter.html">شتوي</a>
         </nav>
-        <a href="summer.html" class="buy-now-btn">تسوق الآن</a>
+        <a href="https://wa.me/201124793700?text=أهلاً، أود إتمام طلب جديد من متجر كيان جينز" target="_blank" class="buy-now-btn">تواصل للطلب</a>
     </header>
 
     <section class="hero">
@@ -133,10 +174,10 @@
     </section>
 
     <div class="features-bar">
-        <div class="feature-item">🔒 دفع آمن ومضمون 100%</div>
-        <div class="feature-item">⚡ شحن سريع لجميع المحافظات</div>
-        <div class="feature-item">🕒 خدمة عملاء ودعم طوال اليوم</div>
-        <div class="feature-item">🔄 استبدال واسترجاع سريع</div>
+        <div class="feature-item"><i class="fa-solid fa-shield-halved"></i> دفع آمن ومضمون 100%</div>
+        <div class="feature-item"><i class="fa-solid fa-truck-fast"></i> شحن سريع لجميع المحافظات</div>
+        <div class="feature-item"><i class="fa-solid fa-headset"></i> خدمة عملاء 01124793700</div>
+        <div class="feature-item"><i class="fa-solid fa-rotate-left"></i> استبدال واسترجاع سريع</div>
     </div>
 
     <section class="offer-section" id="dynamic-offer-section">
@@ -163,13 +204,15 @@
     <section class="categories-section">
         <h2 class="section-title">الأقسام الرئيسية</h2>
         <div class="categories-grid">
-            <a href="summer.html" class="cat-card" style="background-image: url('https://images.unsplash.com/photo-1516257984-b1b4d707412e?w=600');">
+            <a href="summer.html" class="cat-card" style="background-image: url('https://images.unsplash.com/photo-1516257984-b1b4d707412e?w=800');">
                 <h3>☀️ قسم الصيف</h3>
                 <span>أحدث تشكيلات البناطيل والتيشرتات الخفيفة</span>
+                <div class="explore-badge">استكشف التشكيلة <i class="fa-solid fa-arrow-left"></i></div>
             </a>
-            <a href="winter.html" class="cat-card" style="background-image: url('https://images.unsplash.com/photo-1495105787522-5334e3ffa0ef?w=600');">
+            <a href="winter.html" class="cat-card" style="background-image: url('https://images.unsplash.com/photo-1495105787522-5334e3ffa0ef?w=800');">
                 <h3>❄️ قسم الشتاء</h3>
                 <span>جواكت وسويتشيرتات شتوية ثقيلة وفاخرة</span>
+                <div class="explore-badge">استكشف التشكيلة <i class="fa-solid fa-arrow-left"></i></div>
             </a>
         </div>
     </section>
@@ -179,6 +222,7 @@
             <div class="footer-col">
                 <h4 id="footer-logo-title">كيان جينز</h4>
                 <p>العلامة التجارية الأولى للملابس الرجالية الفاخرة.</p>
+                <p style="margin-top: 12px; color: var(--accent-color); font-weight: bold;"><i class="fa-solid fa-phone"></i> 01124793700</p>
             </div>
             <div class="footer-col">
                 <h4>روابط سريعة</h4>
@@ -189,6 +233,7 @@
             <div class="footer-col">
                 <h4>تواصل معنا</h4>
                 <p style="color: var(--accent-color); font-weight: bold;">مصر - القاهرة</p>
+                <p><a href="https://wa.me/201124793700" target="_blank" style="color: #25d366; font-weight: bold;"><i class="fa-brands fa-whatsapp"></i> خدمة العملاء (واتساب)</a></p>
             </div>
         </div>
         <div class="copyright">جميع الحقوق محفوظة © كيان جينز 2026</div>
