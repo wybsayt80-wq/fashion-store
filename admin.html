@@ -14,8 +14,19 @@
         #auth-screen input { width: 100%; padding: 12px; font-size: 18px; text-align: center; border: 1px solid #ccc; border-radius: 6px; margin-bottom: 15px; letter-spacing: 5px; -webkit-text-security: disc; }
         #auth-screen button { width: 100%; background: #c5a059; color: #fff; border: none; padding: 12px; font-weight: bold; border-radius: 6px; cursor: pointer; font-size: 16px; }
         .error-msg { color: #cc3333; font-size: 14px; margin-top: 10px; display: none; }
-        #admin-panel-content { display: none; max-width: 1000px; margin: 0 auto; background: #ffffff; padding: 35px; border-radius: 14px; border: 1px solid #e5e7eb; box-shadow: 0 10px 30px rgba(0,0,0,0.06); }
-        h1, h2 { color: #c5a059; margin-bottom: 20px; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px; }
+        
+        #admin-panel-content { display: none; max-width: 1100px; margin: 0 auto; background: #ffffff; padding: 35px; border-radius: 14px; border: 1px solid #e5e7eb; box-shadow: 0 10px 30px rgba(0,0,0,0.06); }
+        h1 { color: #c5a059; margin-bottom: 20px; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px; }
+        
+        /* شريط التنقل بين الأقسام داخل لوحة التحكم */
+        .admin-nav-tabs { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 30px; background: #eee; padding: 10px; border-radius: 10px; }
+        .admin-nav-tabs button { flex: 1; min-width: 140px; padding: 12px; background: #fff; border: none; font-weight: bold; color: #333; border-radius: 6px; cursor: pointer; transition: 0.3s; font-size: 14px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .admin-nav-tabs button:hover, .admin-nav-tabs button.active { background: #c5a059; color: #fff; }
+
+        .tab-section { display: none; }
+        .tab-section.active-tab { display: block; }
+
+        h2 { color: #c5a059; margin-bottom: 20px; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px; font-size: 20px; }
         .form-group { margin-bottom: 18px; }
         label { display: block; margin-bottom: 6px; color: #444; font-weight: 600; }
         input, select, textarea { width: 100%; padding: 12px; background: #fafafa; border: 1px solid #ddd; color: #111; border-radius: 6px; font-size: 15px; text-align: right; }
@@ -23,7 +34,7 @@
         button.action-btn { background: #c5a059; color: #fff; border: none; padding: 12px 25px; font-weight: bold; border-radius: 6px; cursor: pointer; margin-top: 10px; font-size: 16px; transition: 0.3s; }
         button.action-btn:hover { background: #b08d48; }
         .back-link { display: inline-block; margin-bottom: 25px; color: #c5a059; text-decoration: none; font-weight: bold; }
-        .section-box { margin-bottom: 45px; background: #fafafa; padding: 25px; border-radius: 10px; border: 1px solid #eee; }
+        .section-box { margin-bottom: 25px; background: #fafafa; padding: 25px; border-radius: 10px; border: 1px solid #eee; }
         table { width: 100%; margin-top: 20px; border-collapse: collapse; }
         th, td { padding: 12px; border-bottom: 1px solid #ddd; text-align: right; font-size: 14px; }
         th { color: #c5a059; }
@@ -35,7 +46,6 @@
         .sizes-container { display: flex; gap: 12px; flex-wrap: wrap; background: #fff; padding: 12px; border: 1px solid #ddd; border-radius: 6px; }
         .sizes-container label { display: flex; align-items: center; gap: 5px; font-weight: normal; cursor: pointer; }
         .inline-edit-box { background: #fffdf5; border: 2px solid #c5a059; padding: 20px; border-radius: 8px; margin-top: 10px; margin-bottom: 15px; display: none; }
-        .search-box { margin-bottom: 20px; }
         .search-box input { border: 2px solid #c5a059; background: #fff; font-weight: bold; font-size: 16px; text-align: left; direction: ltr; }
     </style>
 </head>
@@ -53,32 +63,25 @@
         <a href="index.html" class="back-link">← العودة إلى المتجر الرئيسي</a>
         <h1>لوحة التحكم السحابية المباشرة - كيان جينز</h1>
 
-        <div class="section-box">
+        <!-- أزرار التنقل بين أقسام اللوحة -->
+        <div class="admin-nav-tabs">
+            <button onclick="switchTab('tab-settings')" id="btn-tab-settings" class="active">⚙️ إعدادات المتجر</button>
+            <button onclick="switchTab('tab-offers')" id="btn-tab-offers">🔥 إدارة العروض</button>
+            <button onclick="switchTab('tab-search')" id="btn-tab-search">🔍 البحث السريع</button>
+            <button onclick="switchTab('tab-summer')" id="btn-tab-summer">☀️ القسم الصيفي</button>
+            <button onclick="switchTab('tab-winter')" id="btn-tab-winter">❄️ القسم الشتوي</button>
+            <button onclick="switchTab('tab-shoes')" id="btn-tab-shoes">👞 قسم الأحذية</button>
+        </div>
+
+        <!-- 1. قسم الإعدادات -->
+        <div id="tab-settings" class="tab-section active-tab section-box">
             <h2>إعدادات المتجر وأرقام التواصل والواجهة</h2>
-            <div class="form-group">
-                <label>اسم المتجر:</label>
-                <input type="text" id="setting-storeName" value="كيان جينز">
-            </div>
-            <div class="form-group">
-                <label>رقم خدمة العملاء:</label>
-                <input type="text" id="setting-customerService" value="01124793700" placeholder="01124793700">
-            </div>
-            <div class="form-group">
-                <label>رقم الطلبات:</label>
-                <input type="text" id="setting-ordersPhone" value="01124793700" placeholder="01124793700">
-            </div>
-            <div class="form-group">
-                <label>العنوان الرئيسي:</label>
-                <input type="text" id="setting-heroTitle" value="ارتق بأناقتك الملكية">
-            </div>
-            <div class="form-group">
-                <label>الوصف الترويجي:</label>
-                <textarea id="setting-heroSubtitle" rows="2">تشكيلة رجالية فاخرة ومصممة خصيصاً لتمنحك الثقة والأناقة الكلاسيكية.</textarea>
-            </div>
-            <div class="form-group">
-                <label>اللون العام الأساسي للموقع:</label>
-                <input type="color" id="setting-accentColor" value="#c5a059" style="height: 45px; cursor: pointer;">
-            </div>
+            <div class="form-group"><label>اسم المتجر:</label><input type="text" id="setting-storeName" value="كيان جينز"></div>
+            <div class="form-group"><label>رقم خدمة العملاء:</label><input type="text" id="setting-customerService" value="01124793700"></div>
+            <div class="form-group"><label>رقم الطلبات:</label><input type="text" id="setting-ordersPhone" value="01124793700"></div>
+            <div class="form-group"><label>العنوان الرئيسي:</label><input type="text" id="setting-heroTitle" value="ارتق بأناقتك الملكية"></div>
+            <div class="form-group"><label>الوصف الترويجي:</label><textarea id="setting-heroSubtitle" rows="2">تشكيلة رجالية فاخرة ومصممة خصيصاً لتمنحك الثقة والأناقة الكلاسيكية.</textarea></div>
+            <div class="form-group"><label>اللون العام الأساسي للموقع:</label><input type="color" id="setting-accentColor" value="#c5a059" style="height: 45px; cursor: pointer;"></div>
             <div class="form-group">
                 <label>اختر صورة الشعار المتحرك:</label>
                 <input type="file" id="setting-logoFile" accept="image/*" onchange="convertLogo(this)">
@@ -87,13 +90,10 @@
             <button class="action-btn" onclick="saveSettingsToCloud()">حفظ إعدادات الواجهة والأرقام سحابياً</button>
         </div>
 
-        <!-- إدارة عروض المتجر (شملت عروض الأحذية أيضاً) -->
-        <div class="section-box">
+        <!-- 2. قسم إدارة العروض -->
+        <div id="tab-offers" class="tab-section section-box">
             <h2>إدارة عروض المتجر (صيفي، شتوي، وأحذية)</h2>
-            <div class="form-group">
-                <label>عنوان إعلان العرض:</label>
-                <input type="text" id="offer-title" placeholder="عرض حرق الأسعار الكلاسيكي">
-            </div>
+            <div class="form-group"><label>عنوان إعلان العرض:</label><input type="text" id="offer-title" placeholder="عرض حرق الأسعار الكلاسيكي"></div>
             <div class="form-group">
                 <label>نوع العرض:</label>
                 <select id="offer-type">
@@ -102,23 +102,14 @@
                     <option value="shoes">عروض أحذية متاحة الآن</option>
                 </select>
             </div>
-            <div class="form-group">
-                <label>السعر الأصلي (مشطوب عليه):</label>
-                <input type="text" id="offer-old-price" placeholder="600">
-            </div>
-            <div class="form-group">
-                <label>سعر العرض الحالي:</label>
-                <input type="text" id="offer-new-price" placeholder="399">
-            </div>
+            <div class="form-group"><label>السعر الأصلي (مشطوب عليه):</label><input type="text" id="offer-old-price" placeholder="600"></div>
+            <div class="form-group"><label>سعر العرض الحالي:</label><input type="text" id="offer-new-price" placeholder="399"></div>
             <div class="form-group">
                 <label>اختر صور إعلان العرض (عدة صور بحرية):</label>
                 <input type="file" id="offer-img-file" accept="image/*" multiple onchange="convertOfferImgs(this)">
                 <div class="preview-container" id="offer-img-preview"></div>
             </div>
-            <div class="form-group">
-                <label>تاريخ ووقت انتهاء العرض:</label>
-                <input type="datetime-local" id="offer-endtime">
-            </div>
+            <div class="form-group"><label>تاريخ ووقت انتهاء العرض:</label><input type="datetime-local" id="offer-endtime"></div>
             <button class="action-btn" onclick="saveOfferSettings()">نشر وحفظ إعلان العرض الجديد</button>
             
             <h3 style="margin-top: 25px; color: #c5a059;">العروض الحالية المفعلة</h3>
@@ -128,8 +119,8 @@
             </table>
         </div>
 
-        <!-- أداة البحث السريع الفورية في المنتجات -->
-        <div class="section-box search-box">
+        <!-- 3. قسم البحث السريع -->
+        <div id="tab-search" class="tab-section section-box search-box">
             <h2>🔍 البحث الفوري عن المنتجات (بالكود، الاسم، أو السعر)</h2>
             <div class="form-group" style="margin-bottom:0;">
                 <label>اكتب الكود هنا (مثل SUM, WIN, SHO):</label>
@@ -137,21 +128,12 @@
             </div>
         </div>
 
-        <!-- إضافة وتعديل المنتج الصيفي مع المقاسات -->
-        <div class="section-box">
-            <h2>☀️ إضافة منتج صيفي جديد</h2>
-            <div class="form-group">
-                <label>اسم المنتج الصيفي:</label>
-                <input type="text" id="summer-name" placeholder="بنطلون جينز صيفي فاخر">
-            </div>
-            <div class="form-group">
-                <label>السعر (بالجنيه المصري):</label>
-                <input type="text" id="summer-price" placeholder="550">
-            </div>
-            <div class="form-group">
-                <label>السعر الأصلي (قبل الخصم - مشطوب عليه):</label>
-                <input type="text" id="summer-old-price" placeholder="700">
-            </div>
+        <!-- 4. القسم الصيفي -->
+        <div id="tab-summer" class="tab-section section-box">
+            <h2>☀️ إدارة القسم الصيفي</h2>
+            <div class="form-group"><label>اسم المنتج الصيفي:</label><input type="text" id="summer-name" placeholder="بنطلون جينز صيفي فاخر"></div>
+            <div class="form-group"><label>السعر (بالجنيه المصري):</label><input type="text" id="summer-price" placeholder="550"></div>
+            <div class="form-group"><label>السعر الأصلي (قبل الخصم - مشطوب عليه):</label><input type="text" id="summer-old-price" placeholder="700"></div>
             <div class="form-group">
                 <label>المقاسات المتاحة:</label>
                 <div class="sizes-container" id="summer-sizes">
@@ -179,21 +161,12 @@
             </table>
         </div>
 
-        <!-- إضافة وتعديل المنتج الشتوي مع المقاسات -->
-        <div class="section-box">
-            <h2>❄️ إضافة منتج شتوي جديد</h2>
-            <div class="form-group">
-                <label>اسم المنتج الشتوي:</label>
-                <input type="text" id="winter-name" placeholder="جاكيت شتوي كلاسيكي ثقيل">
-            </div>
-            <div class="form-group">
-                <label>السعر (بالجنيه المصري):</label>
-                <input type="text" id="winter-price" placeholder="850">
-            </div>
-            <div class="form-group">
-                <label>السعر الأصلي (قبل الخصم - مشطوب عليه):</label>
-                <input type="text" id="winter-old-price" placeholder="1050">
-            </div>
+        <!-- 5. القسم الشتوي -->
+        <div id="tab-winter" class="tab-section section-box">
+            <h2>❄️ إدارة القسم الشتوي</h2>
+            <div class="form-group"><label>اسم المنتج الشتوي:</label><input type="text" id="winter-name" placeholder="جاكيت شتوي كلاسيكي ثقيل"></div>
+            <div class="form-group"><label>السعر (بالجنيه المصري):</label><input type="text" id="winter-price" placeholder="850"></div>
+            <div class="form-group"><label>السعر الأصلي (قبل الخصم - مشطوب عليه):</label><input type="text" id="winter-old-price" placeholder="1050"></div>
             <div class="form-group">
                 <label>المقاسات المتاحة:</label>
                 <div class="sizes-container" id="winter-sizes">
@@ -221,21 +194,12 @@
             </table>
         </div>
 
-        <!-- إضافة وتعديل منتج الأحذية الجديد -->
-        <div class="section-box">
-            <h2>👞 إضافة حذاء جديد</h2>
-            <div class="form-group">
-                <label>اسم الحذاء:</label>
-                <input type="text" id="shoes-name" placeholder="حذاء كلاسيكي فخم">
-            </div>
-            <div class="form-group">
-                <label>السعر (بالجنيه المصري):</label>
-                <input type="text" id="shoes-price" placeholder="650">
-            </div>
-            <div class="form-group">
-                <label>السعر الأصلي (قبل الخصم - مشطوب عليه):</label>
-                <input type="text" id="shoes-old-price" placeholder="850">
-            </div>
+        <!-- 6. قسم الأحذية الجديد -->
+        <div id="tab-shoes" class="tab-section section-box">
+            <h2>👞 إدارة قسم الأحذية</h2>
+            <div class="form-group"><label>اسم الحذاء:</label><input type="text" id="shoes-name" placeholder="حذاء كلاسيكي فخم"></div>
+            <div class="form-group"><label>السعر (بالجنيه المصري):</label><input type="text" id="shoes-price" placeholder="650"></div>
+            <div class="form-group"><label>السعر الأصلي (قبل الخصم - مشطوب عليه):</label><input type="text" id="shoes-old-price" placeholder="850"></div>
             <div class="form-group">
                 <label>المقاسات المتاحة:</label>
                 <div class="sizes-container" id="shoes-sizes">
@@ -275,6 +239,14 @@
         };
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
+
+        // وظيفة تبديل الأقسام (Tabs) بسلاسة
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-section').forEach(sec => sec.classList.remove('active-tab'));
+            document.querySelectorAll('.admin-nav-tabs button').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active-tab');
+            document.getElementById('btn-' + tabId).classList.add('active');
+        }
 
         function checkPassword() {
             if (document.getElementById('admin-pass').value === "1111") {
