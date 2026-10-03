@@ -85,9 +85,9 @@
             <button class="action-btn" onclick="saveSettingsToCloud()">حفظ إعدادات الواجهة والأرقام سحابياً</button>
         </div>
 
-        <!-- إدارة عروض المتجر (تم إتاحة رفع عدة صور بحرية) -->
+        <!-- إدارة عروض المتجر (يتيح رفع عدد غير محدود من العروض صيفي وشتوي معاً) -->
         <div class="section-box">
-            <h2>إدارة عروض المتجر (توقيت ونظام الخصم والصور المتعددة)</h2>
+            <h2>إدارة عروض المتجر (إضافة عدة عروض صيفية وشتوية معاً)</h2>
             <div class="form-group">
                 <label>عنوان إعلان العرض:</label>
                 <input type="text" id="offer-title" placeholder="عرض حرق الأسعار الكلاسيكي">
@@ -116,7 +116,13 @@
                 <label>تاريخ ووقت انتهاء العرض:</label>
                 <input type="datetime-local" id="offer-endtime">
             </div>
-            <button class="action-btn" onclick="saveOfferSettings()">تفعيل وحفظ إعلان العرض التوقيتي</button>
+            <button class="action-btn" onclick="saveOfferSettings()">نشر وحفظ إعلان العرض الجديد</button>
+            
+            <h3 style="margin-top: 25px; color: #c5a059;">العروض الحالية المفعلة</h3>
+            <table>
+                <thead><tr><th>الصورة الرئيسية</th><th>كود العرض</th><th>العنوان</th><th>النوع</th><th>الأسعار</th><th>الإجراء</th></tr></thead>
+                <tbody id="offers-table-body"></tbody>
+            </table>
         </div>
 
         <!-- إضافة وتعديل المنتج الصيفي مع المقاسات -->
@@ -331,7 +337,7 @@
                 await db.collection("settings").doc("storeInfo").set({
                     storeName, customerService, ordersPhone, heroTitle, heroSubtitle, accentColor, logoUrl: tempLogoUrl
                 });
-                alert("تم حفظ إعدادات الواجهة والأرقام سحابياً بنجاح!");
+                alert("تم حفظ إعدادات المتجر وأرقام التواصل سحابياً بنجاح!");
             } catch (e) {
                 alert("خطأ: " + e.message);
             }
@@ -347,12 +353,26 @@
                 const endTime = endtimeInput ? new Date(endtimeInput).getTime() : new Date().getTime() + 86400000;
                 const imgs = offerImgsArr.length > 0 ? offerImgsArr : ["1000843025.png"];
                 
-                await db.collection("settings").doc("offerInfo").set({
-                    title, type, oldPrice, newPrice, endTime, imgs, imgUrl: imgs[0], active: true
+                const offerId = 'OFFER-' + Math.floor(1000 + Math.random() * 9000);
+                await db.collection("offers").doc(offerId).set({
+                    id: offerId, title, type, oldPrice, newPrice, endTime, imgs, imgUrl: imgs[0], active: true
                 });
-                alert("تم نشر إعلان العرض بنجاح مع الصور المتعددة!");
+                alert("تم نشر إعلان العرض الجديد بنجاح!");
+                document.getElementById('offer-title').value = '';
+                document.getElementById('offer-old-price').value = '';
+                document.getElementById('offer-new-price').value = '';
+                offerImgsArr = [];
+                document.getElementById('offer-img-preview').innerHTML = '';
+                loadCloudData();
             } catch (e) {
                 alert("خطأ: " + e.message);
+            }
+        }
+
+        async function deleteOffer(id) {
+            if (confirm("هل تريد حذف هذا العرض نهائياً؟")) {
+                await db.collection("offers").doc(id).delete();
+                loadCloudData();
             }
         }
 
@@ -496,6 +516,23 @@
                         document.getElementById('logo-preview').innerHTML = `<img src="${tempLogoUrl}">`;
                     }
                 }
+
+                // تحميل جدول العروض
+                const offersTbody = document.getElementById('offers-table-body');
+                offersTbody.innerHTML = '';
+                const offersSnap = await db.collection("offers").get();
+                offersSnap.forEach(doc => {
+                    const o = doc.data();
+                    const thumb = (o.imgs && o.imgs[0]) ? o.imgs[0] : '1000843025.png';
+                    offersTbody.innerHTML += `<tr>
+                        <td><img src="${thumb}" class="table-img"></td>
+                        <td><strong>${o.id}</strong></td>
+                        <td>${o.title}</td>
+                        <td>${o.type === 'summer' ? 'صيفي' : 'شتوي'}</td>
+                        <td><span style="text-decoration:line-through;color:#888;">${o.oldPrice} ج.م</span> <strong>${o.newPrice} ج.م</strong></td>
+                        <td><button class="del-btn" onclick="deleteOffer('${o.id}')">حذف</button></td>
+                    </tr>`;
+                });
 
                 const summerTbody = document.getElementById('summer-table-body');
                 const winterTbody = document.getElementById('winter-table-body');
