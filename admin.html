@@ -21,7 +21,7 @@
         
         /* شريط التنقل بين الأقسام داخل لوحة التحكم */
         .admin-nav-tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 25px; background: #eee; padding: 8px; border-radius: 10px; }
-        .admin-nav-tabs button { flex: 1; min-width: 110px; padding: 10px 8px; background: #fff; border: none; font-weight: bold; color: #333; border-radius: 6px; cursor: pointer; transition: 0.3s; font-size: 13px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); text-align: center; }
+        .admin-nav-tabs button { flex: 1; min-width: 100px; padding: 10px 6px; background: #fff; border: none; font-weight: bold; color: #333; border-radius: 6px; cursor: pointer; transition: 0.3s; font-size: 12px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); text-align: center; }
         .admin-nav-tabs button:hover, .admin-nav-tabs button.active { background: #c5a059; color: #fff; }
 
         .tab-section { display: none; }
@@ -37,7 +37,6 @@
         .back-link { display: inline-block; margin-bottom: 20px; color: #c5a059; text-decoration: none; font-weight: bold; font-size: 14px; }
         .section-box { margin-bottom: 20px; background: #fafafa; padding: 15px; border-radius: 10px; border: 1px solid #eee; }
         
-        /* ضبط ظهور المنشورات مع تمرير عمودي سلس ونظيف لأكثر من 4 منشورات */
         .table-container-scroll { max-height: 450px; overflow-y: auto; border: 1px solid #ddd; border-radius: 8px; background: #fff; margin-top: 15px; }
         .table-responsive { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; }
         table { width: 100%; min-width: 600px; border-collapse: collapse; }
@@ -54,8 +53,6 @@
         .sizes-container label { display: flex; align-items: center; gap: 5px; font-weight: normal; cursor: pointer; font-size: 13px; }
         
         .inline-edit-box { background: #fffdf5; border: 2px solid #c5a059; padding: 15px; border-radius: 8px; margin-top: 10px; margin-bottom: 15px; display: none; }
-        
-        /* شريط البحث الخاص بكل قسم */
         .section-search-bar { width: 100%; padding: 10px 14px; border: 2px solid #c5a059; border-radius: 8px; background: #fff; font-size: 14px; margin-bottom: 15px; }
 
         @media(min-width: 768px) {
@@ -81,14 +78,15 @@
         <a href="index.html" class="back-link">← العودة إلى المتجر الرئيسي</a>
         <h1>لوحة التحكم السحابية المباشرة - كيان جينز</h1>
 
-        <!-- أزرار التنقل بين أقسام اللوحة -->
+        <!-- أزرار التنقل بين أقسام اللوحة (تمت إضافة زر البناطيل) -->
         <div class="admin-nav-tabs">
-            <button onclick="switchTab('tab-settings')" id="btn-tab-settings" class="active">⚙️ إعدادات المتجر</button>
-            <button onclick="switchTab('tab-offers')" id="btn-tab-offers">🔥 إدارة العروض</button>
-            <button onclick="switchTab('tab-search')" id="btn-tab-search">🔍 البحث الشامل</button>
-            <button onclick="switchTab('tab-summer')" id="btn-tab-summer">☀️ القسم الصيفي</button>
-            <button onclick="switchTab('tab-winter')" id="btn-tab-winter">❄️ القسم الشتوي</button>
-            <button onclick="switchTab('tab-shoes')" id="btn-tab-shoes">👞 قسم الأحذية</button>
+            <button onclick="switchTab('tab-settings')" id="btn-tab-settings" class="active">⚙️ الإعدادات</button>
+            <button onclick="switchTab('tab-offers')" id="btn-tab-offers">🔥 العروض</button>
+            <button onclick="switchTab('tab-search')" id="btn-tab-search">🔍 البحث</button>
+            <button onclick="switchTab('tab-summer')" id="btn-tab-summer">☀️ صيفي</button>
+            <button onclick="switchTab('tab-winter')" id="btn-tab-winter">❄️ شتوي</button>
+            <button onclick="switchTab('tab-shoes')" id="btn-tab-shoes">👞 أحذية</button>
+            <button onclick="switchTab('tab-pants')" id="btn-tab-pants">👖 بناطيل</button>
         </div>
 
         <!-- 1. قسم الإعدادات -->
@@ -103,14 +101,14 @@
             <div class="form-group">
                 <label>اختر صورة الشعار المتحرك:</label>
                 <input type="file" id="setting-logoFile" accept="image/*" onchange="convertLogo(this)">
-                <div class="preview-container" id="logo-preview"><img src="1000843025.png" style="width:50px;height:50px;object-fit:cover;"></div>
+                <div class="preview-container" id="logo-preview"><img src="logo.png" style="width:50px;height:50px;object-fit:cover;"></div>
             </div>
             <button class="action-btn" onclick="saveSettingsToCloud()">حفظ إعدادات الواجهة والأرقام سحابياً</button>
         </div>
 
         <!-- 2. قسم إدارة العروض -->
         <div id="tab-offers" class="tab-section section-box">
-            <h2>إدارة عروض المتجر (صيفي، شتوي، وأحذية)</h2>
+            <h2>إدارة عروض المتجر (صيفي، شتوي، أحذية، وبناطيل)</h2>
             <div class="form-group"><label>عنوان إعلان العرض:</label><input type="text" id="offer-title" placeholder="عرض حرق الأسعار الكلاسيكي"></div>
             <div class="form-group">
                 <label>نوع العرض:</label>
@@ -118,6 +116,7 @@
                     <option value="summer">عروض صيفية متاحة الآن</option>
                     <option value="winter">عروض شتوية متاحة الآن</option>
                     <option value="shoes">عروض أحذية متاحة الآن</option>
+                    <option value="pants">عروض بناطيل متاحة الآن</option>
                 </select>
             </div>
             <div class="form-group"><label>السعر الأصلي (مشطوب عليه):</label><input type="text" id="offer-old-price" placeholder="600"></div>
@@ -146,7 +145,7 @@
             <h2>🔍 البحث الشامل عن المنتجات (بالكود، الاسم، أو السعر)</h2>
             <div class="form-group" style="margin-bottom:0;">
                 <label>ابحث في جميع المنتجات:</label>
-                <input type="text" id="search-input" class="section-search-bar" placeholder="ابحث بالكود (مثل SUM) أو الاسم أو السعر..." oninput="filterGlobalSearch()" style="text-align:right; direction:rtl;">
+                <input type="text" id="search-input" class="section-search-bar" placeholder="ابحث بالكود (مثل SUM أو PAN) أو الاسم أو السعر..." oninput="filterGlobalSearch()" style="text-align:right; direction:rtl;">
             </div>
             <div class="table-container-scroll" style="margin-top:20px;">
                 <div class="table-responsive">
@@ -270,6 +269,44 @@
                 </div>
             </div>
         </div>
+
+        <!-- 7. قسم البناطيل المضاف حديثاً بكل دقته -->
+        <div id="tab-pants" class="tab-section section-box">
+            <h2>👖 إدارة قسم البناطيل</h2>
+            <div class="form-group"><label>اسم البنطلون:</label><input type="text" id="pants-name" placeholder="بنطلون جينز كلاسيكي فاخر"></div>
+            <div class="form-group"><label>السعر (بالجنيه المصري):</label><input type="text" id="pants-price" placeholder="550"></div>
+            <div class="form-group"><label>السعر الأصلي (قبل الخصم - مشطوب عليه):</label><input type="text" id="pants-old-price" placeholder="700"></div>
+            <div class="form-group">
+                <label>المقاسات المتاحة:</label>
+                <div class="sizes-container" id="pants-sizes">
+                    <label><input type="checkbox" value="متاح جميع المقاسات" onchange="toggleAllSizes('pants', this)"> متاح جميع المقاسات</label>
+                    <label><input type="checkbox" value="Large"> Large</label>
+                    <label><input type="checkbox" value="X-Large"> X-Large</label>
+                    <label><input type="checkbox" value="2XL"> 2XL</label>
+                    <label><input type="checkbox" value="3XL"> 3XL</label>
+                    <label><input type="checkbox" value="4XL"> 4XL</label>
+                    <label><input type="checkbox" value="5XL"> 5XL</label>
+                    <label><input type="checkbox" value="6XL"> 6XL</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>اختر صور البنطلون:</label>
+                <input type="file" id="pants-files" accept="image/*" multiple onchange="convertPantsImgs(this)">
+                <div class="preview-container" id="pants-preview"></div>
+            </div>
+            <button class="action-btn" onclick="addProduct('pants')">نشر البنطلون سحابياً</button>
+            
+            <h3 style="margin-top: 25px; color: #c5a059; font-size: 16px;">البناطيل الحالية</h3>
+            <input type="text" id="search-pants" class="section-search-bar" placeholder="🔍 ابحث في قسم البناطيل (بالكود، الاسم، أو السعر)..." oninput="filterSection('pants')" style="margin-top:12px;">
+            <div class="table-container-scroll">
+                <div class="table-responsive">
+                    <table>
+                        <thead><tr><th>الصورة</th><th>رقم المنتج</th><th>الاسم</th><th>الأسعار</th><th>المقاسات</th><th>الإجراءات</th></tr></thead>
+                        <tbody id="pants-table-body"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -302,11 +339,12 @@
             }
         }
 
-        let tempLogoUrl = "1000843025.png";
+        let tempLogoUrl = "logo.png";
         let offerImgsArr = [];
         let summerImgsArr = [];
         let winterImgsArr = [];
         let shoesImgsArr = [];
+        let pantsImgsArr = [];
         let allProductsCache = [];
 
         function compressImage(file, callback) {
@@ -392,6 +430,18 @@
             });
         }
 
+        function convertPantsImgs(input) {
+            pantsImgsArr = [];
+            const container = document.getElementById('pants-preview');
+            container.innerHTML = '';
+            Array.from(input.files).forEach(file => {
+                compressImage(file, (compressedUrl) => {
+                    pantsImgsArr.push(compressedUrl);
+                    container.innerHTML += `<img src="${compressedUrl}">`;
+                });
+            });
+        }
+
         function toggleAllSizes(category, masterCheckbox) {
             const container = document.getElementById(category + '-sizes');
             const checkboxes = container.querySelectorAll('input[type="checkbox"]');
@@ -434,7 +484,7 @@
                 const newPrice = document.getElementById('offer-new-price').value;
                 const endtimeInput = document.getElementById('offer-endtime').value;
                 const endTime = endtimeInput ? new Date(endtimeInput).getTime() : new Date().getTime() + 86400000;
-                const imgs = offerImgsArr.length > 0 ? offerImgsArr : ["1000843025.png"];
+                const imgs = offerImgsArr.length > 0 ? offerImgsArr : ["logo.png"];
                 
                 const offerId = 'OFFER-' + Math.floor(1000 + Math.random() * 9000);
                 await db.collection("offers").doc(offerId).set({
@@ -468,6 +518,7 @@
                 if(category === 'summer') imgs = summerImgsArr;
                 else if(category === 'winter') imgs = winterImgsArr;
                 else if(category === 'shoes') imgs = shoesImgsArr;
+                else if(category === 'pants') imgs = pantsImgsArr;
 
                 const sizes = getSelectedSizes(category);
 
@@ -479,19 +530,23 @@
                 let prefix = 'SUM-';
                 if(category === 'winter') prefix = 'WIN-';
                 if(category === 'shoes') prefix = 'SHO-';
+                if(category === 'pants') prefix = 'PAN-';
 
                 const productId = prefix + Math.floor(1000 + Math.random() * 9000);
                 await db.collection("products").doc(productId).set({
                     id: productId, name, price, oldPrice, category, sizes,
-                    imgs: imgs.length > 0 ? imgs : ["1000843025.png"]
+                    imgs: imgs.length > 0 ? imgs : ["logo.png"]
                 });
                 alert("تم نشر المنتج بنجاح برقم كود: " + productId);
                 document.getElementById(category + '-name').value = '';
                 document.getElementById(category + '-price').value = '';
                 document.getElementById(category + '-old-price').value = '';
+                
                 if(category === 'summer') { summerImgsArr = []; document.getElementById('summer-preview').innerHTML = ''; }
                 else if(category === 'winter') { winterImgsArr = []; document.getElementById('winter-preview').innerHTML = ''; }
                 else if(category === 'shoes') { shoesImgsArr = []; document.getElementById('shoes-preview').innerHTML = ''; }
+                else if(category === 'pants') { pantsImgsArr = []; document.getElementById('pants-preview').innerHTML = ''; }
+
                 loadCloudData();
             } catch (e) {
                 alert("خطأ أثناء النشر: " + e.message);
@@ -567,7 +622,7 @@
                 const price = document.getElementById('edit-price-' + id).value;
                 const oldPrice = document.getElementById('edit-oldprice-' + id).value;
                 const sizes = getSelectedSizes(category, 'sizes-box-' + id);
-                const imgs = editImgsCache.length > 0 ? editImgsCache : ["1000843025.png"];
+                const imgs = editImgsCache.length > 0 ? editImgsCache : ["logo.png"];
 
                 if(!name || !price) {
                     alert("الرجاء إدخال الاسم والسعر الحالي!");
@@ -614,10 +669,11 @@
                 const offersSnap = await db.collection("offers").get();
                 offersSnap.forEach(doc => {
                     const o = doc.data();
-                    const thumb = (o.imgs && o.imgs[0]) ? o.imgs[0] : '1000843025.png';
+                    const thumb = (o.imgs && o.imgs[0]) ? o.imgs[0] : 'logo.png';
                     let typeLabel = 'صيفي';
                     if(o.type === 'winter') typeLabel = 'شتوي';
                     if(o.type === 'shoes') typeLabel = 'أحذية';
+                    if(o.type === 'pants') typeLabel = 'بناطيل';
 
                     offersTbody.innerHTML += `<tr>
                         <td><img src="${thumb}" class="table-img"></td>
@@ -645,6 +701,7 @@
             renderTableForCategory('summer', allProductsCache.filter(p => p.category === 'summer'));
             renderTableForCategory('winter', allProductsCache.filter(p => p.category === 'winter'));
             renderTableForCategory('shoes', allProductsCache.filter(p => p.category === 'shoes'));
+            renderTableForCategory('pants', allProductsCache.filter(p => p.category === 'pants'));
             renderTableForCategory('global', allProductsCache);
         }
 
@@ -653,6 +710,7 @@
             if(cat === 'summer') tbodyId = 'summer-table-body';
             else if(cat === 'winter') tbodyId = 'winter-table-body';
             else if(cat === 'shoes') tbodyId = 'shoes-table-body';
+            else if(cat === 'pants') tbodyId = 'pants-table-body';
             else if(cat === 'global') tbodyId = 'global-search-table-body';
 
             const tbody = document.getElementById(tbodyId);
@@ -660,7 +718,7 @@
             tbody.innerHTML = '';
 
             list.forEach(p => {
-                const thumb = (p.imgs && p.imgs[0]) ? p.imgs[0] : '1000843025.png';
+                const thumb = (p.imgs && p.imgs[0]) ? p.imgs[0] : 'logo.png';
                 const sizesList = p.sizes ? p.sizes.join(', ') : 'متاح جميع المقاسات';
                 const priceDisplay = p.oldPrice ? `<span style="text-decoration:line-through;color:#888;font-size:11px;margin-left:4px;">${p.oldPrice} ج.م</span><strong style="color:#c5a059;">${p.price} ج.م</strong>` : `<strong>${p.price} ج.م</strong>`;
                 const imgsJsonStr = encodeURIComponent(JSON.stringify(p.imgs || [thumb]));
