@@ -71,7 +71,7 @@
 <body>
     <header>
         <div class="logo-area">
-            <img src="1000843025.png" alt="شعار كيان جينز" id="header-logo-img">
+            <img src="logo.png" alt="شعار كيان جينز" id="header-logo-img">
             <div class="logo">كيان جينز - شتوي</div>
         </div>
         <div class="nav-right">
@@ -93,6 +93,10 @@
     </section>
 
     <div class="section-container">
+        <!-- مؤشر تحميل سريع وفوري -->
+        <div id="loading-spinner" style="text-align:center; padding: 40px; font-weight: bold; color: var(--accent-color); font-size: 18px;">
+            <i class="fa-solid fa-spinner fa-spin"></i> جاري تحميل التشكيلة الشتوية...
+        </div>
         <div class="products-grid" id="winter-grid"></div>
     </div>
 
@@ -212,7 +216,6 @@
             const encodedMessage = encodeURIComponent(message);
             window.open(`https://wa.me/201101100491?text=${encodedMessage}`, '_blank');
 
-            // تفريغ السلة تلقائياً بعد إتمام الطلب
             cart = [];
             updateCartUI();
             closeCartModal();
@@ -247,16 +250,25 @@
         });
 
         db.collection("products").where("category", "==", "winter").get().then(snapshot => {
+            const spinner = document.getElementById('loading-spinner');
+            if(spinner) spinner.style.display = 'none';
+
             const grid = document.getElementById('winter-grid');
             grid.innerHTML = '';
+
+            if (snapshot.empty) {
+                grid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: #777; padding: 40px; font-size: 16px;">لا توجد منتجات مضافة في قسم الشتاء حالياً.</p>`;
+                return;
+            }
+
             snapshot.forEach(doc => {
                 const p = doc.data();
-                const imgs = (p.imgs && p.imgs.length > 0) ? p.imgs : ['1000843025.png'];
+                const imgs = (p.imgs && p.imgs.length > 0) ? p.imgs : ['logo.png'];
                 const imgsJsonStr = encodeURIComponent(JSON.stringify(imgs));
                 const sizesList = p.sizes ? p.sizes.join(', ') : 'متاح جميع المقاسات';
                 const priceHtml = p.oldPrice ? `<div class="price-box"><span class="old-price">${p.oldPrice} ج.م</span><span class="new-price">${p.price} ج.م</span></div>` : `<div class="price-box"><span class="new-price">${p.price} ج.م</span></div>`;
 
-                const safeName = p.name.replace(/'/g, "\\'");
+                const safeName = (p.name || '').replace(/'/g, "\\'");
 
                 grid.innerHTML += `
                     <div class="product-card">
@@ -264,15 +276,18 @@
                             <img src="${imgs[0]}" class="product-img" alt="${p.name}">
                         </div>
                         <div class="product-info">
-                            <div class="product-id">كود المنتج: ${p.id}</div>
+                            <div class="product-id">كود المنتج: ${p.id || 'N/A'}</div>
                             <div class="product-name">${p.name}</div>
                             ${priceHtml}
                             <div class="sizes-badge"><i class="fa-solid fa-ruler"></i> المقاسات: ${sizesList}</div>
-                            <button onclick="addToCart('${p.id}', '${safeName}', '${p.price}')" class="buy-btn"><i class="fa-solid fa-cart-plus"></i> أضف إلى السلة</button>
+                            <button onclick="addToCart('${p.id || ''}', '${safeName}', '${p.price || 0}')" class="buy-btn"><i class="fa-solid fa-cart-plus"></i> أضف إلى السلة</button>
                         </div>
                     </div>
                 `;
             });
+        }).catch(error => {
+            const spinner = document.getElementById('loading-spinner');
+            if(spinner) spinner.innerHTML = `<span style="color:red;">حدث خطأ في جلب المنتجات، يرجى تحديث الصفحة.</span>`;
         });
 
         updateCartUI();
