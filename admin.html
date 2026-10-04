@@ -78,7 +78,6 @@
         <a href="index.html" class="back-link">← العودة إلى المتجر الرئيسي</a>
         <h1>لوحة التحكم السحابية المباشرة - كيان جينز</h1>
 
-        <!-- أزرار التنقل بين أقسام اللوحة (تمت إضافة زر البناطيل) -->
         <div class="admin-nav-tabs">
             <button onclick="switchTab('tab-settings')" id="btn-tab-settings" class="active">⚙️ الإعدادات</button>
             <button onclick="switchTab('tab-offers')" id="btn-tab-offers">🔥 العروض</button>
@@ -145,7 +144,7 @@
             <h2>🔍 البحث الشامل عن المنتجات (بالكود، الاسم، أو السعر)</h2>
             <div class="form-group" style="margin-bottom:0;">
                 <label>ابحث في جميع المنتجات:</label>
-                <input type="text" id="search-input" class="section-search-bar" placeholder="ابحث بالكود (مثل SUM أو PAN) أو الاسم أو السعر..." oninput="filterGlobalSearch()" style="text-align:right; direction:rtl;">
+                <input type="text" id="search-input" class="section-search-bar" placeholder="ابحث بالكود أو الاسم أو السعر..." oninput="filterGlobalSearch()" style="text-align:right; direction:rtl;">
             </div>
             <div class="table-container-scroll" style="margin-top:20px;">
                 <div class="table-responsive">
@@ -184,7 +183,7 @@
             <button class="action-btn" onclick="addProduct('summer')">نشر المنتج الصيفي سحابياً</button>
             
             <h3 style="margin-top: 25px; color: #c5a059; font-size: 16px;">المنتجات الصيفية الحالية</h3>
-            <input type="text" id="search-summer" class="section-search-bar" placeholder="🔍 ابحث في القسم الصيفي (بالكود، الاسم، أو السعر)..." oninput="filterSection('summer')" style="margin-top:12px;">
+            <input type="text" id="search-summer" class="section-search-bar" placeholder="🔍 ابحث في القسم الصيفي..." oninput="filterSection('summer')" style="margin-top:12px;">
             <div class="table-container-scroll">
                 <div class="table-responsive">
                     <table>
@@ -222,7 +221,7 @@
             <button class="action-btn" onclick="addProduct('winter')">نشر المنتج الشتوي سحابياً</button>
             
             <h3 style="margin-top: 25px; color: #c5a059; font-size: 16px;">المنتجات الشتوية الحالية</h3>
-            <input type="text" id="search-winter" class="section-search-bar" placeholder="🔍 ابحث في القسم الشتوي (بالكود، الاسم، أو السعر)..." oninput="filterSection('winter')" style="margin-top:12px;">
+            <input type="text" id="search-winter" class="section-search-bar" placeholder="🔍 ابحث في القسم الشتوي..." oninput="filterSection('winter')" style="margin-top:12px;">
             <div class="table-container-scroll">
                 <div class="table-responsive">
                     <table>
@@ -259,7 +258,7 @@
             <button class="action-btn" onclick="addProduct('shoes')">نشر الحذاء سحابياً</button>
             
             <h3 style="margin-top: 25px; color: #c5a059; font-size: 16px;">الأحذية الحالية</h3>
-            <input type="text" id="search-shoes" class="section-search-bar" placeholder="🔍 ابحث في قسم الأحذية (بالكود، الاسم، أو السعر)..." oninput="filterSection('shoes')" style="margin-top:12px;">
+            <input type="text" id="search-shoes" class="section-search-bar" placeholder="🔍 ابحث في قسم الأحذية..." oninput="filterSection('shoes')" style="margin-top:12px;">
             <div class="table-container-scroll">
                 <div class="table-responsive">
                     <table>
@@ -270,7 +269,7 @@
             </div>
         </div>
 
-        <!-- 7. قسم البناطيل المضاف حديثاً بكل دقته -->
+        <!-- 7. قسم البناطيل -->
         <div id="tab-pants" class="tab-section section-box">
             <h2>👖 إدارة قسم البناطيل</h2>
             <div class="form-group"><label>اسم البنطلون:</label><input type="text" id="pants-name" placeholder="بنطلون جينز كلاسيكي فاخر"></div>
@@ -297,7 +296,7 @@
             <button class="action-btn" onclick="addProduct('pants')">نشر البنطلون سحابياً</button>
             
             <h3 style="margin-top: 25px; color: #c5a059; font-size: 16px;">البناطيل الحالية</h3>
-            <input type="text" id="search-pants" class="section-search-bar" placeholder="🔍 ابحث في قسم البناطيل (بالكود، الاسم، أو السعر)..." oninput="filterSection('pants')" style="margin-top:12px;">
+            <input type="text" id="search-pants" class="section-search-bar" placeholder="🔍 ابحث في قسم البناطيل..." oninput="filterSection('pants')" style="margin-top:12px;">
             <div class="table-container-scroll">
                 <div class="table-responsive">
                     <table>
@@ -346,6 +345,7 @@
         let shoesImgsArr = [];
         let pantsImgsArr = [];
         let allProductsCache = [];
+        let allOffersCache = [];
 
         function compressImage(file, callback) {
             const reader = new FileReader();
@@ -509,6 +509,108 @@
             }
         }
 
+        // دوال تعديل العروض المضافة حديثاً
+        let editOfferImgsCache = [];
+        function toggleOfferEdit(id, title, type, oldPrice, newPrice, endTimeTimestamp, imgsJson) {
+            const box = document.getElementById('edit-offer-box-' + id);
+            if(box.style.display === 'block') {
+                box.style.display = 'none';
+                return;
+            }
+            document.querySelectorAll('.inline-edit-box').forEach(b => b.style.display = 'none');
+            
+            editOfferImgsCache = JSON.parse(decodeURIComponent(imgsJson));
+            
+            // تحويل الـ timestamp إلى تاريخ ملائم لـ datetime-local
+            let dateVal = '';
+            if(endTimeTimestamp) {
+                let d = new Date(parseInt(endTimeTimestamp));
+                dateVal = d.toISOString().slice(0,16);
+            }
+
+            let imgsHtml = '';
+            editOfferImgsCache.forEach((imgSrc, idx) => {
+                imgsHtml += `<div style="position:relative; display:inline-block;"><img src="${imgSrc}" style="width:50px;height:50px;object-fit:cover;border-radius:5px;border:1px solid #ccc;"><button type="button" onclick="removeOfferEditImg(${idx}, '${id}')" style="position:absolute;top:-5px;right:-5px;background:red;color:#fff;border:none;border-radius:50%;width:18px;height:18px;font-size:10px;cursor:pointer;">×</button></div>`;
+            });
+
+            let typesOpts = [
+                {val: 'summer', lbl: 'عروض صيفية متاحة الآن'},
+                {val: 'winter', lbl: 'عروض شتوية متاحة الآن'},
+                {val: 'shoes', lbl: 'عروض أحذية متاحة الآن'},
+                {val: 'pants', lbl: 'عروض بناطيل متاحة الآن'}
+            ];
+            let typeSelectHtml = `<select id="edit-offer-type-${id}">`;
+            typesOpts.forEach(t => {
+                let sel = t.val === type ? 'selected' : '';
+                typeSelectHtml += `<option value="${t.val}" ${sel}>${t.lbl}</option>`;
+            });
+            typeSelectHtml += `</select>`;
+
+            box.innerHTML = `
+                <h4 style="color:#c5a059; margin-bottom:10px; font-size:16px;">تعديل العرض (${id})</h4>
+                <div class="form-group"><label>عنوان إعلان العرض:</label><input type="text" id="edit-offer-title-${id}" value="${title}"></div>
+                <div class="form-group"><label>نوع العرض:</label>${typeSelectHtml}</div>
+                <div class="form-group"><label>السعر الأصلي (مشطوب عليه):</label><input type="text" id="edit-offer-oldprice-${id}" value="${oldPrice}"></div>
+                <div class="form-group"><label>سعر العرض الحالي:</label><input type="text" id="edit-offer-newprice-${id}" value="${newPrice}"></div>
+                <div class="form-group"><label>تاريخ ووقت انتهاء العرض:</label><input type="datetime-local" id="edit-offer-endtime-${id}" value="${dateVal}"></div>
+                <div class="form-group"><label>صور العرض الحالية:</label><div class="preview-container" id="edit-offer-imgs-preview-${id}">${imgsHtml}</div></div>
+                <div class="form-group"><label>إضافة صور جديدة:</label><input type="file" id="edit-offer-files-${id}" accept="image/*" multiple onchange="addNewOfferEditImgs('${id}', this)"></div>
+                <button class="action-btn" onclick="saveOfferInlineEdit('${id}')">حفظ تعديلات العرض</button>
+                <button class="action-btn" style="background:#666; margin-top:8px;" onclick="document.getElementById('edit-offer-box-' + '${id}').style.display='none'">إلغاء</button>
+            `;
+            box.style.display = 'block';
+        }
+
+        function removeOfferEditImg(idx, id) {
+            editOfferImgsCache.splice(idx, 1);
+            let imgsHtml = '';
+            editOfferImgsCache.forEach((imgSrc, i) => {
+                imgsHtml += `<div style="position:relative; display:inline-block;"><img src="${imgSrc}" style="width:50px;height:50px;object-fit:cover;border-radius:5px;border:1px solid #ccc;"><button type="button" onclick="removeOfferEditImg(${i}, '${id}')" style="position:absolute;top:-5px;right:-5px;background:red;color:#fff;border:none;border-radius:50%;width:18px;height:18px;font-size:10px;cursor:pointer;">×</button></div>`;
+            });
+            document.getElementById('edit-offer-imgs-preview-' + id).innerHTML = imgsHtml;
+        }
+
+        function addNewOfferEditImgs(id, input) {
+            if(input.files) {
+                Array.from(input.files).forEach(file => {
+                    compressImage(file, (compressedUrl) => {
+                        editOfferImgsCache.push(compressedUrl);
+                        let imgsHtml = '';
+                        editOfferImgsCache.forEach((imgSrc, i) => {
+                            imgsHtml += `<div style="position:relative; display:inline-block;"><img src="${imgSrc}" style="width:50px;height:50px;object-fit:cover;border-radius:5px;border:1px solid #ccc;"><button type="button" onclick="removeOfferEditImg(${i}, '${id}')" style="position:absolute;top:-5px;right:-5px;background:red;color:#fff;border:none;border-radius:50%;width:18px;height:18px;font-size:10px;cursor:pointer;">×</button></div>`;
+                        });
+                        document.getElementById('edit-offer-imgs-preview-' + id).innerHTML = imgsHtml;
+                    });
+                });
+            }
+        }
+
+        async function saveOfferInlineEdit(id) {
+            try {
+                const title = document.getElementById('edit-offer-title-' + id).value;
+                const type = document.getElementById('edit-offer-type-' + id).value;
+                const oldPrice = document.getElementById('edit-offer-oldprice-' + id).value;
+                const newPrice = document.getElementById('edit-offer-newprice-' + id).value;
+                const endtimeInput = document.getElementById('edit-offer-endtime-' + id).value;
+                const endTime = endtimeInput ? new Date(endtimeInput).getTime() : new Date().getTime() + 86400000;
+                const imgs = editOfferImgsCache.length > 0 ? editOfferImgsCache : ["logo.png"];
+
+                if(!title || !newPrice) {
+                    alert("الرجاء إدخال عنوان العرض وسعر العرض الحالي!");
+                    return;
+                }
+
+                await db.collection("offers").doc(id).set({
+                    id, title, type, oldPrice, newPrice, endTime, imgs, imgUrl: imgs[0], active: true
+                });
+
+                alert("تم تحديث العرض بنجاح!");
+                loadCloudData();
+            } catch (e) {
+                alert("خطأ أثناء تعديل العرض: " + e.message);
+            }
+        }
+
         async function addProduct(category) {
             try {
                 const name = document.getElementById(category + '-name').value;
@@ -667,13 +769,19 @@
                 const offersTbody = document.getElementById('offers-table-body');
                 offersTbody.innerHTML = '';
                 const offersSnap = await db.collection("offers").get();
+                allOffersCache = [];
                 offersSnap.forEach(doc => {
-                    const o = doc.data();
+                    allOffersCache.push(doc.data());
+                });
+
+                allOffersCache.forEach(o => {
                     const thumb = (o.imgs && o.imgs[0]) ? o.imgs[0] : 'logo.png';
                     let typeLabel = 'صيفي';
                     if(o.type === 'winter') typeLabel = 'شتوي';
                     if(o.type === 'shoes') typeLabel = 'أحذية';
                     if(o.type === 'pants') typeLabel = 'بناطيل';
+
+                    const offerImgsJsonStr = encodeURIComponent(JSON.stringify(o.imgs || [thumb]));
 
                     offersTbody.innerHTML += `<tr>
                         <td><img src="${thumb}" class="table-img"></td>
@@ -681,8 +789,12 @@
                         <td>${o.title}</td>
                         <td>${typeLabel}</td>
                         <td><span style="text-decoration:line-through;color:#888;">${o.oldPrice} ج.م</span> <strong>${o.newPrice} ج.م</strong></td>
-                        <td><button class="del-btn" onclick="deleteOffer('${o.id}')">حذف</button></td>
-                    </tr>`;
+                        <td>
+                            <button class="edit-btn" onclick="toggleOfferEdit('${o.id}', '${(o.title || '').replace(/'/g, "\\'")}', '${o.type}', '${o.oldPrice || ''}', '${o.newPrice || ''}', '${o.endTime || ''}', '${offerImgsJsonStr}')">تعديل</button>
+                            <button class="del-btn" onclick="deleteOffer('${o.id}')">حذف</button>
+                        </td>
+                    </tr>
+                    <tr><td colspan="6"><div id="edit-offer-box-${o.id}" class="inline-edit-box"></div></td></tr>`;
                 });
 
                 const snapshot = await db.collection("products").get();
