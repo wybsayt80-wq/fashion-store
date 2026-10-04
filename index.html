@@ -127,7 +127,6 @@
             width: 100%;
         }
 
-        /* تنسيق كارد العروض ليكون متناسقاً ومثالياً على الموبايل وبدون أي اهتزاز */
         .offer-section {
             background: #111;
             color: #fff;
@@ -231,6 +230,7 @@
             <a href="summer.html">صيفي</a>
             <a href="winter.html">شتوي</a>
             <a href="shoes.html">أحذية</a>
+            <a href="pants.html">بناطيل</a>
         </nav>
         <a href="https://wa.me/201101100491?text=أهلاً، أود إتمام طلب جديد من متجر كيان جينز" target="_blank" class="buy-now-btn">تواصل للطلب</a>
     </header>
@@ -243,6 +243,7 @@
                 <a href="summer.html" class="btn-black">قسم الصيف</a>
                 <a href="winter.html" class="btn-outline">قسم الشتاء</a>
                 <a href="shoes.html" class="btn-black" style="background: var(--accent-color); color: #000;">قسم الأحذية</a>
+                <a href="pants.html" class="btn-outline" style="border-color: var(--accent-color); color: var(--accent-color);">قسم البناطيل</a>
             </div>
         </div>
         <div class="hero-image-box">
@@ -275,7 +276,7 @@
         <h2 class="section-title">الأقسام الرئيسية</h2>
         <div class="categories-grid">
             <a href="summer.html" class="cat-card" style="background-image: url('https://images.unsplash.com/photo-1516257984-b1b4d707412e?w=800');">
-                <h3>☀️ قسم الصيف</h3>
+                <h3>☀️️ قسم الصيف</h3>
                 <span>أحدث تشكيلات البناطيل والتيشرتات الخفيفة</span>
                 <div class="explore-badge">استكشف التشكيلة <i class="fa-solid fa-arrow-left"></i></div>
             </a>
@@ -287,6 +288,11 @@
             <a href="shoes.html" class="cat-card" style="background-image: url('https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800');">
                 <h3>👞 قسم الأحذية</h3>
                 <span>أرقى تصميمات الأحذية الجلدية والكلاسيكية</span>
+                <div class="explore-badge">استكشف التشكيلة <i class="fa-solid fa-arrow-left"></i></div>
+            </a>
+            <a href="pants.html" class="cat-card" style="background-image: url('https://images.unsplash.com/photo-1624378439575-d8705ad7ae80?w=800');">
+                <h3>👖 قسم البناطيل</h3>
+                <span>أرقى موديلات البناطيل الرجالية العصرية</span>
                 <div class="explore-badge">استكشف التشكيلة <i class="fa-solid fa-arrow-left"></i></div>
             </a>
         </div>
@@ -310,6 +316,7 @@
                 <p><a href="summer.html">قسم الصيف</a></p>
                 <p><a href="winter.html">قسم الشتاء</a></p>
                 <p><a href="shoes.html">قسم الأحذية</a></p>
+                <p><a href="pants.html">قسم البناطيل</a></p>
             </div>
             <div class="footer-col">
                 <h4>رؤيتنا وتوسعاتنا</h4>
@@ -392,6 +399,7 @@
                     if(offer.type === 'summer') { badgeText = "🔥 عروض صيفية متاحة الآن"; }
                     else if(offer.type === 'winter') { badgeText = "🔥 عروض شتوية متاحة الآن"; }
                     else if(offer.type === 'shoes') { badgeText = "👞 عروض أحذية متاحة الآن"; }
+                    else if(offer.type === 'pants') { badgeText = "👖 عروض بناطيل متاحة الآن"; }
                     
                     let arrowsHtml = imgsArr.length > 1 ? `
                         <button class="slider-arrow slider-prev" onclick="changeOfferSlide('${offerKey}', -1)"><i class="fa-solid fa-chevron-right"></i></button>
