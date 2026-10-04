@@ -77,6 +77,7 @@
                 <a href="summer.html" style="color: var(--accent-color);">صيفي</a>
                 <a href="winter.html">شتوي</a>
                 <a href="shoes.html">أحذية</a>
+                <a href="pants.html">بناطيل</a>
             </nav>
             <button class="cart-icon-btn" onclick="openCartModal()">
                 <i class="fa-solid fa-cart-shopping"></i> السلة <span class="cart-counter" id="cart-count">0</span>
@@ -237,7 +238,6 @@
             document.getElementById('lightbox-img').src = currentImgsList[currentImgIdx];
         }
 
-        // جلب البيانات بسرعة عالية وعرض المنتجات بسلاسة
         db.collection("products").where("category", "==", "summer").get().then(snapshot => {
             const spinner = document.getElementById('loading-spinner');
             if(spinner) spinner.style.display = 'none';
