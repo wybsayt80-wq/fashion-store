@@ -19,7 +19,6 @@
         nav a { color: var(--secondary-text); text-decoration: none; font-size: 14px; font-weight: 600; transition: 0.3s; }
         nav a:hover { color: var(--accent-color); }
         
-        /* زر السلة العائم / العلوي */
         .cart-icon-btn { position: relative; background: #000; color: #fff; border: none; padding: 10px 18px; border-radius: 30px; cursor: pointer; font-weight: bold; font-size: 14px; display: flex; align-items: center; gap: 8px; transition: 0.3s; }
         .cart-icon-btn:hover { background: var(--accent-color); color: #000; }
         .cart-counter { background: var(--accent-color); color: #000; font-size: 11px; padding: 2px 6px; border-radius: 50%; font-weight: 900; }
@@ -43,7 +42,6 @@
         .buy-btn { margin-top: auto; display: block; width: 100%; padding: 12px; background-color: var(--accent-color); color: #fff; text-align: center; border-radius: 8px; border: none; text-decoration: none; font-weight: bold; cursor: pointer; transition: 0.3s; }
         .buy-btn:hover { background: #b08d48; }
 
-        /* نافذة السلة المنبثقة (Cart Modal) */
         #cart-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 99999; justify-content: center; align-items: center; }
         .cart-content-box { background: #fff; width: 90%; max-width: 500px; border-radius: 14px; padding: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.2); max-height: 85vh; display: flex; flex-direction: column; }
         .cart-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #eee; padding-bottom: 15px; margin-bottom: 15px; }
@@ -55,7 +53,6 @@
         .whatsapp-checkout-btn { background: #25d366; color: #fff; border: none; width: 100%; padding: 14px; border-radius: 8px; font-weight: bold; font-size: 16px; cursor: pointer; display: flex; justify-content: center; align-items: center; gap: 10px; transition: 0.3s; text-decoration: none; text-align: center; }
         .whatsapp-checkout-btn:hover { background: #20ba5a; }
 
-        /* نافذة العرض المكبر للصور (Lightbox) */
         #lightbox-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 99999; justify-content: center; align-items: center; }
         #lightbox-content { position: relative; max-width: 90%; max-height: 90%; display: flex; justify-content: center; align-items: center; }
         #lightbox-img { max-width: 80vw; max-height: 80vh; border-radius: 10px; object-fit: contain; }
@@ -71,7 +68,7 @@
 <body>
     <header>
         <div class="logo-area">
-            <img src="1000843025.png" alt="شعار كيان جينز" id="header-logo-img">
+            <img src="logo.png" alt="شعار كيان جينز" id="header-logo-img">
             <div class="logo">كيان جينز - صيفي</div>
         </div>
         <div class="nav-right">
@@ -93,10 +90,13 @@
     </section>
 
     <div class="section-container">
+        <!-- مؤشر تحميل سريع وفوري -->
+        <div id="loading-spinner" style="text-align:center; padding: 40px; font-weight: bold; color: var(--accent-color); font-size: 18px;">
+            <i class="fa-solid fa-spinner fa-spin"></i> جاري تحميل التشكيلة الفاخرة...
+        </div>
         <div class="products-grid" id="summer-grid"></div>
     </div>
 
-    <!-- نافذة سلة المشتريات (Cart Modal) -->
     <div id="cart-modal">
         <div class="cart-content-box">
             <div class="cart-header">
@@ -115,7 +115,6 @@
         </div>
     </div>
 
-    <!-- نافذة Lightbox للتنقل بين الصور -->
     <div id="lightbox-modal">
         <div id="lightbox-content">
             <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
@@ -212,7 +211,6 @@
             const encodedMessage = encodeURIComponent(message);
             window.open(`https://wa.me/201101100491?text=${encodedMessage}`, '_blank');
 
-            // تفريغ السلة تلقائياً بعد إتمام الطلب
             cart = [];
             updateCartUI();
             closeCartModal();
@@ -239,24 +237,27 @@
             document.getElementById('lightbox-img').src = currentImgsList[currentImgIdx];
         }
 
-        db.collection("settings").doc("storeInfo").get().then(doc => {
-            if (doc.exists) {
-                const data = doc.data();
-                if(data.logoUrl) document.getElementById('header-logo-img').src = data.logoUrl;
-            }
-        });
-
+        // جلب البيانات بسرعة عالية وعرض المنتجات بسلاسة
         db.collection("products").where("category", "==", "summer").get().then(snapshot => {
+            const spinner = document.getElementById('loading-spinner');
+            if(spinner) spinner.style.display = 'none';
+
             const grid = document.getElementById('summer-grid');
             grid.innerHTML = '';
+            
+            if (snapshot.empty) {
+                grid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: #777; padding: 40px; font-size: 16px;">لا توجد منتجات مضافة في قسم الصيف حالياً.</p>`;
+                return;
+            }
+
             snapshot.forEach(doc => {
                 const p = doc.data();
-                const imgs = (p.imgs && p.imgs.length > 0) ? p.imgs : ['1000843025.png'];
+                const imgs = (p.imgs && p.imgs.length > 0) ? p.imgs : ['logo.png'];
                 const imgsJsonStr = encodeURIComponent(JSON.stringify(imgs));
                 const sizesList = p.sizes ? p.sizes.join(', ') : 'متاح جميع المقاسات';
                 const priceHtml = p.oldPrice ? `<div class="price-box"><span class="old-price">${p.oldPrice} ج.م</span><span class="new-price">${p.price} ج.م</span></div>` : `<div class="price-box"><span class="new-price">${p.price} ج.م</span></div>`;
 
-                const safeName = p.name.replace(/'/g, "\\'");
+                const safeName = (p.name || '').replace(/'/g, "\\'");
 
                 grid.innerHTML += `
                     <div class="product-card">
@@ -264,15 +265,18 @@
                             <img src="${imgs[0]}" class="product-img" alt="${p.name}">
                         </div>
                         <div class="product-info">
-                            <div class="product-id">كود المنتج: ${p.id}</div>
+                            <div class="product-id">كود المنتج: ${p.id || 'N/A'}</div>
                             <div class="product-name">${p.name}</div>
                             ${priceHtml}
                             <div class="sizes-badge"><i class="fa-solid fa-ruler"></i> المقاسات: ${sizesList}</div>
-                            <button onclick="addToCart('${p.id}', '${safeName}', '${p.price}')" class="buy-btn"><i class="fa-solid fa-cart-plus"></i> أضف إلى السلة</button>
+                            <button onclick="addToCart('${p.id || ''}', '${safeName}', '${p.price || 0}')" class="buy-btn"><i class="fa-solid fa-cart-plus"></i> أضف إلى السلة</button>
                         </div>
                     </div>
                 `;
             });
+        }).catch(error => {
+            const spinner = document.getElementById('loading-spinner');
+            if(spinner) spinner.innerHTML = `<span style="color:red;">حدث خطأ في جلب المنتجات، يرجى تحديث الصفحة.</span>`;
         });
 
         updateCartUI();
