@@ -80,6 +80,7 @@
                 <a href="summer.html">صيفي</a>
                 <a href="winter.html" style="color: var(--accent-color);">شتوي</a>
                 <a href="shoes.html">أحذية</a>
+                <a href="pants.html">بناطيل</a>
             </nav>
             <button class="cart-icon-btn" onclick="openCartModal()">
                 <i class="fa-solid fa-cart-shopping"></i> السلة <span class="cart-counter" id="cart-count">0</span>
@@ -278,7 +279,7 @@
                         <div class="product-info">
                             <div class="product-id">كود المنتج: ${p.id || 'N/A'}</div>
                             <div class="product-name">${p.name}</div>
-                            ${priceHtml}
+                            {priceHtml}
                             <div class="sizes-badge"><i class="fa-solid fa-ruler"></i> المقاسات: ${sizesList}</div>
                             <button onclick="addToCart('${p.id || ''}', '${safeName}', '${p.price || 0}')" class="buy-btn"><i class="fa-solid fa-cart-plus"></i> أضف إلى السلة</button>
                         </div>
