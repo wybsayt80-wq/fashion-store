@@ -279,7 +279,7 @@
                         <div class="product-info">
                             <div class="product-id">كود المنتج: ${p.id || 'N/A'}</div>
                             <div class="product-name">${p.name}</div>
-                            {priceHtml}
+                            ${priceHtml}
                             <div class="sizes-badge"><i class="fa-solid fa-ruler"></i> المقاسات: ${sizesList}</div>
                             <button onclick="addToCart('${p.id || ''}', '${safeName}', '${p.price || 0}')" class="buy-btn"><i class="fa-solid fa-cart-plus"></i> أضف إلى السلة</button>
                         </div>
